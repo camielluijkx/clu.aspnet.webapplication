@@ -14,18 +14,21 @@ Module 3: Developing ASP.NET MVC 5 Models
 	TODO
 	custom validation attribute implementation
 	custom model binder implementation
-	custom controller factory implementation
-	register custom controller factory implementation
-	custom filter action attribute implementation
 
 Module 4: Developing ASP.NET MVC 5 Controllers
 	TODO
+	custom controller factory implementation
+	register custom controller factory implementation
+	custom filter action attribute implementation
 
 Module 5: Developing ASP.NET MVC 5 Views
 	TODO
 
 Module 6: Testing and Debugging ASP.NET MVC 5 Web Applications
 	TODO
+	unit testing a model 
+	fake and real repository implementation
+	unit testing a controller
 
 Module 7: Structuring ASP.NET MVC 5 Web Applications
 	TODO
