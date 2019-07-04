@@ -15,6 +15,7 @@ Module 3: Developing ASP.NET MVC 5 Models
 	custom validation attribute implementation
 	custom model binder implementation
 	custom controller factory implementation
+	register custom controller factory implementation
 
 Module 4: Developing ASP.NET MVC 5 Controllers
 	TODO
