@@ -122,7 +122,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attributes\LargerThanValidationAttribute.cs" />
     <Compile Include="Binding\CarModelBinding.cs" />
+    <Compile Include="Controllers\GeneralPurposeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PhotoController.cs" />
+    <Compile Include="Factory\CustomControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -174,9 +177,11 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Photo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\GeneralPurpose\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
