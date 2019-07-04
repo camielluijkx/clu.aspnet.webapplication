@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clu.aspnet.webapplication.m
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clu.aspnet.webapplication.mvc.unittests", "clu.aspnet.webapplication.mvc.unittests\clu.aspnet.webapplication.mvc.unittests.csproj", "{E3CBC958-5ACB-4205-90BF-7BBB2B4063EF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DAE78C33-337A-4DEE-BADD-61599418EBE2}"
+	ProjectSection(SolutionItems) = preProject
+		Notes.txt = Notes.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

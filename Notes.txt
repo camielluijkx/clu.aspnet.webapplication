@@ -1,0 +1,50 @@
+[Development]
+
+Use 20486-DevelopingASPNETMVCWebApplications\Allfiles\20486C\Mod15\LabFiles\PhotoSharingApplication_15_end to locate code examples for each module and use it to setup clu.aspnet.webapplication.mvc (some of the code examples are only described and not used in the exercises or labs).
+
+[Summary]
+
+Module 1: Exploring ASP.NET MVC 5
+	TODO
+
+Module 2: Designing ASP.NET MVC 5 Web Applications
+	TODO
+
+Module 3: Developing ASP.NET MVC 5 Models
+	TODO
+
+Module 4: Developing ASP.NET MVC 5 Controllers
+	TODO
+
+Module 5: Developing ASP.NET MVC 5 Views
+	TODO
+
+Module 6: Testing and Debugging ASP.NET MVC 5 Web Applications
+	TODO
+
+Module 7: Structuring ASP.NET MVC 5 Web Applications
+	TODO
+
+Module 8: Applying Styles to ASP.NET MVC 5 Web Applications
+	TODO
+
+Module 9: Building Responsive Pages in ASP.NET MVC 5 Web Applications
+	TODO
+
+Module 10: Using JavaScript and jQuery for Responsive MVC 5 Web Applications
+	TODO
+
+Module 11: Controlling Access to ASP.NET MVC 5 Web Applications
+	TODO
+
+Module 12: Building a Resilient ASP.NET MVC 5 Web Application
+	TODO
+
+Module 13: Implementing Web APIs in ASP.NET MVC 5 Web Applications
+	TODO
+
+Module 14: Handling Requests in ASP.NET MVC 5 Web Applications
+	TODO
+
+Module 15: Deploying ASP.NET MVC 5 Web Applications
+	TODO
