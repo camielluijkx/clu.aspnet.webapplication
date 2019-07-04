@@ -121,6 +121,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attributes\LargerThanValidationAttribute.cs" />
+    <Compile Include="Attributes\SimpleActionFilter.cs" />
     <Compile Include="Binding\CarModelBinding.cs" />
     <Compile Include="Controllers\GeneralPurposeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
