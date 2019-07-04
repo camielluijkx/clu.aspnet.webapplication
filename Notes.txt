@@ -13,6 +13,7 @@ Module 2: Designing ASP.NET MVC 5 Web Applications
 Module 3: Developing ASP.NET MVC 5 Models
 	TODO
 	custom validation attribute implementation
+	custom model binder implementation
 
 Module 4: Developing ASP.NET MVC 5 Controllers
 	TODO
