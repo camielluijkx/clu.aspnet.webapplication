@@ -1,6 +1,6 @@
 [Development]
 
-Use 20486-DevelopingASPNETMVCWebApplications\Allfiles\20486C\Mod15\LabFiles\PhotoSharingApplication_15_end to locate code examples for each module and use it to setup clu.aspnet.webapplication.mvc (some of the code examples are only described and not used in the exercises or labs).
+Use 20486-DevelopingASPNETMVCWebApplications\Allfiles\20486C\Mod15\LabFiles\PhotoSharingApplication_15_end to locate code examples for each module and use it to setup clu.aspnet.webapplication.mvc (some of the code examples are only described and not used in the lab exercises).
 
 [Summary]
 
@@ -12,6 +12,7 @@ Module 2: Designing ASP.NET MVC 5 Web Applications
 
 Module 3: Developing ASP.NET MVC 5 Models
 	TODO
+	custom validation attribute implementation
 
 Module 4: Developing ASP.NET MVC 5 Controllers
 	TODO
