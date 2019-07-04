@@ -29,6 +29,7 @@ Module 6: Testing and Debugging ASP.NET MVC 5 Web Applications
 	fake and real repository
 	unit testing a controller
 	controller exception handling (OnException + HandleError)
+	custom application error handling (return status code) 
 	TODO
 
 Module 7: Structuring ASP.NET MVC 5 Web Applications

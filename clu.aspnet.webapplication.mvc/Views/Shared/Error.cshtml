@@ -6,8 +6,12 @@
 </head>
 <body>
     <hgroup>
-        <h1>Error.</h1>
+        <h1>@(!String.IsNullOrEmpty(ViewBag.StatusCode) ? ViewBag.StatusCode : "Error 500")</h1>
         <h2>An error occurred while processing your request.</h2>
     </hgroup>
+    @model System.Web.Mvc.HandleErrorInfo
+    @{
+        ViewBag.Title = (!String.IsNullOrEmpty(ViewBag.StatusCode)) ? ViewBag.StatusCode : "Error 500";
+    }
 </body>
 </html>
