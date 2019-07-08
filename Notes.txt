@@ -36,7 +36,44 @@ Module 7: Structuring ASP.NET MVC 5 Web Applications
 	TODO
 
 Module 8: Applying Styles to ASP.NET MVC 5 Web Applications
-	TODO
+	store layout files in \Views\Shared folder
+	@RenderBody() in layout file is used to render content of a child view
+		any content that is not in a @section will be rendered by RenderBody
+	@RenderSection() in layout file is used to render content that is different from RenderBody()
+		designate content to be rendered at RenderSection() using a @section declaration
+		by default, Sections are required, meaning each child view must define the section
+		pass required: false to designate that the section is optional
+	_ViewStart.cshtml runs before all the other views in the web application
+		primary purpose of _ViewStart is to set values that all the other views will have to use
+		ViewBag can be used to pass information between view and layout
+		ViewStart links layout file
+	use CSS to style web application (external CSS file, inline CSS, and CSS code block in HTML)
+		<link href="~/Views/Shared/StyleSheet1.css" rel="stylesheet" type="text/css" />
+	CSS class selector: 
+		.menu
+		{
+			font-weight:bold;
+		}
+		<p class="menu">some menu</p>
+	CSS id selector:
+		#menu
+		{
+			font-size:16px;
+		}
+		<p id="menu">some menu</p>
+	use viewport attribute for adaptive rendering
+		customize web application to display differently, based on the capabilities of web browser or device
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		device-width, device-height, initial-scale, minimum-scale, maximum-scale, user-scalable
+	use CSS Media Queries to allow conditional application of CSS styles, based on the device conditions or browser capabilities
+		@media only screen and (max-width: 500px) {
+			header{
+			  float: none;
+			}
+		  }
+		<link rel="stylesheet" type="text/css" href="smallscreen.css" media="only screen and (max-width: 500px)" />
+	ASP.NET MVC 5 web application analyses the request for views with the naming convention [view].mobile.cshtml when received from a mobile browser
+	check UserAgent string to create custom devive / browser specific views
 
 Module 9: Building Responsive Pages in ASP.NET MVC 5 Web Applications
 	TODO
