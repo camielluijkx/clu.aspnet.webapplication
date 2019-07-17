@@ -1,14 +1,226 @@
-[Development]
+[Abbreviations]
 
-Use 20486-DevelopingASPNETMVCWebApplications\Allfiles\20486C\Mod15\LabFiles\PhotoSharingApplication_15_end to locate code examples for each module and use it to setup clu.aspnet.webapplication.mvc (some of the code examples are only described and not used in the lab exercises).
+Active Server Pages (ASP)
+Model-View-Controller (MVC)
+Internet Information Services (IIS)
+Integrated Development Environment (IDE)
+Internet Service Provider (ISP)
+Asynchronous JavaScript and XML (AJAX)
+JavaScript Object Notation (JSON)
+Extensible Markup Language (XML)
+Application Program Interface (API)
+File Transfer Protocol (FTP)
+Secure Sockets Layer (SSL)
+Test-Driven Development (TDD)
+Unified Modeling Language (UML)
+Logical Data Model (LDM)
+Windows Communication Foundation (WCF)
+Hypertext Transfer Protocol (HTTP)
+Object Relational Mapping (ORM)
+Language Integrated Query (LINQ)
 
-[Summary]
+
+[Summary 20486C]
 
 Module 1: Exploring ASP.NET MVC 5
-	TODO
+	Lesson 1: Overview of Microsoft Web Technologies
+		Developer Tools (Microsoft Visual Studio)
+			designing, coding, and debugging any ASP.NET web application, including MVC applications
+		Hosting Technologies (Microsoft Internet Information Server, Microsoft Azure)
+			IIS can host any ASP.NET, PHP, or Node.js websites
+		Database Technologies (Microsoft SQL Server, Microsoft Azure SQL Database)
+		Code Execution Technologies (Server-Side Execution + Client-Side Execution)
+		Programming Models (Web Pages, Web Forms, MVC)
+			use MVC to separate server-side code into three parts:
+				• MVC model defines a set of classes that represent the object types that the web application manages
+				• MVC view is a component that builds the webpages that make up the web application’s user interface
+				• MVC controller is a class that handles user interaction, creates and modifies model classes, and selects appropriate views
+		ASP.NET API
+			use classes within the System.Web namespace to rapidly implement common website functionalities:
+				• Configuration (System.Web.Configuration)
+				• Authentication and Authorization (System.Web.Security)
+				• Caching (System.Runtime.Caching)
+		Compiling ASP.NET Code (Compilation to MSIL vs Compilation to native code)
+			use pre-compilation to avoid delays and to protect source code
+		Client-Side Web Technologies (JavaScript, jQuery, jQuery UI, jQuery Mobile, AJAX)
+		Internet Information Server Features
+			IIS is tightly integrated with ASP.NET, Visual Studio 2017, and Windows Server:		
+				• Deployment Protocols. The advanced Web Deploy protocol, which is built into Visual Studio 2017, automatically manages the deployment of a website with all its dependencies. Alternatively, you can use File Transfer Protocol (FTP) to deploy content.
+				• Centralized Web Farm Management. When you run a large website, you can configure a load-balanced farm of many IIS servers to scale to large sizes. IIS management tools make it easy to deploy sites to all servers in the farm and manage sites after deployment.
+				• High Performance Caches. You can configure ASP.NET to make optimal use of the IIS caches to accelerate responses to user requests. When IIS serves a page or other content, it can cache it in memory so that subsequent identical requests can be served faster.
+				• Authentication and Security. IIS supports most common standards for authentication, including Smart Card authentication and Integrated Windows authentication. You can also use Secure Sockets Layer (SSL) to encrypt security-sensitive communications, such as logon pages and pages containing credit card numbers.
+				• ASP.NET Support. IIS is a web server that fully supports ASP.NET.
+				• Other Server-Side Technologies. You can host websites developed in PHP and Node.js on IIS.
+			Scaling Up IIS
+				• scalability
+				• resilience
+			Perimeter Networks
+				 A perimeter network has a network segment that is protected from the Internet through a firewall that validates and permits incoming HTTP requests. A second firewall, which permits requests only from the web server, separates the perimeter network from the internal organizational network. 
+			IIS Express
+			Other Web Servers (Apache, nginx)
+		Microsoft Azure	
+			• Flexible Scaling
+			• Flexible Pricing
+			host (Web Apps, API Apps, Databases, Virtual Servers, Mobile Services, Media Services)
+	Lesson 2: Overview of ASP.NET
+		Web Pages Applications
+			The Web Pages programming model has the following advantages:
+				• It is simple to learn.
+				• It provides precise control over the rendered HTML.
+			Using a Web Pages site has some disadvantages:
+				• It provides no control over URLs that appear in the Address bar.
+				• Large websites require large numbers of pages, each of which must be coded individually.
+				• There is no separation of business logic, input logic, and the user interface.
+		Web Forms Applications
+			Web Forms Controls:
+				• Input controls, such as text boxes, option buttons, and check boxes.
+				• Display controls, such as image boxes, image maps, and ad rotators.
+				• Data display controls, such as grid views, form views, and charts.
+				• Validation controls, which check data entered by the user.
+				• Navigation controls, such as menus and tree views.
+			Web Forms Code Files (web page + code behind)
+			Binding Controls to Data
+			The Web Forms programming model has the following advantages:
+				• You can design your page visually by using server controls and Design View.
+				• You can use a broad range of highly functional controls that encapsulate a lot of functionality.
+				• You can display data without writing many lines of server-side code.
+				• The user interface in the .aspx file is separated from input and business logic in the code-behind files.
+			Using a Web Forms site has some disadvantages:
+				• The ASP.NET Web Forms page life cycle is an abstraction layer over HTTP and can behave in unexpected ways. You must have a complete understanding of this life cycle, to write code in the correct event handlers.
+				• You do not have precise control over markup generated by server-side controls.
+				• Controls can add large amounts of markup and state information to the rendered HTML page. This increases the time taken to load pages.
+		MVC Applications
+			The MVC programming model has the following advantages:
+				• Views enable the developer to take precise control of the HTML that is rendered.
+				• You can use the Routing Engine to take precise control of URLs.
+				• Business logic, input logic, and user interface logic are separated into Models, Controllers, and Views.
+				• Unit testing techniques and Test Driven Development (TDD) are possible.
+			Using an MVC site has some disadvantages:
+				• MVC is potentially more complex to understand than Web Pages or Web Forms.
+				• MVC forces you to separate your concerns (models, views, and controllers). Some programmers may find this challenging.
+				• You cannot visually create a user interface by dragging controls onto a page.
+				• You must have a full understanding of HTML, CSS, and JavaScript to develop Views.
+		Shared ASP.NET Features
+			• Configuration
+			• Authentication
+			• Membership and Roles
+			• State Management
+			• Caching
+	Lesson 3: Introduction to ASP.NET MVC 5
+		Models, Views and Controllers
+			Models and Data
+			Controllers and Actions
+				• Controllers inherit from the System.Web.Mvc.Controller base class. 
+				• Actions usually return a System.Web.Mvc.ActionResult object.
+			Views and Razor
+				• A view is, by default, a .cshtml or .vbhtml file that includes both HTML markup and programming code.
+				• A view engine interprets view files, runs the server-side code, and renders HTML to the web browser.
+				• Razor is the default view engine in ASP.NET MVC 5.
+		Request Life Cycle
 
 Module 2: Designing ASP.NET MVC 5 Web Applications
-	TODO
+	Lesson 1: Planning in the Project Design Phase
+		Project Development Methodologies
+			• Waterfall Model:
+				• Feasibility analysis. In this phase, planners and developers study and determine the approaches and technologies that can be used to build the software application.
+				• Requirement analysis. In this phase, planners and analysts interview the users, managers, administrators, and other stakeholders of the software application to determine their needs.
+				• Application design. In this phase, planners, analysts, and developers record a proposed solution.
+				• Coding and unit testing. In this phase, developers create the code and test the components that make up the system individually.
+				• Integration and system testing. In this phase, developers integrate the components that they have built and test the system as a whole.
+				• Deployment and maintenance. In this phase, developers and administrators deploy the solution so that users can start using the software application.
+			• Iterative Development Model
+			• Prototyping Model
+			• Agile Software Development Model:				
+				• Incremental development. Software is developed in rapid cycles that build on earlier cycles. Each iteration is thoroughly tested.
+				• Emphasis on people and interactions. Developers write code based on what people do in their role, rather than what the development tools are good at.
+				• Emphasis on working software. Instead of writing detailed design documents for stakeholders, developers write solutions that stakeholders can evaluate at each iteration to validate if it solves a requirement.
+				• Close collaboration with customers. Developers discuss with customers and stakeholders on a day-to-day basis to check requirements.
+			• Extreme Programming
+			• Test Driven Development
+		Unified Modeling Language:
+			• Behavior diagrams. These diagrams depict the behavior of users, applications, and application components.
+			• Interaction diagrams. These diagrams are a subset of behavior diagrams that focus on the interactions between objects.
+			• Structure diagrams. These diagrams depict the elements of an application that are independent of time. This means they do not change through the lifetime of the application.
+		Gathering Requirements:
+			• Functional requirements. These requirements describe how the application behaves and responds to users. Functional requirements are often called behavioral requirements. They include:
+				• User interface requirements. These requirements describe how the user interacts with an application.
+				• Usage requirements. These requirements describe what a user can do with the application.
+				• Business requirements. These requirements describe how the application will fulfill business functions.
+			• Technical requirements. These requirements describe technical features of the application and relate to availability, security, or performance. These requirements are sometimes called non-functional or non-behavioral requirements.
+		Usage Scenarios and Use Cases:
+			• A usage scenario is a specific real-world example, with names and suggested input values, of an interaction between the application and a user.
+			• A use case is similar to a usage scenario, but is more generalized. Use cases do not include user names or input values. They describe multiple paths of an interaction, which depends on what the user provides as input or other values.
+		Agile Requirements Modeling:
+			• Initial requirement modeling. In the initial design phase, developers identify and record a few broad use cases in an informal manner without full details.
+			• Just-in-time modeling. Before writing code that implements a use case, a developer discusses it with the relevant users. At this point, the developer adds full details to the use case. In an agile development project, developers talk to users and other stakeholders at all times, and not just at the beginning and end of the project.
+			• Acceptance testing. An acceptance test is a test that the application must pass for all stakeholders to accept and sign off the application. When you identify a functional requirement, you can also specify a corresponding acceptance test that must be run to ensure that the requirements are met.
+		User Stories in Extreme Programming
+		Planning the Database Design:
+			Logical Modeling
+			Physical Database Structure:
+				• Tables
+				• Views
+				• Stored Procedures
+				• Security
+			Working with Database Administrators
+			Database Design in Agile Development and Extreme Programming
+		Planning for Distributed Applications:
+			Distributed web applications often use a layered architecture:
+				• Presentation layer. Components in this layer implement the user interface and presentation logic. If you are building an MVC web application, views and controllers make up your presentation layer.
+				• Business logic layer. Components in this layer implement high-level business objects such as products, or customers. If you are building an MVC web application, models make up your business logic layer.
+				• Data access layer. Components in this layer implement database access operations and abstract database objects, such as tables, from business objects. For example, a product business object may include data from both the Products and StockLevels database tables. If you are building an MVC web application, models often make up both business logic and data access layers. However, with careful design and coding practices, it is possible to refactor code to separate these layers.
+				• Database layer. This layer has the database itself.
+			Communication Between Layers:
+				• Between the browser and presentation layer web server. In any web application, the web browser, where the presentation layer runs, communicates with the web server by using HTTP. If authentication is required, it is often performed by exchanging plain text credentials. You can also use Secure Sockets Layer (SSL) to encrypt this sensitive communication.
+				• Between the web server and the middle-tier server. The communication and security mechanisms used for communication between the web server and the middle-tier server depends on the technology that you use to build the business logic components:
+					• Web services: If you implement business objects and data access classes as web services, the presentation layer components communicate with the web services by using HTTP. You can perform authentication by using the Kerberos protocol that is a part of Windows Integrated Authentication or by using plain text encrypted with SSL.
+					• Windows Communication Foundation (WCF) services: If you implement business objects and data access classes as WCF services, you can choose between two hosting mechanisms. You can host the WCF services within IIS, in which case, HTTP is the transport mechanism and SSL is the security mechanism. You can also host the WCF services within a Windows Process Activation Service (WAS), in which case, you can use TCP, Microsoft Message Queuing (MSMQ), or named pipes as the transport mechanism.
+				• Between middle-tier server and database. The middle-tier server sends T-SQL queries to the database server, which authenticates against the database by using the required credentials that are often included in the connection string.
+		Planning State Management:
+			In application development, the application state refers to the values and information that are maintained across multiple operations. Hypertext Transfer Protocol (HTTP) is fundamentally a stateless protocol, which indicates that it has no mechanism to retain state information across multiple page requests. However, there are many scenarios, such as the following, which require state to be preserved:
+				• User preferences. Some websites enable users to specify preferences. For example, a photo sharing web application might enable users to choose a preferred size for photos. If this preference information is lost between page requests, users have to continually reapply the preference.
+				• User identity. Some sites authenticate users to provide access to members-only content. If the user identity is lost between page requests, the user must re-enter the credentials for every page.
+				• Shopping carts. If the content of a shopping cart is lost between page requests, the customer cannot buy anything from your web application.
+			• Client-Side State Storage:
+				• Cookies. Cookies are small text files that you can pass to the browser to store information. A cookie can be stored:
+					• In the client computer memory, in which case, it preserves information only for a single user session.
+					• On the client computer hard disk drive, in which case, it preserves information across multiple sessions.
+					• Most browsers can store cookies only up to 4,096 bytes and permit only 20 cookies per website. Therefore, cookies can be used only for small quantities of data. Also, some users may disable cookies for privacy purposes, so you should not rely on cookies for critical functions.
+				• Query strings. A query string is the part of the URL after the question mark and is often used to communicate form values and other data to the server. You can use the query string to preserve a small amount of data from one page request to another. All browsers support query strings, but some impose a limit of 2,083 characters on the URL length. You should not place any sensitive information in query strings because it is visible to the user, anyone observing the session, or anyone monitoring web traffic.
+			• Server-Side State Storage:
+				The following locations store state information in server memory:
+					• TempData. This is a state storage location that you can use in MVC applications to store values between one request and another. You can store values by adding them to the TempData collection. This information is preserved for a single request only and is designed to help maintain data across a webpage redirect. For example, you can use it to pass an error message to an error page.
+					• Application State. This is a state storage location that you can use to store vales for the lifetime of the application. The values stored in application state are shared among all users. You can store values by adding them to the Application collection. If the web server or the web application is restarted, the values are destroyed. The Application_Start() procedure in the Global.asax file is an appropriate place to initialize application state values. Application state is not an appropriate place to store user-specific values, such as preferences, because if you store a preference in application state, all users share the same preference, instead of having their own unique value.
+					• Session state. The Session collection stores information for the lifetime of a single browser session and values stored here are specific to a single user session; they cannot be accessed by other users. By default, if the web server or the web application is restarted, the values are destroyed. However, you can configure ASP.NET to store session state in a database or state server. If you do this, session state can be preserved across restarts. Session state is available for both authenticated users and anonymous users. By default, session state uses cookies to identify users, but you can configure ASP.NET to store session state without using cookies.
+				The following locations store state information in server harddisk:
+					• Profile properties. If your site uses an ASP.NET profile provider, you can store user preferences in profiles. Profile properties are persisted to the membership database, so they will be kept even if the web application or web server restarts.
+					• Database tables. If your site uses an underlying database, like most sites do, you can store state information in its tables. This is a good place to store large volumes of state data that cannot be placed in server memory or on the client computer. For example, if you want to store a large volume of session-specific state information, you can store a simple ID value in the Session collection and use it to query and update a record in the database.
+		Planning Globalization and Localization:
+			Globalization vs Localization:
+				• The process by which you make a web application available in multiple languages is called globalization or internationalization. 
+				• The process by which you make a web application available in a specific language and culture is called localization.
+			There is an internationally-recognized set of language codes that specify a culture on the Internet: language-region.
+			Using Resource Files
+			Using Separate Views
+	Lesson 2: Designing Models, Controllers, and Views
+		Designing Models:
+			A fundamental activity in the MVC design process is designing a model. Each model class within the model represents a kind of object that your application manages. You cannot plan for controllers and views until you understand the structure and design of the model.
+			Identifying Model Classes and Properties
+			Domain Model and Logical Data Model Diagrams
+			Relationships and Aggregates (one-to-one, one-to-many, or many-to-many)
+			Entity Framework:
+				• Database-First. Use the Entity Framework in the database-first mode when you have a pre-existing database to work with. This may happen because you already have data from an earlier system or because a DBA has designed the database for you. You can also choose this mode if you are familiar with creating databases in a database administration tool, such as Microsoft SQL Server Management Studio. When you use this mode, you have to specify the database connection string. Entity Framework connects to the database and examines the database schema. It creates a set of classes for you to use for data access.
+				• Model-First. Use Entity Framework in the model-first mode when you do not have a pre-existing database and prefer to design your model in Visual Studio. You can use the Entity Designer tool to name, configure, and link your model classes. This creates XML files that Entity Framework uses both to create model classes and to create the database with its tables and relationships.
+				• Code-First. Use Entity Framework in the code-first mode when you have no pre-existing database and prefer to design your models entirely in C# code. Your code must include DBContext and DBSet objects—these correspond to the database and its tables. When you run the application for the first time, Entity Framework creates the database for you.
+			Design in Agile and Extreme Programming
+		Designing Controllers:
+			Identify Controllers and Actions
+			Design in Agile and Extreme Programming
+		Designing Views:
+			Views, Template Views, and Partial Views
+			Creating Wireframes
+			Design in Agile and Extreme Programming
+
 
 Module 3: Developing ASP.NET MVC 5 Models
 	custom validation attribute
@@ -95,3 +307,8 @@ Module 14: Handling Requests in ASP.NET MVC 5 Web Applications
 
 Module 15: Deploying ASP.NET MVC 5 Web Applications
 	TODO
+
+
+[Summary 20486D]
+
+TODO
