@@ -1,6 +1,6 @@
 ﻿using clu.aspnet.webapplication.mvc.Controllers;
 using clu.aspnet.webapplication.mvc.Models;
-using clu.aspnet.webapplication.mvc.Repository;
+using clu.aspnet.webapplication.mvc.unittests.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;

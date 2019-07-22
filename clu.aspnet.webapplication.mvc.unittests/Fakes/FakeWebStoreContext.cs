@@ -1,10 +1,11 @@
 ﻿using clu.aspnet.webapplication.mvc.Models;
+using clu.aspnet.webapplication.mvc.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace clu.aspnet.webapplication.mvc.Repository
+namespace clu.aspnet.webapplication.mvc.unittests.Fakes
 {
     public class FakeWebStoreContext : IWebStoreContext
     {

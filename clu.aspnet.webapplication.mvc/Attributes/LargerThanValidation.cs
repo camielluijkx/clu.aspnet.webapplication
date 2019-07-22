@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 namespace clu.aspnet.webapplication.mvc.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class LargerThanValidationAttribute : ValidationAttribute
+    public class LargerThanValidation : ValidationAttribute
     {
         public int MinimumValue { get; set; }
 
         //Constructor
-        public LargerThanValidationAttribute(int minimum)
+        public LargerThanValidation(int minimum)
         {
             MinimumValue = minimum;
         }
