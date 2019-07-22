@@ -18,7 +18,7 @@
     {
         <div class="slide-show-card">
             <h3>
-                @Html.ActionLink(item.Title, "Details", new { id = item.PhotoID })
+                @Html.ActionLink(item.Title, "Display", new { id = item.PhotoID })
             </h3>
             <p>
                 By @Html.DisplayFor(modelItem => item.UserName)

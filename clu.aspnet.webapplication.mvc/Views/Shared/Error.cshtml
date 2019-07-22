@@ -1,11 +1,25 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Custom Error";
+    ViewBag.Title = (!String.IsNullOrEmpty(ViewBag.StatusCode)) ? ViewBag.StatusCode : "Error 500";
 }
 
-<h1>MVC Error</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+</head>
+<body>
+
+    <hgroup class="title">
+        <h2>@ViewBag.Title</h2>
+        <h3>An error occurred while processing your request.</h3>
+    </hgroup>
 
     Controller: @Model.ControllerName<br />
     Action: @Model.ActionName<br />
     Message: @Model.Exception.Message
+
+</body>
+</html>

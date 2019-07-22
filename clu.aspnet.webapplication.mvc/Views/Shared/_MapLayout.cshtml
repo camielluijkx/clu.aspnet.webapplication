@@ -24,11 +24,13 @@
             {
                 @:Hello, @User.Identity.Name
                 @Html.ActionLink("Log Off", "LogOff", "Account")
+                @Html.Label(" | ")
                 @Html.ActionLink("Reset", "ResetPassword", "Account")
             }
             else
             {
                 @Html.ActionLink("Log In", "Login", "Account")
+                @Html.Label(" | ")
                 @Html.ActionLink("Register", "Register", "Account")
             }
         </div>
