@@ -128,7 +128,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attributes\LargerThanValidationAttribute.cs" />
     <Compile Include="Attributes\SimpleActionFilter.cs" />
-    <Compile Include="Binding\CarModelBinding.cs" />
+    <Compile Include="Binding\CarModelBinder.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\GeneralPurposeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -141,7 +141,9 @@
     <Compile Include="Models\BikeAccessory.cs" />
     <Compile Include="Models\Accessory.cs" />
     <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\FakeWebStoreContext.cs" />

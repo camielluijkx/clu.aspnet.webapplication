@@ -18,6 +18,7 @@ Windows Communication Foundation (WCF)
 Hypertext Transfer Protocol (HTTP)
 Object Relational Mapping (ORM)
 Language Integrated Query (LINQ)
+Entity Framework (EF)
 
 
 [Summary 20486C]
@@ -221,11 +222,70 @@ Module 2: Designing ASP.NET MVC 5 Web Applications
 			Creating Wireframes
 			Design in Agile and Extreme Programming
 
-
 Module 3: Developing ASP.NET MVC 5 Models
-	custom validation attribute
-	custom model binder
-	TODO
+	Lesson 1: Creating MVC Models
+		Developing Models
+			Using Display and Edit Data Annotations on Properties
+				The model classes usually specify three attributes for each property:
+					• The name of the property, for example, Title
+					• The data type of the property, for example, String
+					• The access levels of the property, for example, the get and set keywords to indicate read and write access
+				Additionally, by using attributes, you can supply additional metadata to describe properties to ASP.NET MVC. The MVC runtime uses this metadata to determine how to render each property in views for displaying and editing. These attributes are called display and edit annotations.
+				Annotations from System.ComponentModel.DataAnnotations:
+					• DisplayName
+					• DataType
+					• DisplayFormat
+			Validating User Input with Data Annotations
+				Using Validation Data Annotations:
+					• Required (+ ErrorMessage)
+					• Range
+					• StringLength
+					• RegularExpression
+			Model Binders:
+				• What Are Model Binders?
+					A model binder is a component of an ASP.NET MVC application that creates an instance of a model class, based on the data sent in the request from the web browser. 
+				• What Does a Model Binder Do?
+					A model binder ensures that the right data is sent to the parameters in a controller action method.
+				The Controller Action Invoker and the Default Model Binder
+				How the Default Model Binder Passes Parameters
+					In a default MVC application, there is only one model binder for the ControllerActionInvoker to use. This binder is an instance of the DefaultModelBinder class. The default model binder passes parameters by using the following logic:
+						1. The binder examines the definition of the action that it must pass parameters to. 
+						2. The binder searches for values in the request that can be passed as parameters. The binder searches for values in the following locations, in order:
+							a. Form Values. If the user fills out a form and clicks a submit button, you can find parameters in the Request.Form collection.
+							b. Route Values. Depending on the routes that you have defined in your web application, the model binder may be able to identify parameters in the URL. In the example URL, “45” is identified as a parameter by the default MVC route.
+							c. Query Strings. If the user request includes named parameters after a question mark, you can find these parameters in the Request.QueryString collection.
+							d. Files. If the user request includes uploaded files, these can be used as parameters.
+					Notice that if there are form values and route values in the request, form values take precedence. Query string values are only used if there are no form values and no route values available as parameters.
+			Model Extensibility:
+				Custom Validation Data Annotations
+					inherit from System.ComponentModel.DataAnnotations.ValidationAttribute
+						example: LargerThanValidationAttribute
+				Custom Model Binders
+					implement System.Web.Mvc.IModelBinder 
+						example: CarModelBinder
+	Lesson 2: Working with Data
+		Connecting to a database
+			ADO.NET and Databases
+				use the ADO.NET technology to access databases (System.Data)
+				ADO.NET supports a wide range of databases by using different data providers:
+					• Microsoft SQL Server. This is an industry-leading database server from Microsoft. ADO.NET includes the SqlClient provider for all SQL Server databases.
+					• Microsoft SQL Server Express. This is a free version of SQL Server that includes a wide range of database functionality and is very flexible. Some advanced capabilities are not possible with SQL Express. The SqlClient provider is used for SQL Express.
+					• OLE DB. This is a standard that many different databases adhere to. ADO.NET includes the OleDb provider for all OLE DB databases.
+					• ODBC. This is another older standard that many different databases adhere to. ADO.NET includes the Odbc provider for all ODBC databases. In general, you should use an OLE DB provider, if it is available, instead of an ODBC provider.
+					• You can also use third-party ADO.NET providers to access other databases.
+			Cloud Databases
+				Microsoft Azure SQL Database has the following advantages:
+					• Databases run in Microsoft data centers with the best connectivity and reliability.
+					• Microsoft guarantees up to 99% uptime.
+					• You do not need to build and maintain your own database servers or employ database administrators.
+					• You can scale up the databases very easily.
+					• You pay only for the data that you use and distribute.
+				You can use Microsoft Azure SQL Database with ADO.NET by using the SqlClient provider.
+			Connecting an MVC Web Application to a Database:
+				• Add a reference to the System.Data namespace.
+				• Add a connection string to the Web.config file. This string specifies the provider, the location of the database, the security properties, and other properties depending on the provider. The <connectionStrings> tag must appear within the <configuration> tag, after the <configSections> tag.
+		Entity Framework
+			TODO
 
 Module 4: Developing ASP.NET MVC 5 Controllers
 	custom controller factory
