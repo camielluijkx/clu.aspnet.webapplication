@@ -13,7 +13,7 @@ namespace clu.aspnet.webapplication.mvc.Controllers
 {
     [HandleError(View = "Error")]
     [ValueReporter]
-    public class PhotoController : Controller
+    public class PhotoController : BaseController
     {
         private IPhotoSharingContext context;
 

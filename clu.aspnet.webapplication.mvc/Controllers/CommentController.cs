@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace clu.aspnet.webapplication.mvc.Controllers
 {
-    public class CommentController : Controller
+    public class CommentController : BaseController
     {
         private IPhotoSharingContext context;
 

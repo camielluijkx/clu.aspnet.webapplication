@@ -17,7 +17,7 @@ namespace clu.aspnet.webapplication.mvc.Factory
             }
             else
             {
-                targetType = typeof(GeneralPurposeController);
+                targetType = typeof(HomeController);
             }
             return targetType == null ? null : (IController)Activator.CreateInstance(targetType);
         }

@@ -12,7 +12,7 @@ using System.Web.Routing;
 
 namespace clu.aspnet.webapplication.mvc
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
@@ -30,6 +30,9 @@ namespace clu.aspnet.webapplication.mvc
             Database.SetInitializer<PhotoSharingContext>(new PhotoSharingInitializer());
         }
 
+        /// <summary>
+        /// Handles an unhandled exception when it is being thrown by the application (for example when a route is not resolved).
+        /// </summary>
         public void Application_Error(Object sender, EventArgs e)
         {
             Exception exception = Server.GetLastError();

@@ -6,7 +6,7 @@ using System.Web.Security;
 namespace clu.aspnet.webapplication.mvc.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
