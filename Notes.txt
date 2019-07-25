@@ -21,6 +21,7 @@ Language Integrated Query (LINQ)
 Entity Framework (EF)
 Inversion of Control (IOC)
 Dependency Injection (DI)
+Search Engine Optimization (SEO)
 
 
 [Summary 20486C]
@@ -675,12 +676,126 @@ Module 6: Testing and Debugging ASP.NET MVC 5 Web Applications
 
 Module 7: Structuring ASP.NET MVC 5 Web Applications
 	Lesson 1: Analyzing Information Structure
-		TODO
+		What Is Information Architecture?
+			Planning a Logical Hierarchy
+			Presenting a Hierarchy in Navigation Controls
+				The information architecture you design should be presented on webpages in the form of navigation controls. Common approaches to such controls include:
+					• Site Menus. Most websites have a main menu that presents the main areas of content. For simple web applications, the main menu may include a small number of static links. For larger web applications, when users click a site menu link, a submenu appears.
+					• Tree Views. A tree view is a menu that shows several levels of information hierarchy. Usually, users can expand or collapse objects at each level, to locate the content they require. Tree views are useful for presenting complex hierarchies in navigable structures.
+					• Breadcrumb Trails. A breadcrumb trail is a navigation control that shows the user where they are in the web application. Usually a breadcrumb trail shows the current pages and all the parent pages in the hierarchy, with the home page as the top level. Breadcrumb trails enable you to understand how a page fits in with the information architecture shown in menus and tree views.
+			Presenting a Hierarchy in URLs
+				You can increase the usability of your web application by reflecting the information architecture in the URLs, which the users see in the Address bar of the web browser. In many web applications, URLs often include long and inscrutable information such as Globally Unique Identifiers (GUIDs) and long query strings with many parameters. Such URLs prevent users from manually formulating the address to an item, and these URLs are difficult to link to a page on your web application. Instead, URLs can be plain and comprehensible, to help users browse through your content.
+				You can control the URLs that your ASP.NET web application uses, by configuring the ASP.NET routing engine.
+		What Is Search Engine Optimization?
+			SEO Best Practices:
+				• Ensure that each webpage in your web application has a meaningful <title> element in the <head> section of the HTML.
+				• Ensure that you include a <meta name="keywords"> tag in the <head> element of each page. The content attribute of this element should include keywords that describe the content of the page accurately.
+				• Ensure that you include a <meta name="description"> tag in the <head> element of each page. The content attribute of this element should include a sentence that describes the content of the page accurately.
+				• Ensure that the <title> element and the <meta> elements are different for each page in your web application.
+				• Choose a domain name that includes one or more of your most important keywords.
+				• Ensure that keywords appear in the <h1>, <h2>, or <h3> elements of your webpage.
+				• Ensure that navigation controls enable web bots to crawl your entire web application. For example, you may have content in your site that users can only find with the search tool, not by clicking through links. As web bots cannot use search tools, this content will not be indexed.
+				• Ensure that URLs do not include GUIDs or long query text.
+			SEO and Web Application Structure
 	Lesson 2: Configuring Routes
-		TODO
+		ASP.NET enables developers to control the URLs that a web application uses, to link the URLs and the content by configuring routes. A route is an object that parses a requested URL, and it determines the controller and action to which the request must be forwarded. Such routes are called incoming routes. HTML helpers also use routes when they formulate links to controllers and actions. Such routes are called outgoing routes.
+		The ASP.NET Routing Engine
+			Routing governs the way URLs are formulated and how they correspond to controllers and actions. Routing does not operate on the protocol, server, domain, or port number of a URL, but only on the directories and file name in the relative URL.
+			In ASP.NET, routes are used for two purposes:
+				• To parse the URLs requested by browsers. This analysis ensures that requests are forwarded to the right controllers and actions. These are called incoming URLs.
+				• To formulate URLs in webpage links and other elements. When you use helpers such as Html.ActionLink() and Url.Action() in MVC views, the helpers construct URLs according to the routes in the routing table. These are called outgoing URLs.
+			The Default Route
+				The default route is simple but logical and works well in many web applications. The default route examines the first three segments of the URL. Each segment is delimited by a forward slash:
+					• The first segment is interpreted as the name of the controller. The routing engine forwards the request to this controller. If a first segment is not specified, the default route forwards the request to a controller called Home.
+					• The second segment is interpreted as the name of the action. The routing engine forwards the request to this action. If a second segment is not specified, the default route forwards the request to a controller called Index.
+					• The third segment is interpreted as an ID value, which is passed to the action as a parameter. The parameter is optional, so if a third segment is not specified, no default value is passed to the action.
+					example:
+							routes.MapRoute(
+								name: "Default",
+								url: "{controller}/{action}/{id}",
+								defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+							);
+			Custom Routes
+				Developers add their own custom routes to a web application for two main reasons:
+					• To make URLs easier for site visitors to understand.
+					• To improve search engine rankings.
+						o User-friendly URLs are therefore a critical tool in SEO.
+			Controller Factories and Routes
+				MVC uses controller factories that help create an instance of a controller class to handle a request. MVC uses action invokers to call the right action and pass parameters to that action method. Both controller factories and action invokers refer to the routing table to complete their tasks. The following are steps that MVC conducts when a request is received from a web browser:
+					1. An MvcHandler object creates a controller factory. The controller factory is the object that instantiates a controller to respond to the request.
+					2. The controller factory consults the routing table to determine the right Controller class to use.
+					3. The controller factory creates a Controller object, and the MvcHandler calls the Execute method in that controller.
+					4. The ControllerActionInvoker examines the request URL and consults the routing table to determine the action in the Controller object to call.
+					5. The ControllerActionInvoker uses a model binder to determine the values that should be passed to the action as parameters. The model binder consults the routing table to determine if any segments of the URL should be passed as parameters. The model binder can also pass parameters from a posted form, from the URL query text, or from uploaded files.
+					6. The ControllerActionInvoker runs the action. Often, the action creates a new instance of a model class, perhaps by querying the database with the parameters that the invoker passed to it. This model object is passed to a view, to display results to the user.
+				As you can see, you can use routes to manage the behavior of controller factories, action invokers, and model binders, because all these objects refer to the routing table. MVC is highly extensible; therefore, developers can create custom implementations of controller factories, action invokers, and model binders. However, by using routes, you can usually implement the URL functionality that you need with the default implementations of these classes. You should ensure that routes cannot implement your required functionality before you plan to customize controller factories, action invokers, or model binders.
+		Adding and Configuring Routes
+			Every MVC web application has a RouteTable object in which routes are stored, in the Routes properties. You can add routes to the Routes property by calling the MapRoute() method.
+			In the Visual Studio project templates for MVC 5, a dedicated RouteConfig.cs code file exists in the App_Start folder. This file includes the RouteConfig.RegisterRoutes() static method where the default route is added to the RouteTable object. You can add custom routes in this method. The Global.asax.cs file includes a call to RouteConfig.RegisterRoutes() in the Application_Start() method, which means that routes are added to the routing table whenever the MVC application starts.
+			Properties of a Route:
+				• Name. This string property assigns a name to a route. It is not involved in matching or request forwarding.
+				• URL. This string property is a URL pattern that is compared to a request, to determine if the route should be used. You can use segment variables to match a part of the URL. You can specify a segment variable by using braces. For example, if you specify the URL, “photo/{title}”, the route matches any request where the relative URL starts with the string, “photo/”, and includes one more segment. The segment variable is “title” and can be used elsewhere in the route.
+				• Constraints. Sometimes you must place extra constraints on the route to ensure that it matches only with the appropriate requests. For example, if you want relative URLs in the form, “photo/34”, to specify a photo with the ID “34”, you must use a URL property like “photo/{id}”. However, observe that this URL pattern also matches the relative URL, “photo/create”, because it has one extra segment. For IDs, you must constrain the URL to match only segments comprising digits. You can do this by adding a constraint to the route. The Constraints property enables you to specify a regular expression for each segment variable. The route will match a request only if all the segment variables match the regular expressions that you specify.
+				• Defaults. This string property can assign default values to the segment variables in the URL pattern. Default values are used for segment variables when the request does not specify them.
+			The Default Route Code
+			Creating Custom Routes
+				example:
+					routes.MapRoute(
+					   name: "PhotoRoute",
+					   url: "photo/{id}",
+					   defaults: new { controller = "Photo", action = "Details" },
+					   constraints: new { id = "[0-9]+" }
+					);
+			Precedence of Routes
+				Routes are evaluated by the routing engine in the order with which they are added to the RouteTable.Routes collection. If a route matches, the routing engine uses it and does not evaluate any later route in the collection. If a route does not match, the routing engine ignores it and evaluates the next route in the collection. For this reason, you must add routes to the RouteTable.Routes collection in the appropriate order. You can add the most specific routes first, such as routes that have no segment variables and no default values. Routes with constraints should be added before routes without constraints.
+				The route named "Default" matches any request, including those with no relative URL. This default route should be the last that you add to the RouteTable.Routes collection. If the routing engine evaluates this route, the route is always used. Any routes added after the “Default” route are never used.
+		Using Routes to Pass Parameters
+			The routing engine separates the relative URL in a request into one or more segments. Each forward slash delimits one segment from the next. If you want one of the segments to specify the controller name, you can use the {controller} segment variable. The controller factory always interprets this variable as the controller to instantiate. Alternatively, to fix a route to a single controller, you can specify a value for the controller variable in the defaults property. In a similar manner, if you want one of the segments to specify the action method, you can use the {action} segment variable. The action invoker always interprets this variable as the action to call. Alternatively, to fix a route to a single action, you can specify a value for the action variable in the defaults property.
+			Segment variables or default values with other names have no special meaning to MVC and are passed to actions. You can access the values of these variables by using one of two methods: the RouteData.Values collection or by using model binding to pass values to action parameters.
+			The RouteData.Values Collection
+			Using Model Binding to Obtain Parameters
+				The default MVC action invoker is a class named, ControllerActionInvoker. This invoker uses a class named, DefaultModelBinder, to pass the appropriate parameters to actions. This model binder uses the following logic to pass parameters:
+					1. The binder examines the definition of the action to which it must pass parameters. In the example, the binder determines that the action requires an integer parameter called, PhotoID.
+					2. The binder searches for values in the request, which can be passed as parameters by name. In the example, the binder searches for integers because the action requires integers. The binder searches for values in the following locations in sequential order:
+						a. Form Values. If the user fills out a form and clicks the Submit button, the binder can find parameters in the Request.Form collection.
+						b.Route Values. If the matched route includes the segment variable {photoid}, the binder can find the value for the PhotoID parameter in the RouteData.Values collection. This match is case-insensitive.
+						c. Query Strings. If the user request includes named parameters after a question mark, the binder can find these parameters in the Request.QueryString collection.
+						d. Files: If the user request includes uploaded files, these files can be used as parameters in an action. File parameters in actions must use the HttpPostedFileBase type.
+			Optional Parameters
+				example:
+					routes.MapRoute(
+						name: "ProductRoute",
+						url: "product/{id}/{color}",
+						defaults: new { color = UrlParameter.Optional }
+					);
+		Unit Tests and Routes
+			Creating a HTTP Context Test Double
+				In a webpage request, ASP.NET stores details of the request in an HTTP Context object. These details include the URL that was requested, details of the browser, and other information. To write a unit test for routes, you must simulate the HTTP Context object by creating a test double class.
+					example: FakeHttpContextForRouting + FakeHttpRequestForRouting + FakeHttpResponseForRouting
+			Writing Routing Tests
+				After creating an HTTP context test double, you can write unit tests for each route in the routing table. These unit tests adopt the following general phases:
+					• Arrange. In the Arrange phase of the test, you can create a new HTTP context from your test double class. You can set the request URL for this object to be the URL you want to test. You can then create a new route collection and call the RouteConfig.RegisterRoutes() method in your web application.
+					• Act. In the Act phase, you can test the routes by calling the GetRouteData() method of the route collection. You can then pass the fake HTTP context to this method.
+					• Assert. In the Assert phase, you can use the RouteData.Values collection to check that the controller, action and other values are assigned correctly.
 	Lesson 3: Creating a Navigation Structure
-		TODO
-
+		The Importance of Well-Designed Navigation
+			The information architecture you design for your web application is a logical hierarchy of objects. This hierarchy should be clear and understandable to the audience of your web application. If your web application is designed for people with specialist knowledge, you can implement information architecture that requires specialist knowledge.
+			You should ensure two things with these navigation controls:
+				• An obvious next step. 
+				• A clear context.
+			Common Types of Navigation Controls:
+				• Top menus. Often placed at the top of the page or immediately beneath the application branding, top menus link to the main areas of your web application. In some applications, each item in the top menu has a submenu with links to lower level items and pages.
+				• Tree views. A tree view is a hierarchical menu that can display many items in multiple levels in your web application. By default, a tree view often displays only one or two levels of the information architecture. Users can expand lower levels to find the content they need. Tree views enable users to explore multiple levels on a single page. Tree views can also show clearly the position of the current page, in the hierarchy.
+				• Breadcrumb trails. Often presented as a horizontal sequence of links across the top of a webpage, a breadcrumb trail shows the current page and its parents in all the higher levels of the hierarchy. Breadcrumb trails show the current position of the user, in the context of the web application and enable users to navigate to higher, less specific pages.
+				• Footer menus. The page footer is often not visible when a user arrives on a page. The user must scroll to the end of the page to see the footer. The footer is often used as a location for important, but not business-critical, links. For example, links to copyright and other legal information, links to parent companies, and links to site maps are often placed in the footer menu.
+			The MVC Site Map Provider
+				A site map provider is an ASP.NET component that stores the logical hierarchy of your web application. Navigation controls such as top menus, tree views, and breadcrumb trails can take their links from this single hierarchy.
+				The MVC Site Map Provider is a provider designed to work with MVC controllers and actions. It presents the information architecture that you can configure in a simple XML file. This hierarchy is completely independent of the model, controllers, and actions in your applications, although you can build links to them. The provider also includes HTML helpers, which you can use in views to render menus, tree views, and breadcrumb trails.
+		Configuring the MVC Site Map Provider
+			Configuring the MVC Site Map Provider in Web.Config
+			Creating the Site Map File
+		Adding Menu Controls			
+			
 Module 8: Applying Styles to ASP.NET MVC 5 Web Applications
 	Lesson 1: Using Layouts
 		What are layouts?
