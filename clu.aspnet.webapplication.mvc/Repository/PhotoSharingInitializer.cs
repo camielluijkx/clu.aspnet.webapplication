@@ -8,6 +8,7 @@ using System.Web;
 namespace clu.aspnet.webapplication.mvc.Repository
 {
     public class PhotoSharingInitializer : DropCreateDatabaseAlways<PhotoSharingContext>
+    //public class PhotoSharingInitializer : DropCreateDatabaseIfModelChanges<PhotoSharingContext>
     {
         //This method puts sample data into the database
         protected override void Seed(PhotoSharingContext context)

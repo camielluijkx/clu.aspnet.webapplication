@@ -1,5 +1,6 @@
 ﻿using clu.aspnet.webapplication.mvc.Models;
 using clu.aspnet.webapplication.mvc.Repository;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -18,6 +19,14 @@ namespace clu.aspnet.webapplication.mvc.Controllers
         public CommentController(IPhotoSharingContext Context)
         {
             context = Context;
+        }
+
+        public ActionResult Display(int id)
+        {
+            //Use the repository to get the comments
+            ICommentRepository commentRepository = new CommentRepository();
+            ICollection<Comment> comments = commentRepository.GetComments(id);
+            return View("Display", comments);
         }
 
         [ChildActionOnly]
