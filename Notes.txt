@@ -327,85 +327,136 @@ Module 3: Developing ASP.NET MVC 5 Models
 					4. Modify the controller class to use the repository class. Instead, create an instance of the repository class and call its methods to create the model.
 
 Module 4: Developing ASP.NET MVC 5 Controllers
+	Lesson 1: Writing Controllers and Actions
+		TODO
+	Lesson 2: Writing Action Filters
+		TODO
+
 	custom controller factory
 	register custom controller factory
 	custom filter action attribute
-	TODO
-
+	
 Module 5: Developing ASP.NET MVC 5 Views
-	TODO
+	Lesson 1: Creating Views with Razor Syntax
+		TODO
+	Lesson 2: Using HTML Helpers
+		TODO
+	Lesson 3: Re-using Code in Views
+		TODO
 
 Module 6: Testing and Debugging ASP.NET MVC 5 Web Applications
+	Lesson 1: Unit Testing MVC Componwents
+		TODO
+	Lesson 2: Implementing an Exception handling Strategy
+		TODO
+
 	unit testing a model 
 	fake and real repository
 	unit testing a controller
 	controller exception handling (OnException + HandleError)
 	custom application error handling (return status code) 
-	TODO
 
 Module 7: Structuring ASP.NET MVC 5 Web Applications
-	TODO
+	Lesson 1: Analyzing Information Structure
+		TODO
+	Lesson 2: Configuring Routes
+		TODO
+	Lesson 3: Creating a Navigation Structure
+		TODO
 
 Module 8: Applying Styles to ASP.NET MVC 5 Web Applications
-	store layout files in \Views\Shared folder
-	@RenderBody() in layout file is used to render content of a child view
-		any content that is not in a @section will be rendered by RenderBody
-	@RenderSection() in layout file is used to render content that is different from RenderBody()
-		designate content to be rendered at RenderSection() using a @section declaration
-		by default, Sections are required, meaning each child view must define the section
-		pass required: false to designate that the section is optional
-	_ViewStart.cshtml runs before all the other views in the web application
-		primary purpose of _ViewStart is to set values that all the other views will have to use
-		ViewBag can be used to pass information between view and layout
-		ViewStart links layout file
-	use CSS to style web application (external CSS file, inline CSS, and CSS code block in HTML)
-		<link href="~/Views/Shared/StyleSheet1.css" rel="stylesheet" type="text/css" />
-	CSS class selector: 
-		.menu
-		{
-			font-weight:bold;
-		}
-		<p class="menu">some menu</p>
-	CSS id selector:
-		#menu
-		{
-			font-size:16px;
-		}
-		<p id="menu">some menu</p>
-	use viewport attribute for adaptive rendering
-		customize web application to display differently, based on the capabilities of web browser or device
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		device-width, device-height, initial-scale, minimum-scale, maximum-scale, user-scalable
-	use CSS Media Queries to allow conditional application of CSS styles, based on the device conditions or browser capabilities
-		@media only screen and (max-width: 500px) {
-			header{
-			  float: none;
+	Lesson 1: Using Layouts
+		What are layouts?
+			 Layouts are also called template views. Layouts enable you to define a common style template, and then apply it to all the views in a web application. The functionality of layouts is similar to that of the master page in a traditional ASP.NET web application. You can use layouts to define the content layout or logic that is shared across views.
+			You can define multiple layouts in an ASP.NET MVC 5 application, and each layout can have multiple sections. You can define these sections anywhere in the layout file, even in the <head> section of the HTML. Sections enable you to output dynamic content to multiple, non-contiguous, regions of the final response.
+		Creating a Layout
+			store layout files in \Views\Shared folder
+			@RenderBody() in layout file is used to render content of a child view:
+				• any content that is not in a @section will be rendered by RenderBody
+			@RenderSection() in layout file is used to render content that is different from RenderBody():
+				• designate content to be rendered at RenderSection() using a @section declaration
+				• by default, Sections are required, meaning each child view must define the section
+				• pass required: false to designate that the section is optional
+		Linking Views and Layouts
+			_ViewStart.cshtml runs before all the other views in the web application:
+				• primary purpose of _ViewStart is to set values that all the other views will have to use
+				• ViewBag can be used to pass information between view and layout
+				• ViewStart links layout file
+	Lesson 2: Applying CSS Styles to an MVC Application
+		Importing Styles into an MVC Web Application
+			use CSS to style web application (external CSS file, inline CSS, and CSS code block in HTML):
+				• <link href="~/Views/Shared/StyleSheet1.css" rel="stylesheet" type="text/css" />
+		CSS class selector: 
+			.menu
+			{
+				font-weight:bold;
 			}
-		  }
-		<link rel="stylesheet" type="text/css" href="smallscreen.css" media="only screen and (max-width: 500px)" />
-	ASP.NET MVC 5 web application analyses the request for views with the naming convention [view].mobile.cshtml when received from a mobile browser
-	check UserAgent string to create custom devive / browser specific views
+			<p class="menu">some menu</p>
+		CSS id selector:
+			#menu
+			{
+				font-size:16px;
+			}
+			<p id="menu">some menu</p>
+	Lesson 3: Creating an Adaptive User Interface
+		The HTML5 Viewport Attribute
+			use viewport attribute for adaptive rendering:
+				• customize web application to display differently, based on the capabilities of web browser or device
+				• <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+				• device-width, device-height, initial-scale, minimum-scale, maximum-scale, user-scalable
+		CSS Media Queries
+			use CSS Media Queries to allow conditional application of CSS styles, based on the device conditions or browser capabilities:
+				@media only screen and (max-width: 500px) {
+					header{
+					  float: none;
+					}
+				  }
+			<link rel="stylesheet" type="text/css" href="smallscreen.css" media="only screen and (max-width: 500px)" />
+		MVC 5 Templates and Mobile-Specific Views
+			ASP.NET MVC 5 web application analyses the request for views with the naming convention [view].mobile.cshtml when received from a mobile browser
+			check UserAgent string to create custom devive / browser specific views
 
 Module 9: Building Responsive Pages in ASP.NET MVC 5 Web Applications
-	TODO
+	Lesson 1: Using AJAX and Partial Page Updates
+		TODO
+	Lesson 2: Implementing a Caching Strategy
+		TODO
 
 Module 10: Using JavaScript and jQuery for Responsive MVC 5 Web Applications
-	TODO
+	Lesson 1: Rendering and Executing JavaScript Code
+		TODO
+	Lesson 2: Using jQuery and jQueryUI
+		TODO
 
 Module 11: Controlling Access to ASP.NET MVC 5 Web Applications
-	TODO
+	Lesson 1: Implementing Authentication and Authorization
+		TODO
+	Lesson 2: Assigning Roles and Membership
+		TODO
 
 Module 12: Building a Resilient ASP.NET MVC 5 Web Application
-	TODO
+	Lesson 1: Developing Secure Sites
+		TODO
+	Lesson 2: State Management
+		TODO
 
 Module 13: Implementing Web APIs in ASP.NET MVC 5 Web Applications
-	TODO
+	Lesson 1: Developing a Web API
+		TODO
+	Lesson 2: Calling a Web API
+		TODO
 
 Module 14: Handling Requests in ASP.NET MVC 5 Web Applications
-	TODO
+	Lesson 1: Using HTTP Modules and HTTP Handlers
+		TODO
+	Lesson 2: Using Web Sockets
+		TODO
 
 Module 15: Deploying ASP.NET MVC 5 Web Applications
-	TODO
+	Lesson 1: Deploying a Web Application
+		TODO
+	Lesson 2: Deploying an ASP.NET MVC 5 Web Application
+		TODO
 
 
 [Summary 20486D]
