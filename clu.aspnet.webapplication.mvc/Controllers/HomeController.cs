@@ -1,10 +1,12 @@
-﻿using System;
+﻿using clu.aspnet.webapplication.mvc.Attributes;
+using System;
 using System.Web.Mvc;
 
 namespace clu.aspnet.webapplication.mvc.Controllers
 {
     public class HomeController : BaseController
     {
+        [SimpleActionFilter]
         public ActionResult Index()
         {
             return View();

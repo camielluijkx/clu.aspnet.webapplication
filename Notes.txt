@@ -306,7 +306,7 @@ Module 3: Developing ASP.NET MVC 5 Models
 						An implementation of IDatabaseInitializer that will always recreate and optionally re-seed the database the first time that a context is used in the app domain. To seed the database, create a derived class and override the Seed method.
 					• DropCreateDatabaseIfModelChanges<TContext> Class:
 						An implementation of IDatabaseInitializer that will DELETE, recreate, and optionally re-seed the database only if the model has changed since the database was created.
-					• Database.SetInitializer(IDatabaseInitializer<TContext>) Method (run in Global.asax > Application_Start):
+					• Database.SetInitializer(IDatabaseInitializer<TContext>) Method (Global.asax > Application_Start):
 						Sets the database initializer to use for the given context type. The database initializer is called when a the given DbContext type is used to access a database for the first time. The default strategy for Code First contexts is an instance of CreateDatabaseIfNotExists<TContext>.
 			Using LINQ to Entities:
 				Language Integrated Query (LINQ) is a set of extensions to Visual C# and Visual Basic that enable you to write complex query expressions. 
@@ -328,14 +328,80 @@ Module 3: Developing ASP.NET MVC 5 Models
 
 Module 4: Developing ASP.NET MVC 5 Controllers
 	Lesson 1: Writing Controllers and Actions
-		TODO
+		A controller is a .NET Framework class that inherits from the System.Web.Mvc.Controller base class. Controllers respond to user requests. Within a controller class, you create actions to respond to user requests. Actions are methods within a controller that return an ActionResult object. The ActionResult object is often a view that displays a response to the user request; however, it can also yield other types of results. 
+		Responding to User Requests
+			When an MVC web application receives a request from a web browser, the following events happen in sequence:
+				1. An MvcHandler object creates a controller factory. The controller factory is the object that instantiates a controller to respond to the request. Usually, this factory is a DefaultControllerFactory object, but you can create a custom controller factory, if necessary. The MvcHandler object chooses the controller factory based on the RequestContext object, which has information about the request that the user made.
+				2. The controller factory creates a Controller object, and the MvcHandler calls the Execute method in that controller.
+				3. The ControllerActionInvoker examines the RequestContext object and determines the action to call in the Controller object.
+				4. The ControllerActionInvoker uses a model binder to determine the values to be passed to the action as parameters.
+				5. The ControllerActionInvoker runs the action. Often, the action creates a new instance of a model class, perhaps by querying the database with the parameters that the invoker passed to it. This model object is passed to a view, to display results to the user. Action methods can do many other things such as rendering views and partial views, redirecting to other websites, displaying snippets of content, or displaying other files.
+			The User Request
+				Users of web browsers make requests either by typing a URL into the Address bar of the browser, or by clicking a link to some address within your website. Such links can either be within your website, in which case you can control how they are rendered, or from an external website. Whether the request originates from within the website or from an external website, it can include information that controller actions can use as parameters. Consider the following examples:
+					• http://www.adventure-works.com/: This URL is the home page of the website and specifies no further information.
+					• http://www.adventure-works.com/photo: This URL specifies an extra value, photo. By default, the MvcHandler interprets this as the name of a controller.
+					• http://www.adventure-works.com/photo/index: This URL specifies a second value, index. By default, the MvcHandler interprets this as the name of an action within the controller.
+					• http://www.adventure-works.com/photo/display/1: This URL specifies a third value, 1. By default, the ControllerActionInvoker interprets this as a parameter to pass to the action method.
+					• http://www.adventure-works.com/photo/display?id=1: This URL includes a query string, id=1. The model binder examines the Display actions in the Photo controller. If it finds an action with a parameter called id, it calls that action and passes 1 as a parameter.
+		Writing Controller Actions
+			Controller actions are public methods that return an ActionResult object. Alternatively, actions can return objects of many other classes that derive from the ActionResult class. 
+			[HttpGet] default vs [HttpPost], [HttpPut], [HttpDelete]
+			ModelState.IsValid property is used to check whether the user has submitted valid data
+			Possible Return Classes:
+				• Action methods are usually defined with the ActionResult class as the return type. ActionResult is a base class, and you can use a range of derived classes to return different responses to the web browser.
+				• Controller actions usually return a view and pass a model class to it, for display. You can create an action that calls the View() helper, and creates and returns a ViewResult object. The View() helper is available when you derive from the base Controller class.
+				• Alternatively, you can return an HTTP error (HttpNotFound()).
+				• To return files, you can use the File() helper to return a FileContentResult object.
+				• Other possible action results include:
+					• PartialViewResult. You can use this action to generate a section of an HTML page, but not a complete HTML page. Partial views can be re-used in many views throughout a web application.
+					• RedirectToRouteResult. You can use this action result to redirect the web browser to another action method or another route.
+					• RedirectResult. You can use this action result to redirect to a specific URL, either inside your web application or to an external location.
+					• ContentResult. You can use this action result to return text to the web browser. You can return plain text, XML, a comma-separated table, or other text formats. This text can be rendered in the web browser or parsed with client-side code.
+			Child Actions
+				When an action returns a complete view, MVC sends a new complete webpage to the web browser for display. Sometimes, you may want to call an action from within a view, to return a piece of content for display within a webpage. A child action is an action method that can return a small piece of content in this manner. The FileContentResult is often a good example of a child action, because the image returned usually forms part of a webpage. Partial views also support child actions.
+				To declare an action method as a child action, you can use the [ChildActionOnly] annotation. This annotation ensures that the action method can be called only from within a view by using the Html.Action() helper. Using this method, you can prevent a user from calling the child action directly by typing the correct URL into the Address bar.
+		Using Parameters
+			The ControllerActionInvoker and the DefaultModelBinder classes obtain parameters from a user request and pass them to action methods. The DefaultModelBinder can locate parameters in a posted form, the routing values, the query string, or in the posted files. If the model binder finds a parameter in the action method that matches the name and type of a parameter from the request, the action method is called and the parameter is passed from the request. This arrangement enables you to obtain and use parameters in your actions.
+		Passing Information to Views
+			Using The ViewBag
+				The ViewBag is a dynamic object that is part of the base controller class. Because it is a dynamic object, you can add properties that are of any type to it, in the action method. In the view, you can use the ViewBag object to obtain the values added in the action.
+			Using The ViewData Dictionary
+				The ViewBag object was added to MVC in version 3. In the earlier versions, you could pass extra data to views by using the ViewData dictionary. This feature is still available in MVC 5 for backward compatibility and for developers who prefer to use dictionary objects.
+				ViewBag is a dynamic wrapper above the ViewData dictionary. This means that you could save a value in a controller action by using ViewBag and read the same value back out by using ViewData.
+		What Are Controller Factories?
+			A controller factory is an MVC component that instantiates the controller classes that you create. 
+			How the DefaultControllerFactory Class Locates a Controller Class
+				The DefaultControllerFactory class identifies controller classes by using the following criteria:
+					• The class scope must be public.	
+					• The class must not be marked as abstract.
+					• The class must not take generic parameters.
+					• The class must have a name that ends with Controller.
+					• The class must implement the IController interface.
+				When the MVC web application starts, DefaultControllerFactory creates a list of all the classes in the application that satisfy these criteria. This list helps to create the correct controller rapidly. To write a controller, you must ensure that all the above mentioned criteria are implemented. Usually, you meet the IController interface criterion by inheriting from the base Controller class.
+				By default, the DefaultControllerFactory mandates all controller classes to end with the word Controller. 
+			Creating a Custom Controller Factory:
+				• To modify the criteria for selecting controllers. The criteria described earlier are suitable for most web applications, but sometimes, you may want to change them. For example, you may not want to name controllers with Controller at the end, or you may want to add extra criteria of your own.
+				• To support direct injection for testing. Direct injection is a programming technique that lets you specify classes at run time, instead of specifying classes when writing code. This is helpful for unit testing because you can inject a test class with mock data, instead of real data. The DefaultControllerFactory class does not support direct injection.
+				You must implement the CreateController, GetControllerSessionBehavior, and ReleaseController methods for any custom controller factory you create.
+				Registering a Custom Controller Factory (Global.asax > Application_Start):
+					• ControllerBuilder.SetControllerFactory Method:
+						Sets the controller factory by using the specified type.
+					• example: CustomControllerFactory
 	Lesson 2: Writing Action Filters
-		TODO
+		What Are Filters?
+			Filters are MVC classes that you can use to manage cross-cutting concerns in your web application. You can apply a filter to a controller action by annotating the action method with the appropriate attribute. 
+			You can also apply a filter to every action in a controller by annotating the controller class with the attribute.
+		Filter Types
+			Filter Type		Interface				Default Class				Description
+			Authorization	IAuthorizationFilter	AuthorizeAttribute			Runs before any other filter and before the code in the action method. Used to check a user’s access rights for the action.
+			Action			IActionFilter			ActionFilterAttribute		Runs before and after the code in the action method.
+			Result			IResultFilter			ActionFilterAttribute		Runs before and after a result is returned from an action method.
+			Exception		IExceptionFilter		HandleErrorAttribute		Runs only if the action method or another filter throws an exception. Used to handle errors.
+		Creating and Using Action Filters
+			If you have a cross-cutting concern in your web application, you can implement it by creating a custom action filter or a custom result filter. You can create custom filters by implementing the IActionFilter interface or the IResultFilter interface. However, the ActionFilterAttribute base class implements both the IActionFilter and IResultFilter interfaces for you. By deriving your filter from the ActionFilterAttribute class, you can create a single filter that can run code both before and after the action runs, and both before and after the result is returned.
+		Using a Custom Action Filter	
+			example: SimpleActionFilter
 
-	custom controller factory
-	register custom controller factory
-	custom filter action attribute
-	
 Module 5: Developing ASP.NET MVC 5 Views
 	Lesson 1: Creating Views with Razor Syntax
 		TODO
