@@ -404,12 +404,148 @@ Module 4: Developing ASP.NET MVC 5 Controllers
 
 Module 5: Developing ASP.NET MVC 5 Views
 	Lesson 1: Creating Views with Razor Syntax
-		TODO
+		Adding Views
+			In an MVC application, there is usually one controller for every model class. 
+			 There may be some controllers that do not correspond to any model classes, however each controller can have multiple views.
+			By convention, an MVC web application creates all views within the top-level Views folder. Within this folder, there is a folder for each controller in the application.
+		Add View dialog box
+			Property						Description
+			View name						This is the name of the view. The view file name is this name with the appropriate extension added. The name you choose should match the name returned by the corresponding controller action. If the action controller does not specify the name of the view to use, MVC assumes the name of the view matches the name of the controller action.
+			Model class						If you create a strongly-typed view, you need to specify the model class to bind to the view. Visual Studio will use this class when it formulates IntelliSense prompts and checks for compile-time errors.
+			Template						A template is a basic view that Visual Studio can use to create the view. If you specify a model class for the view, Visual Studio can create simple templates for Create, Edit, Details, Delete, and List views. When you become more experienced in using views, you may prefer to build a view from the empty scaffold template, rather than use populated scaffold templates.
+			Reference script libraries		When you select this check box, links to common client-side script files are included in the view. These links include the jQuery JavaScript library.
+			Create as a partial view		A partial view is a section of Razor code that you can re-use in multiple views in your application.
+			Use a layout page				A layout page can be used to impose a standard layout and branding on many pages within the web application.
+		Differentiating Server Side Code from HTML
+			The Razor view engine interprets view files and runs any server-side code contained in the view files. To do this, Razor must distinguish server-side code from HTML content that should be sent to the browser unchanged.
+			The Razor view engine looks for the @ symbol to identify server-side code.
+			A section of code marked with the @ symbol is referred to as a Razor code expression. In Razor syntax, you mark the start of a Razor code expression with the @ symbol. Razor lacks an expression ending symbol. Instead, Razor infers the end of a code expression by using a fairly sophisticated parsing engine.
+		Modifying the Interpretation of Code and Content
+			 If you want to display an @ symbol in the browser, you use @@. Razor interprets this as an escape sequence and renders a single @ symbol. This technique is useful for rendering email addresses.
+			Razor has sophisticated logic to distinguish code from content and often the @ symbol is all that is required. However, occasionally, you may find that an error occurs because Razor misinterprets content as code. To fix such errors, you can use the @: delimiter, which explicitly declares a line as content and not code.
+			If you want to declare several lines as content, use the <text> tag instead of the @: delimiter. Razor removes the <text> and </text> tags before returning the content to the browser.
+		HTML Encoding
+			For security reasons, when Razor runs any server-side code that returns a string, it encodes the string as HTML before rendering it to the browser.
+			If you have used the normal @Model.HtmlComment syntax to return the formatted comment text, Razor encodes “<” as “&lt” and “>” as “&gt” in the HTML source. This results in the user seeing “<i>” on the webpage. This is not the behavior you intend because you want the users to see italicized text.
+			To render text without HTML encoding, use the Html.Raw() helper. For example, use @Html.Raw(Model.HtmlComment).
+			You should only use the Html.Raw() helper when it is absolutely necessary. Also, if you must use the Html.Raw() helper, you must ensure that it does not operate on unchecked strings entered by users.
+		Features of Razor Syntax
+			Razor Comments
+				@* This text will not be rendered by the Razor view engine, because this is a comment. *@
+			Implicit Code Expressions and Parentheses
+				Razor uses implicit code expressions to determine parts of a line that are server-side code. Usually, implicit code expressions render the HTML you want, but occasionally, you might find that Razor interprets an expression as HTML when it should be run as server-side code.
+				use Parentheses to Explicitly Delimit Expressions:
+					<span>Price Including Sales Tax: @Model.Price * 1.2</span> (implicit)
+					<span>Price Including Sales Tax: @(Model.Price * 1.2)</span> (explicit)
+			Razor Code Blocks, Loops, and Conditions
+				example:
+					@ 
+					{
+						//Razor interprets all text within these curly braces as server-side code.
+					}
+				example:
+					@if (Model.InStock)
+					{
+						Html.ActionLink("Buy This Product", "AddToCart")
+					}
+				example:
+					@foreach (var item in Model)
+					{
+						<div>@item.ProductName</div>
+					}
+		Binding Views to Model Classes and Displaying Properties
+			Many Razor views are designed to display properties from a specific model class. If you bind such views to the class they display, you get extra help such as IntelliSense feedback as you write the Razor code. Other views may display properties from different model classes in different cases, or may not use a model class at all. These views cannot be bound to a model class and are called dynamic views.
+			Strongly-Typed Views:
+				A strongly-typed view is a view that includes a declaration of the model class.
+				A strongly-typed view only works with an object of the model class in the declaration.
+					example: @model MyWebSite.Models.Product + @Model.CatalogNumber
+			Binding to an Enumerable List
+				example:
+					@model IEnumerable<MyWebSite.Models.Product>
+					<h1>Product Catalog</h1>
+					@foreach (var Product in Model)
+					{
+					   <div>Name: @Product.Name</div>
+					}
+			Using Dynamic Views:
+				Create a view that can display more than one model class.
+				A dynamic view does not include the @model declaration at the top of the page.
+				Check the property for null before you use it.
+		Rendering Accessible HTML
+			You render accessible HTML by writing views that follow accessibility guidelines.
+			You can ensure that your content is accessible to the broadest range of users by adhering to the following guidelines:
+				• Do not rely on color differences to highlight text or other content. For example, links should be underlined or formatted in bold font to emphasize them to color-blind users.
+				• Always provide equivalent alternative content for visual and auditory content. For example, always complete the alt attribute for images. Use this attribute to describe the image so that text-to-speech software or text-to-Braille hardware can render meaningful words to the user.
+				• Use markup and style sheets to separate content from structure and presentation code. This helps text interpretation software to render content to users without being confused by structural and presentation code. For example, you should apply the following best practices to display content on your webpage:
+					o Avoid using tables to display the content. You should use tables only to present tabulated content. Tables can be used to render graphics and branding on a webpage, but in an accessible site, use positional style sheets to display content. Text readers do not read style sheets.
+					o Avoid using nested tables. In a nested table, a table cell contains another table. These are particularly confusing to text readers because they read each table cell in a sequential order. The user is likely to become disoriented and unable to determine which cell is being read and what it means.
+					o Avoid using images that include important text. Text readers cannot render text from within an image file. Instead, use markup to render this text.
 	Lesson 2: Using HTML Helpers
-		TODO
+		Using Action Helpers
+			The Html.ActionLink() and Url.Action() helpers enable you to render HTML that calls controller actions.
+				Html.ActionLink() returns an <a> element with the correct href parameter value when users click a link in a webpage.
+				Url.Action() helper renders a URL by using the routing engine without rendering the enclosing <a> element.
+					example: <img alt="This image came from an action" src="@Url.Action("GetImage", new { id = 1 })" />
+		Using Display Helpers
+			Html.DisplayNameFor() renders the name of a model class property. Html.DisplayFor() renders the value of a model class property.
+				You use the Html.DisplayNameFor() helper to render the display name for a property from the model class.
+				You specify the property of the model class to the Html.DisplayNameFor() HTML helper by using a lambda expression.
+					example: @Html.DisplayNameFor(model => model.CreatedDate)
+				If you used a DisplayName annotation to give a more descriptive name to a property, then Html.DisplayNameFor() will use that DisplayName annotation value; otherwise, it will render the name of the property.
+				The Html.DisplayFor() helper considers any display annotations that you specify in the model class, and then renders the value of the property.
+					example: This was created on: @Html.DisplayFor(model => model.CreatedDate)
+				If you used the DisplayFormat annotation in the model class with DataFormatString set to “{0:dd/MM/yy}”, then the Html.DisplayFor() helper ensures that the date is displayed in short date format.
+		The Begin Form Helper	
+			To accept user input, you must provide a form on your webpage. A typical form consists of a set of labels and input controls. The labels indicate to the user the property for which they must provide a value. The input controls enable the user to enter a value. Input controls can be text boxes, check boxes, radio buttons, file selectors, drop-down lists, or other types of control. There is usually a submit button and cancel button on forms.
+			Rendering HTML Forms
+				To build a form in HTML, you must start with a <form> element in the HTML webpage. All labels and input controls must be within the <form> element. In an MVC view, you can use the Html.BeginForm() helper to render this element and set the controller action to which the form sends data.
+				In the rendered HTML, the <form> element must be closed with a </form> tag. In Razor views, you can ensure that the form element is closed with an @using code block. Razor renders the </form> tag at the closing bracket of the code block.
+					example:
+						@using (Html.BeginForm("Register", "Customer", FormMethod.Post))
+						{
+						   @* Place input controls here *@
+						}
+			Using Forms to Post Files
+				In HTML, if you want to enable website users to upload files, you should use an HTML form with special properties. Specifically, the <form> element should include the enctype attribute set to the value multipart/form-data and the form must use the POST HTTP verb.
+				You can specify additional attributes for the <form> element by passing them in an htmlAttributes parameter as new objects. 
+					example:
+						@using (Html.BeginForm("Create", "Photo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+						{
+						   @* Place input controls here *@
+						}
+		Using Editor Helpers
+			In Razor views, the Html.LabelFor() and Html.EditorFor() helpers make it easy to render the most appropriate input controls for the properties of a model class.
+			The Html.LabelFor() helper is similar to the Html.DisplayNameFor() helper because it renders the name of the property that you specify, taking into account the DisplayName annotation if it is specified in the model class. However, unlike the Html.DisplayNameFor() helper, the Html.LabelFor() helper renders a <label> element.
+				example: @Html.LabelFor(model => model.CreatedDate)
+			The Html.EditorFor() helper renders HTML <input> elements and other form controls for properties from a model class. This helper renders the most appropriate element for each property data type.
+			If the string property is annotated with [DataType(DataType.MultilineText)], the Html.EditorFor() helper renders a <textarea> element instead. 
+				example: @Html.EditorFor(model => model.ContactMe)
+		Using Validation Helpers
+			 Set requirements by using validation data annotations in the model class. In controller actions, you can check the ModelState.IsValid property to verify if a user has entered valid data.
+			The Html.ValidationSummary() Helper
+				Use the Html.ValidationSummary() helper to render a summary of all the invalid data in the form. This helper is usually called at the top of the form. When the user submits invalid data, the validation messages are displayed for each invalid field in a bulleted list.
+				example: [Required(ErrorMessage="Please enter your last name")] + @Html.ValidationSummary()
+			The Html.ValidationMessageFor() Helper
+				Use the Html.ValidationMessageFor() helper to render validation messages next to each input in the form.
+				example: @Html.ValidationMessageFor(model => model.LastName)	
 	Lesson 3: Re-using Code in Views
-		TODO
-
+		A partial view renders a section of HTML content that can be inserted into several other views at run time. Because the partial view is a single file that is re-used in several locations, when you implement a change in a single location, the changes are updated in other locations in the web application. Partial views increase the manageability of MVC web applications and facilitate a consistent presentation of content throughout a web application.
+		Creating Partial Views
+			You can use partial views to render identical HTML or similar HTML in different locations in your web application.
+			Creating and Naming Partial Views:
+				By convention, partial views are named prefixed with an underscore character.
+				Partial views are often created inside the /Views/Shared folder in your site. Views in the Shared folder are accessible to many controllers.\
+			Strongly-typed and dynamic partial views
+				Similar to other views, you can create strongly-typed partial views if you are certain that the partial view will always display the same model class.
+		Using Partial Views
+			You can re-use partial views by using the Html.Partial() and Html.Action() HTML helpers.
+			You can use the Html.Partial() helper to render a partial view within another view file. MVC inserts the HTML that the partial view renders into the parent view and returns the complete webpage to the browser. The first parameter is the name of the partial view file without its file extension. The second optional parameter is a model object for the partial view to render. This is the same model object that the parent view uses because other model objects are not available in this context.
+				example: @Html.Partial("_Comments")
+			Remember that you can use the ViewBag and ViewData collections to pass data between the action method and the view. A parent view will share the same ViewBag or ViewData objects with the partial view. This is a good way to share data between the controller action, view, and partial view.
+			The Html.Action() Helper
+				You can pass a model object from the parent view to a partial view when you use Html.Partial(). However, the parent view can only pass the same model object available in the parent view. Sometimes, you may want to use a model object different from the parent view, often of a different model class, with the partial view. In such cases, you can use the Html.Action() helper. This calls an action method that returns the correct partial view. The action method can create an instance of any model class.
+				example: @Html.Action("_CommentsForArticle", "Comment", new { ArticleID = Model.ID })
+				
 Module 6: Testing and Debugging ASP.NET MVC 5 Web Applications
 	Lesson 1: Unit Testing MVC Componwents
 		TODO
