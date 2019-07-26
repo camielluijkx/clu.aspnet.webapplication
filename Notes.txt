@@ -850,9 +850,70 @@ Module 8: Applying Styles to ASP.NET MVC 5 Web Applications
 
 Module 9: Building Responsive Pages in ASP.NET MVC 5 Web Applications
 	Lesson 1: Using AJAX and Partial Page Updates
-		TODO
+		While developing web applications, to update individual sections in the page, you may need to reload the entire webpage. Asynchronous JavaScript and XML (AJAX) in ASP.NET MVC 5 enables partial page updates, to help update sections of a webpage, without reloading the entire page. The Ajax.ActionLink helper helps implement partial page updates in your web application.
+		Why Use Partial Page Updates?
+			ASP.NET and MVC facilitate server-side processing. Server-side processing enables HTML rendering to occur at the server side and the server usually generates the HTML. When you update a webpage, any updates or actions performed on the page require a round-trip request to the server. Such constant server requests affect the performance of the application.
+			The AJAX development model helps reduce the need for refreshing an entire webpage, each time an update of page content is required. AJAX uses JavaScript and XML to obtain information from the client system. AJAX creates webpages based on the XML information downloaded from the server. However, developing web applications by using AJAX is not easy, because it requires using complex technologies, such as JavaScript and XML. Microsoft includes a feature in ASP.NET called partial page updates that functions along with AJAX to reduce the need for refreshing an entire webpage, each time an update occurs.
+			Partial page updates use AJAX technologies to help update individual sections of a webpage, during postback. Partial page updates:
+				• Require fewer lines of code.
+				• Help reduce the data sent to users, each time a webpage update occurs.
+				• Increase the responsiveness of the web application.
+		Using AJAX in an MVC 5 Web Application
+			To implement AJAX in your MVC 5 application, you need to create views that render only the updated content, and not the entire webpage. You can initially develop your web application without using AJAX, and then check the application for any functionality errors. This practice helps reduce the time required to troubleshoot the application. This practice also helps separate any application functionality errors from errors that occur while implementing AJAX.
+			To implement partial page updates, you need to create a view, called a partial view, which includes only the section that you need to update.
+			With AJAX, the Javascript retrieves only a specific portion of a webpage, which you want to update, from the server. In the ViewController class, you need to update the View function to return the PartialView class, instead of the entire View class.
+		The Ajax.ActionLink Helper
+			You can use the Ajax.ActionLink helper to trigger partial page updates. The Ajax.ActionLink helper helps initiate the Javascript, to obtain the updated HTML information from the view and replace or insert the updated HTML information at a specific location.
+				example:
+					<div id="divMessage">@ViewBag.Message</div>
+					@Ajax.ActionLink("Refresh","HelloWorld", new AjaxOptions{ HttpMethod = "POST", UpdateTargetId = "divMessage", InsertionMode = InsertionMode.Replace })
+					HttpMethod: Obtain the HTML information from the HelloWorld view, by using the HTTP POST method.
+					UpdateTargetId: Replace the content in the divMessage HTML element.
+			While using the Ajax.ActionLink helper, you need to include the jQuery and jQuery unobtrusive libraries in the same webpage, because the Ajax.ActionLink helper uses scripts from these two libraries.
 	Lesson 2: Implementing a Caching Strategy
-		TODO
+		Why Use Caching?
+			Caching involves storing the information that is obtained from a database in the memory of a web server. If the content rendered by a webpage is static in nature, the content can be stored in caches or proxy servers. When a user requests content from a web application, caching ensures that the user receives content from the cache, thereby eliminating the need for repeated real-time processing.
+		Caching:
+			• Reduces the need to repeatedly retrieve the same information from the database.
+			• Reduces the need to reprocess data, if a user places a request multiple times.
+			• Helps improve the performance of a web application, by reducing the load on servers.
+			• Helps increase the number of users who can access the server farm.
+		However, caching does not help web applications that include frequent content changes. This is because, the content rendered from a cache may be outdated, when compared to the current information. Therefore, you should evaluate the content of your web application and analyze the impact of rendering outdated content, before implementing caching.
+		The Output Cache
+			Output cache allows ASP.NET engines to store the rendered content of a webpage in the memory of the web server. Therefore, when a user requests a specific page multiple times, the content is retrieved from the cache, thereby avoiding the execution of programming code in the server.
+			Output cache is a good complement to AJAX partial page updates. Output cache and partial page updates reduce the workload on the server and increase the number of user requests that a server can handle.
+			In ASP.NET MVC 5, you can implement output caching, by adding the OutputCache attribute to the controller.
+			The OutputCache attribute helps direct the rendering engine to the cache that contains results from the previous rendering process. The Duration parameter of the OutputCache attribute helps control the period of time in seconds for which data should be stored in the cache.
+			By default, the output cache stores only one copy of the rendered content, for each view. Consider a view with the QueryString input parameter that enables content to change based on the variable gathered from the database or a prior request. In this case, you can add the VaryByParam property to the OutputCache attribute, to store a copy of each unique combination of parameters in the cache.
+			VaryByParam property refers to QueryString, instead of other MVC parameters. You can also use the VaryByCustom property.
+			If you want to control and implement your own logic to determine when a new copy should be stored, you need to override the GetVaryByCustomString function in the Global.asax file of your project.
+		The Data Cache
+			Web applications usually depend on the content in a database, to render content on a webpage. Databases sometimes encounter performance issues caused by poorly written queries, which can slow down the performance of database requests resulting in poor webpage performance. You can implement the data cache in your web application to avoid loading data from a database every time a user places a request. The MemoryCache class allows you to implement data cache in your web application. 
+			Implementing the data cache involves the following actions:
+				1. Loading information from the database
+				2. Storing content in the MemoryCache object
+				3. Retrieving data from the MemoryCache object
+				4. Ensuring that content is available in the MemoryCache object; otherwise, reloading the content
+				example:
+					System.Data.DataTable dtCustomer = System.Runtime.Caching.MemoryCache.Default.AddOrGetExisting("CustomerData", this.GetCustomerData(), System.DateTime.Now.AddHours(1));
+						• Key. The unique identifier of the object that should be stored in the memory cache.
+						• Value. The object that should be stored in the memory cache.
+						• AbsoluteExpiration. The time when the cache should expire.
+		The HTTP Cache
+			The Browser Cache
+				Most web browsers store the content downloaded from web servers in their local cache. Storing data in the local cache helps remove the need to repeatedly download content from the server. Web browsers frequently check content for updates. If the content is updated in the server, web browsers download the content from the server, to attend to user requests. Otherwise, web browsers render content from the local cache.
+			The Proxy Cache
+				The functionality of the proxy cache is similar to the functionality of the browser cache. However, the cache is stored on a centralized server. Users can connect to the Internet or web servers by using this proxy server. Proxy servers store a copy of a web application in a manner similar to a web browser storing a copy of an application in the local drives. Many users can access the cache in a proxy server, while only one user can access the browser cache at a time.
+		Preventing Caching
+			Caching can sometimes create issues in web applications, because if an application involves frequent content updates, caching prevents users from viewing these content updates. To resolve caching issues, you can implement an HTTP header called Cache-Control. The Cache-Control header indicates to the web browser how to handle the local cache. All HTTP clients, such as browsers and proxy servers, respond to the instructions provided in the Cache-Control header to determine how to handle the local cache of a web application.
+			HttpCachePolicy.SetCacheability:
+				Sets the Cache-Control HTTP header. The Cache-Control HTTP header controls how documents are to be cached on the network.
+				NoCache				Sets the Cache-Control: no-cache header. Without a field name, the directive applies to the entire request and a shared (proxy server) cache must force a successful revalidation with the origin Web server before satisfying the request. With a field name, the directive applies only to the named field; the rest of the response may be supplied from a shared cache.
+				Private				Default value. Sets Cache-Control: private to specify that the response is cacheable only on the client and not by shared (proxy server) caches.
+				Public				Sets Cache-Control: public to specify that the response is cacheable by clients and shared (proxy) caches.
+				Server				Specifies that the response is cached only at the origin server. Similar to the NoCache option. Clients receive a Cache-Control: no-cache directive but the document is cached on the origin server. Equivalent to ServerAndNoCache.
+				ServerAndNoCache	Applies the settings of both Server and NoCache to indicate that the content is cached at the server but all others are explicitly denied the ability to cache the response.
+				ServerAndPrivate	Indicates that the response is cached at the server and at the client but nowhere else. Proxy servers are not allowed to cache the response. 
 
 Module 10: Using JavaScript and jQuery for Responsive MVC 5 Web Applications
 	Lesson 1: Rendering and Executing JavaScript Code
