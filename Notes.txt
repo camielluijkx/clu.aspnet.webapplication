@@ -22,6 +22,7 @@ Entity Framework (EF)
 Inversion of Control (IOC)
 Dependency Injection (DI)
 Search Engine Optimization (SEO)
+Content Delivery Network (CDN)
 
 
 [Summary 20486C]
@@ -917,9 +918,146 @@ Module 9: Building Responsive Pages in ASP.NET MVC 5 Web Applications
 
 Module 10: Using JavaScript and jQuery for Responsive MVC 5 Web Applications
 	Lesson 1: Rendering and Executing JavaScript Code
-		TODO
+		Adding JavaScript Files
+			You can add JavaScript code to web applications by:
+				• Adding the JavaScript code to HTML.
+				• Defining the JavaScript code in dedicated JavaScript files.
+				example: <script src="~/Scripts/JavaScript1.js" type="text/javascript"></script>
+		Calling JavaScript Procedures
+			use JavaScript event to trigger JavaScript functions
+		JavaScript Libraries
+			JavaScript libraries help to:
+				• Reduce the amount of code you need to write to add functions.
+				• Reduce the time the system takes to debug the application.
+		Using Content Delivery Networks for JavaScript Libraries
+			A content delivery network (CDN) is a group of geographically distributed servers used for hosting contents for web applications. In many cases, you can bring web content geographically closer to your applications users by using a CDN to host libraries. This will also improve the scalability and robustness of the delivery of that content.
+				example: <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-3.2.1.js" type="text/javascript"></script>
+		Using the NuGet Tool to Add Packages
 	Lesson 2: Using jQuery and jQueryUI
-		TODO
+		jQuery is a JavaScript library that simplifies the adding of JavaScript to HTML pages.
+		Introduction to jQuery
+			jQuery includes the following features:
+				• DOM element selections
+				• DOM traversal and modification
+				• DOM manipulation, based on CSS selectors
+				• Events
+				• Effects and animations
+				• AJAX
+				• Extensibility through plug-ins
+				• Utilities
+				• Compatibility methods
+				• Multi-browser support
+			The jQuery family includes the following two companion modules:
+				• jQuery UI. This library adds functions and other supporting elements that help implement a rich interface to HTML-based applications.
+				• jQuery mobile. This library adds functions that optimize the application interface for mobile devices.
+		Linking to jQuery Libraries
+			jQuery Original Version and jQuery Minified Version provide similar functionalities; however, they optimize web applications for different purposes:
+				• jQuery Original Version (jQuery-<version>.js). This is the uncompressed version of the jQuery library.
+				• jQuery Minified Version (jQuery-<version>.min.js). This includes the compressed and gZip versions of jQuery.
+			Bundling and Minification
+				Bundling is a feature in ASP.NET that you can use in MVC 5 web applications. Bundling helps combine multiple JavaScript libraries into a single HTTP request.
+				Minification compresses code files before incorporating them in the client application. Bundling and minification help reduce the loading time of web applications by reducing both the number and size of HTTP requests.
+				To use bundling and minification in your web application, you should perform the following steps:
+					1. Reference the Microsoft.AspNet.Web.Optimization library in your application by using NuGet packages.
+					2. In the App_Start folder of your project, add the BundleConfig.cs file
+					3. In the BundleConfig.cs file, add the following code:
+						public static void RegisterBundles(System.Web.Optimization.BundleCollection bundles)
+						{
+							bundles.Add(new System.Web.Optimization.ScriptBundle("~/bundles/jquery").Include(
+										"~/Scripts/jquery-{version}.js","~/Scripts/JavaScript1.js"));
+						}
+					4. In the Global.asax Application_Start event, add the following code:
+						BundleConfig.RegisterBundles(System.Web.Optimization.BundleTable.Bundles);
+				The ScriptBundle class enables you to define the bundle that helps combine multiple JavaScript libraries into a single file. You can use a special placeholder, such as {version} in the JavaScript path, to help update the version of jQuery libraries. ASP.NET replaces {version} with the latest version number of the JavaScript libraries present in the Scripts folder. If the minified version of jQuery is available in the Scripts folder, the MVC 5 engine selects the minified version for bundling. Then, in your View file, you can include the following lines of code to render the bundled JavaScript file.
+					example: 
+						<head>
+							@Scripts.Render("~/bundles/jquery")
+						</head>
+				You should add the following line of code in a page or namespace of the Web.config file in the View folder. This code helps trigger the functioning of @Scripts.Render.
+					example:
+						<add namespace="System.Web.Optimization"/>
+				Based on the compilation setting in the Web.config file, the jQuery library renders minified versions of Javascript. For example, the following code sets the debug attribute of the compilation element to false, which allows jQuery to use the non-minified version of the libraries, making debugging of the libraries easier.
+					example: <compilation debug="false" />
+		Accessing HTML Elements by Using jQuery
+			jQuery helps access HTML elements, to create interactive web applications. You use the following selector to select elements by element name, id, or CSS class, while adding jQuery code to access HTML elements:
+				$(element name|#id|.class)
+				example: $(“#HelloButton”) // jQuery selector accesses the HTML element with the HelloButton ID
+			You can use jQuery to access or modify all instances of a specific HTML element, in an HTML page
+				$(“a”) // Query selector identifies all instances of the A element in an HTML page
+			After accessing the HTML elements, you can perform actions on the elements, such as:
+				• Modifying the attributes on the HTML elements.
+				• Defining event handlers to respond to events associated with the selected HTML elements.
+			If the jQuery scripts load before the webpage loads, you may encounter errors such as object not defined. You can place the jQuery code in the document.ready event, to prevent the code from loading until all HTML elements in the page load.
+				example:
+					<body>
+						<div>
+						  Hello
+							<input type="button" value="Hello" id="HelloButton" />
+						</div>
+						<script type="text/javascript">
+							$(document).ready(function () {
+								$("#HelloButton").click(function (event) {
+									alert("Hello World");
+								});
+							});
+						</script>
+					</body>
+		Modifying HTML Elements by Using jQuery
+			You can use jQuery to query HTML DOM and obtain HTML elements. You can use jQuery functions to modify the attributes associated with the HTML elements. 
+				commonly used jQuery functions to modify HTML elements:
+					• $('#HelloButton').val('Hello World');
+					• $('#HelloButton').css('background-color','blue);
+					• $('#HelloButton').addClass('input_css_class');
+		Calling a Web Service by Using jQuery
+			jQuery includes the ajax function that helps:
+				• Perform asynchronous calls to web services.
+				• Retrieve the data returned from web services.
+					example:
+						var req= $.ajax({
+						   type: "POST",
+						   dataType: "json",
+						   url: "Customer.asmx/GetCustomerInfo",
+						   data: "{'ID': '123'}",
+						   contentType: "application/json; charset=utf-8",
+						   success: function (msg) {
+							  alert("Data Saved: " + msg);
+						   },
+						   failure: function (msg) {
+							  alert(msg);
+						   }
+						});
+			The ajax function uses the parameters type, datatype, url, data, contentType, success, and failure to control how to call the web services. These parameters are described as follows:
+				• type. This parameter controls the request type that you should use while querying the web services.
+				• dataype. This parameter defines the data type to be sent for AJAX services.
+				• url. This parameter provides the URL of the web services.
+				• data. This parameter defines the data that you should provide as a parameter to the web services.
+				• contentType. This parameter defines the HTTP content type that you should use, when you submit HTTP requests to web services.
+				• success. This parameter defines the name of the function, which will be triggered when the call completes successfully.
+				• failure. This parameter defines the name of the function, which will be triggered when the call completes with errors.
+			When calls to the web services complete, jQuery triggers one of two callback functions based on the success of the call.
+		Introduction to jQueryUI
+			jQuery Widgets
+				You can add different types of widgets to your pages by using the following jQuery functions:
+					• Accordion. This function adds accordion containers to your webpage.
+					• Autocomplete. This function adds auto-complete boxes that are based on user input.
+					• Button. This function adds buttons to your webpage.
+					• Datepicker. This function adds date-pickers to your webpage.
+					• Dialog. This function adds dialog boxes to your webpage.
+					• Menu. This function adds a menu to your webpage.
+					• Progressbar. This function adds animated and static progress bars to your webpage.
+					• Slider. This function adds sliders to your webpage.
+					• Spinner. This function adds a number spinner to a data entry box.
+					• Tabs. This function adds tabs to your webpage.
+					• Tooltip. This function displays a tooltip for interface elements.
+			jQuery Effects
+				You can add various effects by using the following jQuery functions:
+					• Color Animation. This function animates colors.
+					• Toggle Class, Add Class, Remove Class, and Switch Class. This function adds or removes CSS classes.
+					• Effect. This function adds a variety of effects, such as appear, slide-down, explode, and fade-in.
+					• Toggle. This function toggles any jQuery effect on and off.
+					• Hide and Show. This function displays or hides any jQuery effect.
+			jQuery Utility
+				You can align your webpage content by using the Position jQuery utility. This utility helps align an element in relation to the position of another element.
 
 Module 11: Controlling Access to ASP.NET MVC 5 Web Applications
 	Lesson 1: Implementing Authentication and Authorization
