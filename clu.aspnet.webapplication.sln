@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clu.aspnet.webapplication.mvc", "clu.aspnet.webapplication.mvc\clu.aspnet.webapplication.mvc.csproj", "{5F64EC72-D25A-40F1-A037-BABE58747DCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clu.aspnet.webapplication.mvc.net", "clu.aspnet.webapplication.mvc.net\clu.aspnet.webapplication.mvc.net.csproj", "{5F64EC72-D25A-40F1-A037-BABE58747DCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clu.aspnet.webapplication.mvc.unittests", "clu.aspnet.webapplication.mvc.unittests\clu.aspnet.webapplication.mvc.unittests.csproj", "{E3CBC958-5ACB-4205-90BF-7BBB2B4063EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clu.aspnet.webapplication.mvc.net.unittests", "clu.aspnet.webapplication.mvc.net.unittests\clu.aspnet.webapplication.mvc.net.unittests.csproj", "{E3CBC958-5ACB-4205-90BF-7BBB2B4063EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DAE78C33-337A-4DEE-BADD-61599418EBE2}"
 	ProjectSection(SolutionItems) = preProject
