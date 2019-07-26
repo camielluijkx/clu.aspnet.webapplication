@@ -23,6 +23,10 @@ Inversion of Control (IOC)
 Dependency Injection (DI)
 Search Engine Optimization (SEO)
 Content Delivery Network (CDN)
+Open Web Interface for .NET (OWIN)
+Windows Identity Foundation (WIF)
+Security Token Service (STS)
+Hypertext Transfer Protocol (HTTP)
 
 
 [Summary 20486C]
@@ -1061,9 +1065,138 @@ Module 10: Using JavaScript and jQuery for Responsive MVC 5 Web Applications
 
 Module 11: Controlling Access to ASP.NET MVC 5 Web Applications
 	Lesson 1: Implementing Authentication and Authorization
-		TODO
+		Local Authentication Providers
+			Authentication providers include code that runs when ASP.NET needs to authorize a user. The code authenticates users by using the information stored in back-end databases, such as Active Directory or Microsoft SQL Server.
+			 The membership system in ASP.NET includes the following authentication providers: ActiveDirectoryMembershipProvider, SqlMembershipProvider, SimpleMembershipProvider, and UniversalProviders.
+			 The SimpleMembershipProvider and UniversalProviders are authentication providers that support the OAuth authentication mechanism.
+			 The membership system in ASP.NET also includes the ASP.NET Identity. The ASP.NET Identity includes profile support and OAuth integration and works with OWIN.
+			 The ASP.NET membership system allows application developers to switch amongst authentication providers, without modifying the code.
+			 The following is a description of the authentication providers:
+				• ActiveDirectoryMembershipProvider. This provider class is defined in the System.Web.Security namespace, and the provider enables you to use Active Directory as the membership and role repository of your web application.
+				• SqlMembershipProvider. This provider class is defined in the System.Web.Security namespace. The provider works with a specific table schema that you can generate by using the aspnet_regdb.exe command.
+			ActiveDirectoryMembershipProvider and SqlMembershipProvider are configured to work only with a specific table schema or directory. To overcome this restriction, Microsoft developed SimpleMembershipProvider and UniversalProviders to replace ActiveDirectoryMembershipProvider and SqlMembershipProvider.
+				• SimpleMembershipProvider. This is a membership provider that works with the SQL Server, SQL Server Compact Edition, Microsoft Azure SQL Database, and other versions of SQL Server. SimpleMembershipProvider requires only three key parameters—table name, user ID, and user name. You use this provider to implement authentication that works with any SQL Server database table schema.
+				• UniversalProviders. This is a set of membership providers that works with any database that Entity Framework supports. However, these providers work only with the database schema designed by Microsoft. While initializing a universal provider, if the schema does not exist in the database, the provider generates the schema.
+		Claims-Based Authentication
+			Claims-based authentication is a model that facilitates single sign-on. Single sign-on is a feature that allows you to receive a claim when you log on to a centralized authentication system. The claim is a ticket that authentication systems use to authenticate user logons. The claim contains user identity information that helps authentication systems identify users. With claims-based authentication systems, you can focus efforts on developing business functions, rather than worrying about authenticating users.
+			Claims-based authentication facilitates:
+				• Authenticating users to access applications.
+				• Storing user account information and passwords.
+				• Checking enterprise directories for user information.
+				• Integrating the application with the identity systems of other platforms or companies.
+			To implement claims-based authentication in your web application, you can use Windows Identity Foundation (WIF). WIF is a set of .NET Framework classes that helps read information from the claims in a web application.
+			The following steps describe the functioning of claims-based authentication systems:
+				1. When an unauthenticated user requests a webpage, the request is redirected to the Identity Provider (IP) pages.
+				2. The IP requires you to enter credentials such as the user name and password.
+				3. After you enter the credentials, the IP issues a token. Then, the token is returned to the web browser.
+				4. The web browser is redirected to the webpage that you originally requested. WIF determines if the token satisfies the requirements to access the webpage. If the token satisfies all requirements, a cookie is issued to establish a session. This cookie ensures that the authentication process occurs only once. Then, the authentication control is passed on to the application.
+			ASP.NET Identity supports claims-based authentication. In ASP.NET Identity a set of claims represents the user's identity.	
+		Federated Authentication
+			Federations rely on claims-based authentication to allow external parties such as trusted companies to access their applications. Federations use the WS-Federations claim standard to enable the exchange of claims between two parties in a standardized manner.
+			WIF provides support for federations by using the WSFederationAuthenticationModule HTTP module. WSFederationAuthenticationModule enables you to implement support for federations in your ASP.NET application, without implementing individual logic.
+			Federated authentication enables Security Token Service (STS) to:
+				• Process the claims from business partners.
+				• Extract user information from the claims.
+			STS enables you to focus more on writing the business logic. It eliminates the need to manage the authentication information of business partners, in your web application.
+			Configuring the WSFederationAuthenticationModule helps specify the STS to which non-authenticated requests should be redirected. WIF provides two methods of federated authentication—FederatedPassiveSignIn and Passive Redirect.
+		FederatedPassiveSignIn Control
+			Consider cases when unauthenticated users try to access protected resources and you want to redirect these users to a logon page. For such cases, you can embed the FederatedPassiveSignIn control in the logon page of your web application, to redirect unauthenticated users to the logon page. The FederatedPassiveSignIn control is configured with issuer (STS) information.
+			You can use the FederatedPassiveSignIn control to:
+				• Exclude application-wide protection.
+				• Include a logon page with clickable controls.
+		Passive Redirect
+			Consider cases when unauthenticated users try to access a protected resource, and you want to redirect these users to an STS without using an application logon page. For such cases, you can use passive redirect.
+			Passive redirect enables STS to:
+				• Verify the identity of the unauthenticated users.
+				• Issue security tokens that contain the appropriate claims for users.
+			Passive redirect requires you to add WSFederationAuthenticationModule in the pipeline of the Hypertext Transfer Protocol (HTTP) modules, to identify unauthenticated user requests and redirect users to the STS you specify. Adding WSFederationAuthenticationModule in the HTTP pipeline processes the claim information before passing the claim to the ASP.NET engine.
+			You can instantiate WSFederationAuthenticationModule and use it to trigger the sign-on process. This functionality is similar to that of the FederatedPassiveSignIn control; however, passive redirect implements this sign-on functionality with minimum coding effort.
+		Restricting Access to Resources
+			You can restrict user access by implementing the Authorize attribute in a controller, instead of using the Web.config file as you would use in an ASP.NET WebForms application. The Web.config file requires physical files to exist, for access control to work. You cannot use the Web.config file to restrict user access because MVC applications route requests to actions, not pages.
+			If you specify Authorize attribute, ASP.NET mandates that users should be authorized to access the view returned by the code sample.
+			If you add the Authorize attribute at the class level, the attribute requires users to log on before they can access anything in the controller class. To allow anonymous users to access a specific portion of your class, you can use the AllowAnonymous attribute.
 	Lesson 2: Assigning Roles and Membership
-		TODO
+		Role Providers in ASP.NET
+			Role providers help develop applications by using a role-based security model. There are several role providers that are available in ASP.NET:
+				• ActiveDirectoryRoleProvider. This provider class is defined in the System.Web.Security namespace, and the provider enables you to use Active Directory as the management model for roles.
+				• SqlRoleProvider. This provider class is defined in the System.Web.Security namespace. The provider works with only a specific table schema in Microsoft SQL Server. You can generate this schema by using the aspnet_regdb.exe command.
+				• WindowsTokenRoleProvider. This provider uses the Windows authentication token to determine the role of users. Then, the provider checks if users belong to any group stored in the Windows authentication token that was generated when they first logged on. The format of the group name is Domain\Group.
+			ActiveDirectoryRoleProvider and SqlRoleProvider have restrictions such as lack of support for non-SQL databases or developer-defined schema. Therefore, Microsoft developed SimpleRoleProvider and UniversalProviders to replace ActiveDirectoryRoleProvider and SqlRoleProvider. The following list describes the SimpleRoleProvider and UniversalProviders:
+				• SimpleRoleProvider. This is a role provider that works with SQL Server, SQL Compact Editions, and others versions of SQL Server. SimpleRoleProvider enables you to implement authorization based on the table defined by application developers.
+				• UniversalProviders. This is a database agnostic version that works with any database that Entity Framework supports. However, the database schema is determined by Microsoft. The provider usually generates tables during initialization.
+			ASP.NET Identity contains a role provider that allows you to restrict access to the application using roles.
+		Adding User Accounts to Roles
+			When you use a database-based role provider, such as SimpleRoleProvider or UniversalRoleProvider, you can load the initial data onto the database by directly editing the table. You can also edit the table by using the AddUsersToRoles function. To use the AddUsersToRoles function, you need to implement the custom management tool in your application. The custom management tool helps call the AddUsersToRoles function, to add roles to a database.
+				example: AddUserToRoles("Peter", new string[] {"Admin","Staff"})
+			You can also use the AddUsersToRoles function in business applications to add users to a role. However, you must ensure that the role to which you want to add users exists, before using the AddUsersToRoles function.
+		Building a Custom Roles Provider
+			ASP.NET allows you to build custom role providers. Custom role providers enable you to implement role management that uses your own database schema and logic. To build a custom role provider, you need to create a class that inherits the RoleProvider class.
+			In the RoleProvider class, you need to implement the GetRolesForUser function. The GetRolesForUser function takes the user name as the input and returns a list of roles to which the user belongs. You can write your own code to obtain role information from the database or other back-end stores.
+				example:
+					public class CustomRoleProvider : RoleProvider
+					{
+						public override string[] GetRolesForUser(string username)
+						{
+								   //code to return a list of roles for users
+						}
+					}
+			After implementing the GetRolesForUser function, you need to apply the custom role provider to the application by modifying the Web.config file.
+				example:
+					<roleManager defaultProvider="CustomRoleProvider" enabled="true" cacheRolesInCookie="false">
+					  <providers>
+						<clear />
+						<add name="CustomRoleProvider" type="CustomRoleProvider”  />
+					  </providers>
+					</roleManager>
+		Providing Membership Services
+			You need to add the SimpleMembershipProvider to the membership section of the Web.config file to use it for membership services.
+				example:
+					<membership defaultProvider="SimpleMembershipProvider">
+					  <providers>
+						<clear/>
+						<add name="SimpleMembershipProvider" type="WebMatrix.WebData.SimpleMembershipProvider, WebMatrix.WebData" />
+					  </providers>
+					</membership>
+			Next, you need to create a User table. If you do not have a User table created already, you can modify the AccountModel.cs file, to generate the table. To view the AccountModel.cs file, you should select the Internet Application template, when you create the project.
+				example:
+					[Table("UserProfile")]
+					public class UserProfile
+					{
+						[Key]
+						[DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+						public int UserId { get; set; }
+						public string UserName { get; set; }
+						public string Country { get; set; }
+					}
+			After modifying the AccountModel.cs file, you need to call the WebSecurity.InitializeDatabaseConnection function in the App.Start.cs file. The WebSecurity.InitializeDatabaseConnection function ensures that SimpleMembershipProvider is configured with connection strings to the database.
+				example: WebSecurity.InitializeDatabaseConnection(“DBConn”,”User”,”id”,”Username”,false)
+			If a specific table does not exist in a database, the autoCreateTables parameter helps indicate to the membership provider that it may create the table. To initialize SimpleMembershipProvider, you need to add the InitializeSimpleMembership attribute to the AccountController class.
+				example:
+					[Authorize]
+					[InitializeSimpleMembership]
+					public class AccountController : Controller
+					{
+					}
+		Building a Custom Membership Provider
+			If you need to add functionality to a membership provider, such as custom logic for authentication, you need to implement a custom membership provider.
+				example:
+					public class CustomMembershipProvider : SimpleMembershipProvider
+					{
+						public CustomAdminMembershipProvider(SimpleSecurityContext simpleSecurityContext)
+						{
+						}
+
+						public override bool ValidateUser(string username, string password)
+						{
+						}
+					}
+				example:
+					<membership defaultProvider="CustomMemberProvider">
+					  <providers>
+						<clear/>
+						<add name="CustomMemberProvider" type=" CustomAdminMembershipProvider " />
+					  </providers>
+					</membership>
 
 Module 12: Building a Resilient ASP.NET MVC 5 Web Application
 	Lesson 1: Developing Secure Sites
