@@ -1221,8 +1221,3 @@ Module 15: Deploying ASP.NET MVC 5 Web Applications
 		TODO
 	Lesson 2: Deploying an ASP.NET MVC 5 Web Application
 		TODO
-
-
-[Summary 20486D]
-
-TODO

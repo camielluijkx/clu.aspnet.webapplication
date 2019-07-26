@@ -1,0 +1,109 @@
+[Summary 20486D]
+
+Module 1: Exploring ASP.NET Core MVC
+	Lesson 1: Overview of Microsoft Web Technologies
+		TODO
+	Lesson 2: Overview of ASP.NET 4.x
+		TODO
+	Lesson 3: Introduction to ASP.NET Core MVC
+		TODO
+
+Module 2: Designing ASP.NET Core MVC Web Applications
+	Lesson 1: Planning in the Project Design Phase
+		TODO
+	Lesson 2: Designing Models, Controllers and Views
+		TODO
+
+Module 3: Configure Middleware and Services in ASP.NET COre
+	Lesson 1: Configuring Middleware
+		TODO
+	Lesson 2: Configuring Services
+		TODO
+
+Module 4: Developing Controllers
+	Lesson 1: Writing Controllers and Actions
+		TODO
+	Lesson 2: Configuring Routes
+		TODO
+	Lesson 3: Writing Action Filters
+		TODO
+
+Module 5: Developing Views
+	Lesson 1: Creating Views with Razor Syntax
+		TODO
+	Lesson 2: Using HTML Helpers and Tag Helpers
+		TODO
+	Lesson 3: Reusing Code in Views
+		TODO
+
+Module 6: Developing Models
+	Lesson 1: Creating MVC Models
+		TODO
+	Lesson 2: Working with Forms
+		TODO
+	Lesson 3: Validating MVC Application
+		TODO
+
+Module 7: Using Entity Framework Core in ASP.NET Core
+	Lesson 1: Introduction to Entity Framework Core
+		TODO
+	Lesson 2: Working with Entity Framework Core
+		TODO
+	Lesson 3: Using Entity Framework Core in ASP.NET Core
+		TODO
+
+Module 8: Using Layouts, CSS and JavaScript in ASP.NET Core MVC
+	Lesson 1: Using Layouts
+		TODO
+	Lesson 2: Using CSS and JavaScript
+		TODO
+	Lesson 3: Using jQuery
+		TODO
+
+Module 9: Client-Side Development
+	Lesson 1: Applying Styles
+		TODO
+	Lesson 2: Using Task Runners
+		TODO
+	Lesson 3: Responsive Design
+		TODO
+
+Module 10: Testing and Troubleshooting
+	Lesson 1: Testing MVC Applications
+		TODO
+	Lesson 2: Implementing an Exception Handling Strategy
+		TODO
+	Lesson 3: Logging MVC Applications
+		TODO
+
+Module 11: Managing Security
+	Lesson 1: Authentication in ASP.NET Core
+		TODO
+	Lesson 2: Authorization in ASP.NET Core
+		TODO
+	Lesson 3: Defending from Attacks
+		TODO
+
+Module 12: Performance and Communication
+	Lesson 1: Implementing a Caching Strategy
+		TODO
+	Lesson 2: Managing State
+		TODO
+	Lesson 3: Two-Way Communication
+		TODO
+
+Module 13: Implementing Web APIs
+	Lesson 1: Introducing Web APIs
+		TODO
+	Lesson 2: Developing a Web API
+		TODO
+	Lesson 3: Calling a Web API
+		TODO
+
+Module 14: Hosting and Deployment
+	Lesson 1: On-Premises Hosting and Deployment
+		TODO
+	Lesson 2: Deployment to Microsoft Azure
+		TODO
+	Lesson 3: Microsoft Azure Fundamentals
+		TODO
