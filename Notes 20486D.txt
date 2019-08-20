@@ -1,8 +1,76 @@
+[Abbreviations]
+
+Internet Information Services (IIS)
+Integrated Development Environment (IDE)
+Model-View-Controller (MVC)
+Internet Service Provider (ISP)
+Asynchronous JavaScript and XML (AJAX)
+Single Page Application (SPA)
+Representational State Transfer (REST)
+Extensible Markup Language (XML)
+JavaScript Object Notation (JSON)
+Transport Layer Security (TLS)
+
+
 [Summary 20486D]
 
 Module 1: Exploring ASP.NET Core MVC
 	Lesson 1: Overview of Microsoft Web Technologies
-		TODO
+		Introduction to Microsoft Web Technologies:
+			Developer Tools:
+				• Visual Studio
+				• Visual Studio Code
+			Hosting Technologies:
+				• Web Server:
+					• Microsoft Internet Information Services
+					• Microsoft Azure
+				• Database Server:
+					• Microsoft SQL Server
+					• Microsoft Azure SQL Database
+			Code Execution Technologies:
+				• Server-Side Execution (on web server)
+				• Client-Side Execution (in web browser)
+		Overview of ASP.NET:
+			Programming Models:
+				• Web Pages (ASP.NET 4.x only)
+				• Web Forms (ASP.NET 4.x only)
+				• MVC (both ASP.NET Core and ASP.NET 4.x):
+					• Model: An MVC model defines a set of classes that represent the object types that the web application manages.
+					• Controller: An MVC controller is a class that handles user interaction, creates and modifies model classes, and selects appropriate views.
+					• View: An MVC view is a component that builds the web pages that make up the web application’s user interface. Controllers often pass an instance of a model class to a view. The view displays properties of the model class.
+					MVC versus Web Pages / Web Forms: separation of concerns, improves testability, more control over generated HTML	
+				• Razor Pages (ASP.NET Core only)
+				• Web API (both ASP.NET Core and ASP.NET 4.x):
+					• Controller: A Web API Controller is a class that handles the client request that was sent to the server. It accesses the database, retrieves information, updates the database, if needed, and returns the HTTP response including a status code that indicates whether the action succeeded and the data, if needed.
+					• Model: As With MVC, it is a set of classes that represent the object types that the web application manages.
+					• Client: The client sends requests to the server to run specific actions in the Web API Controller. On the server side, you create an interface that consists of functions that can be accessed via HTTP. Those calls are sent from the client to the server to retrieve specific information and perform read-write operations.
+		Client-Side Web Technologies:
+			JavaScript
+			jQuery: Provides elegant functions for interacting with the HTML elements on your page and with CSS styles.
+			AJAX
+			Angular (Typescript, Transpiling, Client-Side Component-Based Framework)
+			React (Component-Based Library)
+		Hosting Technologies:
+			Internet Information Services Features:
+				• Deployment Protocols
+				• Centralized Web Farm Management
+				• High-Performance Caches
+				• Authentication and Security
+				• ASP.NET Support
+				• Other Server-Side Technologies
+			Scaling Up IIS:
+				• scalability
+				• resilience
+			Perimeter Networks:
+				A perimeter network has a network segment that is protected from the internet through a firewall that validates and permits incoming HTTP requests. A second firewall, which permits requests only from the web server, separates the perimeter network from the internal organizational network. 
+			IIS Express
+			Other Web Servers (Apache, NGINX)
+			Microsoft Azure:
+				• Flexible Scaling
+				• Flexible Pricing
+				• Worldwide presence
+				• First-class security and reliability
+				Hosting with Azure: Web Apps, Databases, Virtual Machines, Mobile Apps, Media Services
 	Lesson 2: Overview of ASP.NET 4.x
 		TODO
 	Lesson 3: Introduction to ASP.NET Core MVC
