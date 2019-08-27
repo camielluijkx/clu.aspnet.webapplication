@@ -13,6 +13,8 @@ Transport Layer Security (TLS)
 Test Driven Development (TDD)
 Application Programming Interface (API)
 Create, Read, Update and Delete (CRUD)
+Command Line Integration (CLI)
+Entity Framework (EF)
 
 
 [Summary 20486D]
@@ -181,7 +183,53 @@ Module 1: Exploring ASP.NET Core MVC
 				• With Web API you have a complete separation between server-side code and client-side code. For some programmers, this is an advantage, but others may find this challenging and hard to understand.
 				• The data returned from Web API usually is not indexed by search engines such as Google, more work needs to be done to make it crawlable.
 	Lesson 3: Introduction to ASP.NET Core MVC
-		TODO
+		Introduction to ASP.NET Core:
+			ASP.NET Core is a cross-platform, open-source framework that allows you to create and host dynamic, powerful, and extensible web-based applications. With ASP.NET Core you can develop on various platforms – Windows, macOS, and Linux, deploy your application to the cloud, and create services and mobile backends.
+			Why should you use ASP.NET Core?
+				ASP.NET Core is a redesign of ASP.NET 4.x and it brings in many architectural shifts. ASP.NET Core is much leaner and modular than ASP.NET 4.x and has many changes within it.
+				ASP.NET Core includes three main programming models that can help you to develop your applications smoothly:
+					• MVC: 
+						When you build a website using ASP.NET Core MVC, you separate your code into three parts: model, view, and controller. This separation of model, view, and controller code ensures that MVC applications have a logical structure, even for the most complex sites. It also improves the testability of the application.
+					• Razor Pages:
+						While in MVC we have a controller that receive requests, a model and a view that generates the response, with Razor Pages it is different. The request goes straight to a page that is generally located in the Pages folder.
+						Each Razor Page file has an accompanying .cshtml.cs file that contains all the methods, model handlers, and logic. It contains a class that inherits from PageModel that will initialize the model inside the OnGet method. The OnGet method is also the place to get data from the database. Each public property inside the model can be displayed on the page using Razor syntax.
+						What makes it different is the @page directive that must be at the first line of the .cshtml file. @page converts the file into a Razor Page, which means that it handles requests directly without going through a controller like in the MVC programming model.
+						Razor syntax can be used inside Razor Pages. It allows you to insert the properties from the model and other sources into the HTML markup. Razor syntax starts with @ character. When you want to display properties from the model inside the HTML markup, you will use @model. @model will have a reference to the properties you initialized inside the OnGet method.
+						The main difference between Razor Pages and MVC:
+							In Razor Pages, the model and the controller are included in the Razor Pages classes and the request goes straight to the page. On the other hand, MVC programming model separates the code into models, views, and controllers.
+					• Web API:
+						• Controller. A Web API controller is a class that handles the client request that was sent to the server. It accesses the database, retrieves information, updates the database, if needed, and returns the HTTP response, including status code that indicates whether the action succeeded and data, if needed.
+						• Model. As with MVC, it is a set of classes that represent the object types that the web application manages.
+						• Client. The client sends requests to the server to run specific actions in the Web API controller. On the server side, there is an interface that consists of functions that can be accessed via HTTP. Those calls are sent from the client to the server to retrieve specific information and perform read-write operations.
+		Choose between .NET Core and .NET Framework:
+			.NET Standard:
+				.NET Standard is a formal specification of the .NET APIs. It is intended to be available on all .NET implementations and its goal is to create a unification of the .NET ecosystem. It enables you to create code that is portable across all .NET implementations. Each .NET implementation is targeting a specific version of .NET Standard.
+				A higher version number means that the previous versions are also supported but it has some extensions.
+			When to use .NET Core for your application?
+				You want your code to work cross-platform
+				You want to create microservices
+					In microservices architecture, the services layer is broken down into multiple independent components. A microservices architecture also allows you to create a mix of technologies across a service boundary.
+				You want to use Docker containers (cross-platform, smaller size)
+				You want to achieve a high-performing scalable system
+			When to use .NET Framework for your application?
+				You want to extend an existing application that uses .NET Framework (extend instead of migrate)
+				You want to use NuGet packages or third-party .NET libraries that are not supported in .NET Core (not yet or not compatible)
+				You want to use .NET technologies that aren't supported in .NET Core
+				You want to use a platform that doesn’t support .NET Core.
+		Models, Views, and Controllers:
+			Models represent data and the accompanying business logic. Controllers interact with user requests and implement input logic. Views build the user interface.
+			Models and Data:
+				A model is a .NET class that represents an object handled by your website.
+				Like any other .NET classes, model classes can include a constructor, which is a procedure that runs when a new instance of that class is created. You can also include other procedures, if necessary. These procedures encapsulate the business logic. 
+				In an MVC application, the model includes code that reads and writes database records. ASP.NET Core MVC works with many different data access frameworks.
+			Controllers and Actions:
+				A controller is a .NET class that responds to web browser requests in an MVC application. There is usually one controller class for each model class. Controllers include actions, which are methods that run in response to a user request. 
+				Controllers inherit from the Microsoft.AspNetCore.Mvc.Controller base class. Actions usually return an object that implements the Microsoft.AspNetCore.Mvc.IActionResult interface.
+			Views and Razor:
+				A view is a .cshtml file that includes both the HTML markup and programming code. A view engine interprets the view files, runs the server-side code, and renders HTML to the web browser. Razor is the default view engine in ASP.NET Core MVC.
+				@ symbol delimits server-side code
+			Request Life Cycle:
+				The Request life cycle comprises a series of events that happen when a web request is processed.
 
 Module 2: Designing ASP.NET Core MVC Web Applications
 	Lesson 1: Planning in the Project Design Phase

@@ -1,0 +1,15 @@
+﻿@page
+@model clu.aspnet.webapplication.mvc.core.Pages.HomePageModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <h1>@ViewData["Title"] </h1>
+        <ul>
+            <li>@Model.Description</li>
+            <li>@Model.MoreInfo</li>
+        </ul>
+    </div>
+</div>
