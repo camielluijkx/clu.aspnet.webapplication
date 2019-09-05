@@ -15,6 +15,13 @@ Application Programming Interface (API)
 Create, Read, Update and Delete (CRUD)
 Command Line Integration (CLI)
 Entity Framework (EF)
+Extreme Programming (XP)
+Unified Modeling Language (UML)
+Logical Data Model (LDM)
+Database Administrator (DBA)
+Hypertext Transfer Protocol (HTTP)
+Secure Sockets Layer (SSL)
+Windows Communication Foundation (WCF)
 
 
 [Summary 20486D]
@@ -233,7 +240,131 @@ Module 1: Exploring ASP.NET Core MVC
 
 Module 2: Designing ASP.NET Core MVC Web Applications
 	Lesson 1: Planning in the Project Design Phase
-		TODO
+		Project Development Methodologies:
+			Waterfall Model:
+				• Feasibility analysis. In this phase, planners and developers study and determine the approaches and technologies that can be used to build the software application.
+				• Requirement analysis. In this phase, planners and analysts interview the users, managers, administrators, and other stakeholders of the software application to determine their needs.
+				• Application design. In this phase, planners, analysts, and developers record a proposed solution.
+				• Coding and unit testing. In this phase, developers create the code and test the components that make up the system individually.
+				• Integration and system testing. In this phase, developers integrate the components that they have built and test the system as a whole.
+				• Deployment and maintenance. In this phase, developers and administrators deploy the solution so that users can start using the software application.
+			Iterative Development Model:
+				break the project into small parts, for each part perform activities related to all the stages of the waterfall model, testing at each stage to ensure quality, corrective actions at the end of each iteration, requirements are added at the end of each iteration, revisit planned efforts and schedule
+			Prototyping Model:
+				 few or meagerly defined business requirements, vague understanding of needs and how to solve them, simplified version of software application, seek feedback from stakeholders, used to define the detailed requirements, consensus on requirements after couple of iterations, complete solution is built and tested, can lead to a poorly-designed application, at no stage in the project clear focus on the overall architecture
+			Agile Software Development Model:
+				The waterfall model, the iterative development model, and the prototyping model are based on the premise that business requirements and other factors do not change from the beginning to the end of the project. In reality, this assumption is often invalid. Agile software development is a methodology designed to integrate changing circumstances and requirements throughout the development process.
+				• Incremental development. Software is developed in rapid cycles that build on earlier cycles. Each iteration is thoroughly tested.
+				• Emphasis on people and interactions. Developers write code based on what people do in their role, rather than what the development tools are good at.
+				• Emphasis on working software. Instead of writing detailed design documents for stakeholders, developers write solutions that stakeholders can evaluate at each iteration to validate if it solves a requirement.
+				• Close collaboration with customers. Developers discuss with customers and stakeholders on a day-to-day basis to check requirements.
+			Extreme Programming:
+				preliminary design phase is reduced to a minimum and developers focus on solving a few critical tasks, developers test the simplified solution and obtain feedback from stakeholders, feedback helps developers identify the detailed requirements, XP defines a user story for every user role, user story describes all the interactions that a user with a specific role might perform within the completed application, collection of all the user stories for all user roles describes the entire application, developers often work in pairs, one developer writes code and other developer reviews code to ensure that it uses simple solutions and adheres to best practices, TDD is a core practice in extreme programming
+			Test Driven Development:
+				developers write test code as their first task in a given iteration, after you define the tests, you write the component such that it will pass those tests
+			Unified Modeling Language:
+				industry standard notation to record the design of any application that uses object-oriented technology, often used for planning and documenting application architecture and components, across all project development methodologies
+				• Behavior diagrams. These diagrams depict the behavior of users, applications, and application components.
+				• Interaction diagrams. These diagrams are a subset of behavior diagrams that focus on the interactions between objects.
+				• Structure diagrams. These diagrams depict the elements of an application that are independent of time. This means they do not change through the lifetime of the application.
+		Gathering Requirements:
+			• Functional requirements. They describe how the application behaves and responds to users. Functional requirements are often called behavioral requirements. They include:
+				o User interface requirements. They describe how the user interacts with an application.
+				o Usage requirements. They describe what a user can do with the application.
+				o Business requirements. They describe how the application will fulfill business functions.
+			• Technical requirements. They describe technical features of the application and relate to availability, security, or performance. These requirements are sometimes called non-functional or non-behavioral requirements.
+			Usage Scenarios and Use Cases:
+				A usage scenario is a specific real-world example, with names and suggested input values, of an interaction between the application and a user.
+				A use case is similar to a usage scenario, but is more generalized. Use cases do not include user names or input values. They describe multiple paths of an interaction, which depends on what the user provides as input or other values. 
+				By analyzing usage scenarios and use cases, you can identify functional requirements of all types.
+			Agile Requirements Modeling:
+				• Initial requirement modeling. In the initial design phase, developers identify and record a few broad use cases in an informal manner without complete details.
+				• Just-in-time modeling. Before writing code that implements a use case, a developer discusses it with the relevant users. At this point, the developer adds complete details to the use case. In an agile development project, developers talk to users and other stakeholders at all times, and not just at the beginning and end of the project.
+				• Acceptance testing. An acceptance test is a test that the application must pass for all the stakeholders to accept and sign off on the application. When you identify a functional requirement, you can also specify a corresponding acceptance test that must be run to ensure that the requirements are met.
+			User Stories in Extreme Programming:
+				developers perform even less functional requirement analysis at the beginning of the project compared with other development models, create user stories, instead of use cases or user scenarios
+				User stories contain just the minimal details to enable developers to estimate the effort involved in developing the solution.
+				Extreme programmers discuss each user story with stakeholders just before they write code to implement each user story.
+		Planning the Database Design:
+			Logical Modeling:
+				A domain model diagram, also known as a conceptual data model, shows the high-level conceptual objects that your web application manages.
+				The domain model does not include details of the properties of each concept, but shows the relationships between the concepts.
+			Physical Database Structure:
+				• Tables. These are the fundamental storage objects in a database. When you define a table, you need to specify the columns for that table. For each column, you must define a data type such as integer, string, usually the nvarchar type in Microsoft SQL Server, or date and time. You should also define the primary key for the table—the value of this column uniquely identifies each record and is essential for defining the relationships with records in other tables.
+				• Views. These are common presentations of data in tables and are based on queries. For example, a view can join two tables, such as a products table and a stock levels table.
+				• Stored procedures. These are common sequences of database operations that you define in the database. Some operations are complex and might involve a complex transformation of the data. You can define a stored procedure to implement such a complex routine.
+				• Security. You need to consider how the web application will authenticate with the database server and how you will authorize access to each database table.
+			Working with Database Administrators:
+				in larger organizations or in projects where the database stores critical business information, there might be a dedicated team of database administrators
+				DBAs are usually highly skilled in database design and administration, and it is their job to ensure data integrity based on the organization’s data storage policy
+				DBAs are critical contributors in delivering the web application
+			Database Design in Agile Development and Extreme Programming:
+				In agile development and extreme programming, the database design changes throughout the project until deployment. Therefore, developers should be able to alter the database whenever necessary without consulting DBAs or complying with complex data policies.
+		Planning for Distributed Applications:
+			Distributed web applications often use a layered architecture:
+				• Presentation layer. Components in this layer implement the user interface and presentation logic. If you are building an MVC web application, views and controllers make up your presentation layer.
+				• Business logic layer. Components in this layer implement high-level business objects such as products, or customers. If you are building an MVC web application, models make up your business logic layer.
+				• Data access layer. Components in this layer implement database access operations and abstract database objects, such as tables, from business objects. If you are building an MVC web application, models often make up both business logic and data access layers. However, with careful design and coding practices, it is possible to refactor code to separate these layers.
+				• Database layer. The database itself.
+			If you implement such a layered architecture in your web application, you can host each layer on separate servers.
+			This approach has the following advantages:
+				• You can specify server hardware that closely matches each role.
+				• You can dedicate multiple servers to each role to ensure that failure of a single server does not cause an interruption in service.
+				• Only the web servers must be on the perimeter network. Both middle-tier servers and database servers can be protected by two firewalls without direct access from the Internet.
+				• Alternatively, you can host middle-tier layers and databases on a cloud service, such as Microsoft Azure.
+			Communication Between Layers:
+				When you run different layers on different servers, you must consider two factors:
+				• How does each layer exchange information and messages?
+				• How does each server authenticate and secure communications with other servers?
+				The communication of information and security is performed in different ways between the various layers:
+					• Between the browser and presentation layer web server. In any web application, the web browser, where the presentation layer runs, communicates with the web server by using Hypertext Transfer Protocol (HTTP). If authentication is required, it is often performed by exchanging plain text credentials. You can also use Secure Sockets Layer (SSL) to encrypt this sensitive communication.
+					• Between the web server and the middle-tier server. The communication and security mechanisms used for communication between the web server and the middle-tier server depends on the technology that you use to build the business logic components. Two common technologies are Web API and Windows Communication Foundation (WCF).
+					• Between the middle-tier server and database. The middle-tier server sends T-SQL queries to the database server, which authenticates against the database by using the required credentials. These are often included in the connection string.
+		Planning State Management:
+			In application development, the application state refers to the values and information that are maintained across multiple operations. HTTP is fundamentally a stateless protocol, which indicates that it has no mechanism to retain state information across multiple page requests. However, there are many scenarios, such as the following, which require state to be preserved:
+				• User preferences. Some websites enable users to specify preferences. If this preference information is lost between page requests, users have to repeatedly apply the preference.
+				• User identity. Some sites authenticate users to provide access to members-only content. If the user identity is lost between page requests, the user must re-enter the credentials on every page.
+				• Shopping carts. If the content of a shopping cart is lost between page requests, the customer cannot buy anything from your web application.
+			Client-Side State Storage:
+				Use client-side state storage only for small amounts of data:
+					• Cookies. Cookies are small text files that you can pass to the browser to store information. A cookie can be stored:
+						o In the memory of the client computer, in which case, it preserves information only for a single user session.
+						o On the hard disk drive of the client computer, in which case, it preserves information across multiple sessions.
+					• Most browsers can store cookies only up to 4,096 bytes and permit only 20 cookies per website. Therefore, cookies can be used only for small quantities of data. Also, some users might disable cookies for privacy purposes, so you should not rely on cookies for critical functions.
+					• Query strings. A query string is the part of the URL after the question mark and is often used to communicate form values and other data to the server. You can use the query string to preserve a small amount of data from one page request to another. All browsers support query strings, but some impose a limit of 2,083 characters on the URL length. You should not place any sensitive information in query strings because it is visible to the user, anyone observing the session, or anyone monitoring web traffic.
+			Server-Side State Storage:
+				The following locations store state information in server memory:
+					• TempData. This is a state storage location that you can use in MVC applications to store values between one request and another. This information is preserved for a single request only and is designed to help maintain data across a webpage redirect.
+					• Application state. This is a state storage location that you can use to store values for the lifetime of the application. The values stored in application state are shared among all users. Application state is not an appropriate place to store user-specific values, such as preferences, because if you store a preference in application state, all users share the same preference, instead of having their own unique value.
+					• Session state. This is a state storage location that you can use to store information for the lifetime of a single browser session and values stored here are specific to a single user session; they cannot be accessed by other users. Session state is available for both authenticated users and anonymous users. By default, session state uses cookies to identify users, but you can configure ASP.NET to store session state without using cookies.
+					• Database tables. If your site uses an underlying database, like most sites do, you can store state information in its tables. This is a good place to store large volumes of state data that cannot be placed in server memory or on the client computer.
+		Planning Globalization and Localization:
+			The process by which you make a web application available in multiple languages is called globalization or internationalization. 
+			The process by which you make a web application available in a specific language and culture is called localization.
+			Managing Browsers for Languages and Regions:
+				There is an internationally-recognized set of language codes that specify a culture on the Internet. These codes are in two parts:
+					1. The language.
+					2. The region. This specifies regional variations within a language and affects spellings and formats.
+				The preferred language that users choose is available as the language code in the HTTP header of the user’s browser. This is the value that you respond to, so as to globalize your site. Alternatively, you can provide a control, such as a drop-down list, in which users can choose their preferred language. This is a good example of a user-preference that you can store in the session state.
+			Using Resource Files:
+				A resource file is a simple dictionary of terms in a given language. For each term in the file, you need to specify a name, a value, and optionally, a comment. The file has an .resx extension. The file name also includes the language code that applies to the resources. Resource files can also have a neutral culture. This means that the file applies to any region in a given language. You should also create corresponding default resource files, without any language code in the file name.
+			Using Separate Views:
+				When you use separate views to globalize and localize a site, views are more readable, because most of the text and labels remain in the view file. However, you must create view files, which requires you or your team members to be proficient in the target language.
+		Planning Accessible Web Applications:
+			Users have different requirements depending on their abilities and disabilities.:
+				• Users with low vision might use a standard browser, but they might increase text size with a screen magnifier so that they can read the content.
+				• Profoundly blind users might use a browser with text-to-speech software or text-to-Braille hardware.
+				• Color-blind users might have difficulty if color is used to highlight text.
+				• Deaf users might not be able to access audio content.
+				• Users with limited dexterity might find it difficult to click small targets.
+				• Users with epilepsy might have seizures if presented with flashing content.
+			You can ensure that your content is accessible to the broadest range of users by adhering to the following guidelines:
+				• Do not rely on color differences to highlight text or other content.
+				• Always provide equivalent alternative content for visual and auditory content.
+				• Use markup and style sheets to separate content from structure and presentation code. This helps text interpretation software to render content to users without being confused by structural and presentation code. Apply the following best practices to display content on your webpage:
+					o Avoid using tables to display the content. You should use tables only to present tabulated content. Tables can be used to render graphics and branding on a webpage, but in an accessible site, use positional style sheets to display content.
+					o Avoid using nested tables. In a nested table, a table cell contains another table. These are particularly confusing to text readers because they read each table cell in a sequential order. The user is likely to become disoriented and unable to determine which cell is being read and what it means.
+					o Avoid using images that include important text. Text readers cannot render text from within an image file. Instead, use markup to render this text.
 	Lesson 2: Designing Models, Controllers and Views
 		TODO
 
