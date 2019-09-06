@@ -14,6 +14,7 @@ Test Driven Development (TDD)
 Application Programming Interface (API)
 Create, Read, Update and Delete (CRUD)
 Command Line Integration (CLI)
+Object-Relational Mapping (ORM)
 Entity Framework (EF)
 Extreme Programming (XP)
 Unified Modeling Language (UML)
@@ -22,6 +23,8 @@ Database Administrator (DBA)
 Hypertext Transfer Protocol (HTTP)
 Secure Sockets Layer (SSL)
 Windows Communication Foundation (WCF)
+Language-Integrated Query (LINQ)
+ Globally Unique Identifier (GUID)
 
 
 [Summary 20486D]
@@ -366,7 +369,43 @@ Module 2: Designing ASP.NET Core MVC Web Applications
 					o Avoid using nested tables. In a nested table, a table cell contains another table. These are particularly confusing to text readers because they read each table cell in a sequential order. The user is likely to become disoriented and unable to determine which cell is being read and what it means.
 					o Avoid using images that include important text. Text readers cannot render text from within an image file. Instead, use markup to render this text.
 	Lesson 2: Designing Models, Controllers and Views
-		TODO
+		Designing Models:
+			Identifying Model Classes and Properties:
+				The use cases, usage scenarios, or user stories that you gathered during the analysis phase of the project should enable you to determine the model classes that you need to create. 
+				Each model class has a range of properties.
+			Using Diagrams:
+				use diagrams to analyze the information your website manages and suggest a physical data model or database design for the site, use these diagrams to plan
+			Relationships and Aggregates:
+				Numbers at the ends of each link show whether the relationship is one-to-one, one-to-many, or many-to-many.
+				Aggregates place further limits on the behavior of model classes and clarify relationships.
+			Entity Framework:
+				Entity Framework is an Object-Relational Mapping (ORM) framework for .NET Framework-based applications. An ORM framework links database tables and views to classes that a developer can program against, by creating instances or calling methods.
+			Design in Agile and Extreme Programming:
+				characterized by short design phases in which data models are not completed, simple design, with little detail, is created and developers fill in details as they build code by continuously discussing requirements with users and other stakeholders
+		Designing Controllers:
+			In an ASP.NET Core MVC web application, controllers are .NET Framework-based classes that inherit from the Microsoft.AspNetCore.Mvc.Controller base class. They implement input logic—this means that they receive input from the user in the form of HTTP requests and select both the correct model and the correct view to use, to formulate a response.
+			Identify Controllers and Actions:
+				In an ASP.NET Core MVC web application, there is usually one controller for each model class. If you follow the naming convention in your design, you can use the MVC default routing behavior to select the right controller for a request.
+				However, for each controller there can be many actions—each action is implemented as a method in the controller and usually returns a view. You often require separate actions for the GET and POST HTTP request verbs. Similar to designing a model, you can identify the actions to write in each controller by examining the use cases you gathered during analysis. 
+			Design in Agile and Extreme Programming:
+				only make generalized plans for controllers during the design phase of an agile development or extreme programming project
+		Designing Views:
+			In an ASP.NET Core MVC web application, the user interface is created by building views. There is a many-to-one relationship between MVC controllers and views.
+			As you plan views, you should also consider parts of the user interface that appear on all pages. You can place these user interface components in a layout to create a consistent look and feel across pages.
+			Some user interface components do not appear on all pages, but are re-used on several pages. By creating a partial view or a view component, you can create a re-usable user interface element that can appear in many locations in this manner, without duplicating code.
+			Design in Agile and Extreme Programming:
+				do not design many parts of the user interface during the initial phases of agile development or extreme programming projects, design views in close consultation with users during the development phase, create the layout during the early iterations of the development phase of the project
+		Information Architecture:
+			When the information your web application manages is complex and multi-faceted, it is easy to present objects in a confusing way. Unless you think carefully about the way users expect information to be structured and how they expect to navigate to useful content, you might unintentionally create an unusable web application. During development, when you work with a limited amount of data, this confusion might not become apparent. Then, when real-world data is added to your database at the time of deploying to production, it becomes clear that the web application is confusing. You can avoid this eventuality by planning the information architecture.
+			Information architecture is a logical structure for the objects your web application manages. You should design such architecture in a way that users can find content quickly without understanding any technical aspects of your web application.
+			Planning a Logical Hierarchy:
+				Presenting a Hierarchy in Navigation Controls:
+					• Site Menus. Most websites have a main menu that presents the main areas of content. For simple web applications, the main menu might include a small number of static links. For larger web applications, when users click a site menu link, a submenu appears.
+					• Tree Views. A tree view is a menu that shows several levels of information hierarchy. Usually, users can expand or collapse objects at each level, to locate the content they require. Tree views are useful for presenting complex hierarchies in navigable structures.
+					• Breadcrumb Trails. A breadcrumb trail is a navigation control that shows the user where they are in the web application. Usually a breadcrumb trail shows the current pages and all the parent pages in the hierarchy, with the home page as the top level page. Breadcrumb trails enable you to understand how a page fits in with the information architecture shown in menus and tree views.
+				Presenting a Hierarchy in URLs:
+					You can increase the usability of your web application by reflecting the information architecture in the URLs, which the users see in the address bar of the web browser. In many web applications, URLs often include long and inscrutable information such as Globally Unique Identifiers (GUIDs) and long query strings with many parameters. Such URLs prevent users from manually formulating the address to an item, and these URLs are difficult to link to a page on your web application. Instead, URLs should be plain and comprehensible, to help users browse through your content.
+					You can control the URLs that your ASP.NET web application uses, by configuring the ASP.NET routing engine.
 
 Module 3: Configure Middleware and Services in ASP.NET Core
 	Lesson 1: Configuring Middleware
