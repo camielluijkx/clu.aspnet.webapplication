@@ -25,6 +25,7 @@ Secure Sockets Layer (SSL)
 Windows Communication Foundation (WCF)
 Language-Integrated Query (LINQ)
  Globally Unique Identifier (GUID)
+ Dependency Injection (DI)
 
 
 [Summary 20486D]
@@ -409,7 +410,62 @@ Module 2: Designing ASP.NET Core MVC Web Applications
 
 Module 3: Configure Middleware and Services in ASP.NET Core
 	Lesson 1: Configuring Middleware
-		TODO
+		Application Startup:
+			Startup class is used for configuring middleware, which is performed in the Configure method, and for configuring services, which is performed in the ConfigureServices method.
+			As part of startup, the ConfigureServices method will be called first if it is present, before calling the Configure method, which may have dependencies on the services that were declared in ConfigureServices.
+			The ConfigureServices Method:
+				The ConfigureServices method is an optional method where services that will be injected during the application lifespan can be registered. 
+				It can also be used to set up various additional configuration options for the application.
+				The ConfigureServices method receives a parameter that implements the IServiceCollection interface. This parameter is used to add services to the application.
+				Some services are predefined in the framework and will not need to be declared (ILogger, IHostingEnvironment, etc.).
+			The Configure Method:
+				The Configure method is where the middleware pipeline can be defined. It is possible to add both existing middleware, as well as custom ones. 
+				The Configure method supports Dependency Injection, allowing us to inject any services that have been set up and use them inside the middleware logic. 
+				In general, the Configure method is where the order of handling requests and responses is determined. 
+		Middleware Fundamentals:
+			Middleware allows us to add code to manipulate the request and response pipeline in ASP.NET Core applications. 
+			Every middleware in the pipeline can interact with the provided request, and write to the response, creating the desired result.
+			Middleware is intended to work in a pipeline with each item inspecting the request, performing an action, or a manipulation on the response object and on completing its run, either calling the next middleware in the pipeline or if appropriate for the scenario, short-circuiting the pipeline and sending the finalized response.
+			Short-circuiting should be done whenever the handler deems the request ended:
+				Scenarios where you may want to short circuit the request:
+					• When you match the correct route for the request.
+					• When an error has been discovered in the request.
+					• When you want to prevent the default handler.
+			Every single instance of middleware has access to an HTTPContext parameter from the Microsoft.AspNetCore.Http namespace.
+			This parameter allows us to access and manipulate information regarding the current request and response, and to many other details such as the authentication details, the current user, and more:
+				• The Request property allows us to investigate details about the request made to the server, including the Query property, which allows us to read the Path and Body properties from the query string as a collection of key-value pairs:
+					• The Path property allows us to find the relative path within the application.
+					• The Body property is data sent as part of the request body and more. 
+				• The Response property allows us to manipulate the response which will be sent back to the client:
+					• It allows us to write to it using the WriteAsync method, or alternatively allows us to directly manipulate the response Body, ContentType, or even manually set StatusCode. 
+					• Setting the StatusCode allows us to return custom errors.
+			Middleware always run in the order they are defined. Additionally, all middleware operate in sequence, and are of several potential types:
+				• Use. Middleware added with Use, support a parameter named next, which is a reference to the next middleware in the pipeline. You can short-circuit the pipeline by not invoking next, although all Use middleware should preferably support at least one flow in which they call next.Invoke() to proceed to the next middleware in the pipeline.
+				• Run. Unlike Use, the Run middleware will always be the final middleware in the pipeline. It does not support the next parameter, and any middleware appearing after it will never be called.
+				• Map. A third variation is the Map middleware. It does not continue with the current pipeline, instead, if the relative path is matched to the Map middleware, it will continue down a new pipeline, which is provided as a delegate to the Map middleware. Note that since Map middleware creates its own pipeline it is not affected by the Run middleware which occurs after it and can support a call to Run at the end of its own pipeline.
+			Order of Middleware:
+				It is important to remember that middleware runs in the order in which they were added to the pipeline:
+					• A Run middleware should always be present at the very end of the pipeline. All middleware defined after the Run middleware will never be run.
+					• Every application should only have a single Run middleware inside a specific pipeline. Remember that by using Map you create a new pipeline, which means the Run middleware inside of a Map pipeline is separate from the main pipeline.
+					• Whenever multiple middleware share the same condition, it is important to order them to handle the pipeline in the desired way and be mindful of the possibility of the pipeline being short-circuited.
+		Working with Static Files:
+			Default Static File Serving:
+				By calling UseStaticFiles, the application will automatically match relative paths to files inside the wwwroot folder of the application and serve them as the response for the current request. 
+				Any file placed outside the wwwroot folder, will not be served and will be ignored by the server.
+				Serving Static Files from Outside the wwwroot:
+					In some cases, you may want to serve static files from a different folder, rather than wwwroot. To do this, you will need to call the UseStaticFiles middleware with a StaticFileOptions parameter. 
+					By setting the FileProvider property, you can assign PhysicalFileProvider, which allows you to choose a file path. All files under this path will then be served as if they were on wwwroot. 
+					It is important to note, that this replaces wwwroot. If you wish to host static files on both, you will need to call UseStaticFiles twice. Once without parameters, and the second time with the StaticFileOptions parameter.
+			Serving Files under a Separate Relative Path:
+				Sometimes you may wish to group the static files under a separate relative path. This can be particularly useful to help avoid conflicts. 
+				By doing this, you can ensure that a specific relative path is kept separate from the remaining middleware pathing logic. This can also be done by supplying static files with StaticFileOptions while supplying the RequestPath property. 
+				The request path must always begin with a / character and can contain several hierarchies if you so wish. After doing this, to use the static files, the application relative path matches the request path and then it will check for a match in the remaining path later.
+			Problems with Serving Static Files:
+				Some drawbacks to using UseStaticFiles:
+					• All files served by using UseStaticFiles will always be available, there is no way to require authorization for them, and they will be available to all users.
+					• Files served from UseStaticFiles will potentially be able to reveal information about the application structure, as all of them and their paths are accessible.
+					• Depending on the hosting operating system, these files may or may not be case sensitive.
+				Therefore, it is important that any file you wish to protect should not be inside folders you are serving. In particular, any cs code, or cshtml pages (cshtml pages will be covered in Module 5, “Developing Views”) should never be placed under a folder designated for serving to the client.
 	Lesson 2: Configuring Services
 		TODO
 
