@@ -1,16 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using clu.aspnet.webapplication.mvc.core.Models;
+using clu.aspnet.webapplication.mvc.core.Services;
 
 namespace clu.aspnet.webapplication.mvc.core.Controllers
 {
     public class HomeController : Controller
     {
+        private IMyService _myService;
+
+        public HomeController(IMyService myService)
+        {
+            _myService = myService;
+        }
+
         public IActionResult Index()
+        {
+            //return Content("Hello from controller");
+
+            return Content(_myService.ReturnSomething());
+        }
+
+        public IActionResult Index_()
         {
             return View();
         }

@@ -12,24 +12,7 @@ namespace clu.aspnet.webapplication.mvc.core
 {
     public class Startup
     {
-        private void runMiddlewareExample1(IApplicationBuilder app, IService service)
-        {
-            app.Use(async (context, next) =>
-            {
-                service.DoSomething();
-                await next.Invoke();
-            });
-
-            app.Run(async (context) =>
-            {
-                var result = service.ReturnSomething();
-                await context.Response.WriteAsync(result);
-            });
-
-            //https://localhost:44395                       : Hello World!
-        }
-
-        private void runMiddlewareExample2(IApplicationBuilder app, IService service)
+        private void runMiddlewareExample1(IApplicationBuilder app)
         {
             app.Run(async (context) =>
             {
@@ -44,7 +27,7 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/test?id=3             : The ID in the Query string is: 3. The path is: / test.
         }
 
-        private void runMiddlewareExample3(IApplicationBuilder app, IService service)
+        private void runMiddlewareExample2(IApplicationBuilder app)
         {
             app.Use(async (context, next) =>
             {
@@ -60,7 +43,7 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395                       : Inside use middleware => Inside run middleware
         }
 
-        private void runMiddlewareExample4(IApplicationBuilder app, IService service)
+        private void runMiddlewareExample3(IApplicationBuilder app)
         {
             app.Use(async (context, next) =>
             {
@@ -83,7 +66,7 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/?shortcircuit         : Inside use middleware
         }
 
-        private void runMiddlewareExample5(IApplicationBuilder app, IService service)
+        private void runMiddlewareExample4(IApplicationBuilder app)
         {
             app.Map("/Map", (map) =>
             {
@@ -102,7 +85,7 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/Map                   : Run middleware inside of map middleware
         }
 
-        private void runMiddlewareExample6(IApplicationBuilder app, IService service)
+        private void runMiddlewareExample5(IApplicationBuilder app)
         {
             app.Use(async (context, next) =>
             {
@@ -124,7 +107,7 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395                       : First middleware => Second middleware => Final middleware.
         }
 
-        private void runMiddlewareExample7(IApplicationBuilder app, IService service)
+        private void runMiddlewareExample6(IApplicationBuilder app)
         {
             app.Run(async (context) =>
             {
@@ -146,7 +129,7 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395                       : Final middleware.
         }
 
-        private void runMiddlewareExample8(IApplicationBuilder app, IService service)
+        private void runMiddlewareExample7(IApplicationBuilder app)
         {
             app.Use(async (context, next) =>
             {
@@ -172,7 +155,7 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395?shortcircuit          : First middleware => Second middleware =>
         }
 
-        private void runMiddlewareExample9(IApplicationBuilder app, IService service)
+        private void runMiddlewareExample8(IApplicationBuilder app)
         {
             app.UseStaticFiles();
 
@@ -185,7 +168,7 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/images/banner1.svg    : banner1.svg is displayed
         }
 
-        private void runMiddlewareExample10(IApplicationBuilder app, IService service)
+        private void runMiddlewareExample9(IApplicationBuilder app)
         {
             app.UseStaticFiles();
 
@@ -204,7 +187,7 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/Test.txt              : This is a test!
         }
 
-        private void runMiddlewareExample11(IApplicationBuilder app, IService service)
+        private void runMiddlewareExample10(IApplicationBuilder app)
         {
             app.UseStaticFiles(new StaticFileOptions()
             {
@@ -227,6 +210,47 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/MyFolder/Test.txt         : This is a test!
         }
 
+        private void runServicesExample1(IApplicationBuilder app, IMyService myService)
+        {
+            app.Use(async (context, next) =>
+            {
+                myService.DoSomething();
+                await next.Invoke();
+            });
+
+            app.Run(async (context) =>
+            {
+                var result = myService.ReturnSomething();
+                await context.Response.WriteAsync(result);
+            });
+
+            //https://localhost:44395                       : Hello World!
+        }
+
+        private void runServicesExample2(IApplicationBuilder app, ISecondService secondService)
+        {
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync(secondService.GoSecond());
+            });
+
+            //https://localhost:44395                       : Going First – Going Second
+        }
+
+        private void runServicesExample3(IApplicationBuilder app)
+        {
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
+
+            //https://localhost:44395                       : Hello from controller => Hello World!
+            //https://localhost:44395/Home                  : Hello from controller => Hello World!
+            //https://localhost:44395/Home/Index            : Hello from controller => Hello World!
+        }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -234,9 +258,43 @@ namespace clu.aspnet.webapplication.mvc.core
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services) // setup services
+        public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IService, Service>();
+            services.AddSingleton<IMyService, MyService>();
+
+            services.AddSingleton<IFirstService, FirstService>();
+            services.AddSingleton<ISecondService, SecondService>();
+
+            services.AddMvc();
+        }
+
+        public void Configure_(IApplicationBuilder app)
+        {
+            runMiddlewareExample1(app);
+            //runMiddlewareExample2(app);
+            //runMiddlewareExample3(app);
+            //runMiddlewareExample4(app);
+            //runMiddlewareExample5(app);
+            //runMiddlewareExample6(app);
+            //runMiddlewareExample7(app);
+            //runMiddlewareExample8(app);
+            //runMiddlewareExample9(app);
+            //runMiddlewareExample10(app);
+        }
+
+        public void Configure_(IApplicationBuilder app, IMyService myService)
+        {
+            runServicesExample1(app, myService);
+        }
+
+        public void Configure_(IApplicationBuilder app, ISecondService secondService)
+        {
+            runServicesExample2(app, secondService);
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+            runServicesExample3(app);
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -250,21 +308,6 @@ namespace clu.aspnet.webapplication.mvc.core
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-        }
-
-        public void Configure(IApplicationBuilder app, IService service) // setup middleware
-        {
-            runMiddlewareExample1(app, service);
-            //runMiddlewareExample2(app, service);
-            //runMiddlewareExample3(app, service);
-            //runMiddlewareExample4(app, service);
-            //runMiddlewareExample5(app, service);
-            //runMiddlewareExample6(app, service);
-            //runMiddlewareExample7(app, service);
-            //runMiddlewareExample8(app, service);
-            //runMiddlewareExample9(app, service);
-            //runMiddlewareExample10(app, service);
-            //runMiddlewareExample11(app, service);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
