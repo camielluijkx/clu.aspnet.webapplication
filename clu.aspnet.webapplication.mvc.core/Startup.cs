@@ -246,9 +246,10 @@ namespace clu.aspnet.webapplication.mvc.core
                 await context.Response.WriteAsync("Page not found");
             });
 
-            //https://localhost:44395                       : response from home controller
-            //https://localhost:44395/Home                  : response from home controller
-            //https://localhost:44395/Home/Index            : response from home controller
+            //https://localhost:44395                       : response from home > index
+            //https://localhost:44395/Fake                  : Page not found
+            //https://localhost:44395/Home                  : response from home > index
+            //https://localhost:44395/Home/Index            : response from home > index
         }
 
         public Startup(IConfiguration configuration)

@@ -26,6 +26,7 @@ Windows Communication Foundation (WCF)
 Language-Integrated Query (LINQ)
  Globally Unique Identifier (GUID)
  Dependency Injection (DI)
+ Uniform Resource Locator (URL)
 
 
 [Summary 20486D]
@@ -505,7 +506,28 @@ Module 3: Configure Middleware and Services in ASP.NET Core
 
 Module 4: Developing Controllers
 	Lesson 1: Writing Controllers and Actions
-		TODO
+		Responding to User Requests:
+			When an MVC web application receives a request from a web browser, it instantiates a Controller object to respond to the request. Then it determines the action method that should be called in the Controller object.
+			The application uses a model binder to determine the values to be passed to the action as parameters. Often, the action creates a new instance of a model class.
+			This model object may be passed to a view to display results to the user. Action methods can do many other things such as rendering views and partial views, and redirecting to other websites.
+			The User Request:
+				MVC relies on convention over configuration. 
+		Writing Controller Actions:
+			Controller actions are public methods that return an IActionResult interface. Therefore, actions can return objects of classes that implement the IActionResult interface.
+			For every action that returns a ViewResult object, there should be a corresponding view template. The view will generate the output sent to the browser.
+			Actions usually use ActionResult as the return type. The ActionResult class is an abstract class, and you can use a range of derived classes that inherit from it to return different responses to the web browser.
+			The RedirectToActionResult Class:
+				Use this action result to return an HTTP 302 response to the browser. This causes the browser to send the request to another action method.
+			The RedirectToRouteResult Class:
+				Use this action result to redirect the web browser to another route. In the constructor of the RedirectToRouteResult class, you can pass the route.
+			The StatusCodeResult Class:
+				The StatusCodeResult class provides a way to return an action result with a specific HTTP response status code and description.
+				Other common action results include:
+					• PartialViewResult. You can use this action result to generate a section of an HTML page rather than a complete HTML page. Partial views can be reused in many views throughout a web application.
+					• RedirectResult. You can use this action result to redirect to a specific URL, either within your web application or in an external location.
+					• FileContentResult. You can use this action result to return a file from an action method.
+		Using Parameters:
+			TODO
 	Lesson 2: Configuring Routes
 		TODO
 	Lesson 3: Writing Action Filters

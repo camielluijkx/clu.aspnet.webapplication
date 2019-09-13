@@ -12,6 +12,35 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
         private IRandomService _randomService;
         private IRandomWrapper _randomWrapper;
 
+        private IActionResult runControllerExample1()
+        {
+            return Content("Hello from controller");
+
+            //https://localhost:44395                       : Hello from controller
+            //https://localhost:44395/Home                  : Hello from controller
+            //https://localhost:44395/Home/Index            : Hello from controller
+        }
+
+        private IActionResult runControllerExample2()
+        {
+            return Content(_myService.ReturnSomething());
+
+            //https://localhost:44395                       : Hello World!
+            //https://localhost:44395/Home                  : Hello World!
+            //https://localhost:44395/Home/Index            : Hello World!
+        }
+
+        private IActionResult runControllerExample3()
+        {
+            string result = $"The number from service in controller: { _randomService.GetNumber()}, the number from wrapper service: { _randomWrapper.GetNumber()}";
+
+            return Content(result);
+
+            //https://localhost:44395                       : The number from service in controller: x, the number from wrapper service: x/y
+            //https://localhost:44395/Home                  : The number from service in controller: x, the number from wrapper service: x/y
+            //https://localhost:44395/Home/Index            : The number from service in controller: x, the number from wrapper service: x/y
+        }
+
         public HomeController(IMyService myService, IRandomService randomService, IRandomWrapper randomWrapper)
         {
             _myService = myService;
@@ -22,13 +51,9 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
 
         public IActionResult Index()
         {
-            //return Content("Hello from controller");
-
-            //return Content(_myService.ReturnSomething());
-
-            string result = $"The number from service in controller: { _randomService.GetNumber()}, the number from wrapper service: { _randomWrapper.GetNumber()}";
-
-            return Content(result);
+            //return runControllerExample1();
+            //return runControllerExample2();
+            return runControllerExample3();
         }
 
         public IActionResult Index_()
