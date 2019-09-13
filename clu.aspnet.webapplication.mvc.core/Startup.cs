@@ -246,9 +246,9 @@ namespace clu.aspnet.webapplication.mvc.core
                 await context.Response.WriteAsync("Page not found");
             });
 
-            //https://localhost:44395                       : Hello from controller => Hello World!
-            //https://localhost:44395/Home                  : Hello from controller => Hello World!
-            //https://localhost:44395/Home/Index            : Hello from controller => Hello World!
+            //https://localhost:44395                       : response from home controller
+            //https://localhost:44395/Home                  : response from home controller
+            //https://localhost:44395/Home/Index            : response from home controller
         }
 
         public Startup(IConfiguration configuration)
@@ -264,6 +264,18 @@ namespace clu.aspnet.webapplication.mvc.core
 
             services.AddSingleton<IFirstService, FirstService>();
             services.AddSingleton<ISecondService, SecondService>();
+
+            // all requests: The number from service in controller: x, the number from wrapper service: x
+            //services.AddSingleton<IRandomService, RandomService>();
+            //services.AddSingleton<IRandomWrapper, RandomWrapper>();
+
+            // per request: The number from service in controller: x, the number from wrapper service: x
+            //services.AddScoped<IRandomService, RandomService>();
+            //services.AddScoped<IRandomWrapper, RandomWrapper>();
+
+            // per request: The number from service in controller: x, the number from wrapper service: y
+            services.AddTransient<IRandomService, RandomService>();
+            services.AddTransient<IRandomWrapper, RandomWrapper>();
 
             services.AddMvc();
         }

@@ -488,7 +488,20 @@ Module 3: Configure Middleware and Services in ASP.NET Core
 			Once you have the controller set up, you will be able to inject services through the constructor. This behaves in a similar way to Dependency Injection into services, where you can add support for a service by explicitly adding a reference to the interface inside the constructor. Inside the constructor, you will be able to save the instance for use in the specific methods.
 			The built-in Dependency Injection container in ASP.NET Core does not support multiple constructors. Should the need arise to support multiple constructors alongside Dependency Injection, you will need to use a different dependency injector.
 		Service Lifetime:
-			TODO
+			correctly preserve service state in an application:
+			If you keep all of the services in the application running constantly, you run the risk of creating deadlocks while dealing with external resources as well as potential issues with threading, as each singleton service is locked to one thread since it is first instantiated. 
+			On the other hand, keeping all services completely stateless can deprive us of the ability to retain data temporarily and prevent us from being able to manage data correctly.
+			AddSingleton:
+				Tells the Dependency Injection container to create this service once and then to inject the same instance as long as the application remains running.
+				Use it to handle data, which you want to persist inside the memory rather than in an external source (such as a database, file, or another source).
+				Requires a service instance to persist throughout the entire application lifespan, helping to keep the same data consistent and persistent.
+			AddScoped:
+				 When a service is registered by using AddScoped, all instances where it is injected as a result of the current request being processed will receive the same instance. However, for any other request, a new instance will be created.
+				 Use it to maintain data throughout the lifetime of a single request without affecting data for other requests.
+				 Can be useful for dealing with particular parameters for the specific request such as query string parameters or data which is retrieved due to a specific request, such as user information relating to the user that made the request.
+			AddTransient:
+				Instantiated individually every time it’s injected, with each instance being completely separate from all others. Due to this, data should never be stored on a transient service.
+				Use if for services that will end up being stateless and will not need to store data. 
 
 Module 4: Developing Controllers
 	Lesson 1: Writing Controllers and Actions

@@ -9,16 +9,26 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
     {
         private IMyService _myService;
 
-        public HomeController(IMyService myService)
+        private IRandomService _randomService;
+        private IRandomWrapper _randomWrapper;
+
+        public HomeController(IMyService myService, IRandomService randomService, IRandomWrapper randomWrapper)
         {
             _myService = myService;
+
+            _randomService = randomService;
+            _randomWrapper = randomWrapper;
         }
 
         public IActionResult Index()
         {
             //return Content("Hello from controller");
 
-            return Content(_myService.ReturnSomething());
+            //return Content(_myService.ReturnSomething());
+
+            string result = $"The number from service in controller: { _randomService.GetNumber()}, the number from wrapper service: { _randomWrapper.GetNumber()}";
+
+            return Content(result);
         }
 
         public IActionResult Index_()
