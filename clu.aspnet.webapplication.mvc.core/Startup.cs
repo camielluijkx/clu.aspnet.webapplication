@@ -12,7 +12,66 @@ namespace clu.aspnet.webapplication.mvc.core
 {
     public class Startup
     {
-        private void runMiddlewareExample1(IApplicationBuilder app)
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        #region Example #1
+
+        public void ConfigureServices1(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure1(IApplicationBuilder app)
+        {
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Hello World!");
+            });
+
+            //https://localhost:44395                       : Hello World!
+        }
+
+        #endregion
+
+        #region Example #2
+
+        public void ConfigureServices2(IServiceCollection services)
+        {
+            services.AddSingleton<IMyService, MyService>();
+        }
+
+        public void Configure2(IApplicationBuilder app, IMyService myService)
+        {
+            app.Use(async (context, next) =>
+            {
+                myService.DoSomething();
+                await next.Invoke();
+            });
+
+            app.Run(async (context) =>
+            {
+                var result = myService.ReturnSomething();
+                await context.Response.WriteAsync(result);
+            });
+
+            //https://localhost:44395                       : Hello World!
+        }
+
+        #endregion
+
+        #region Example #3
+
+        public void ConfigureServices3(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure3(IApplicationBuilder app)
         {
             app.Run(async (context) =>
             {
@@ -27,7 +86,16 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/test?id=3             : The ID in the Query string is: 3. The path is: / test.
         }
 
-        private void runMiddlewareExample2(IApplicationBuilder app)
+        #endregion
+
+        #region Example #4
+
+        public void ConfigureServices4(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure4(IApplicationBuilder app)
         {
             app.Use(async (context, next) =>
             {
@@ -43,7 +111,16 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395                       : Inside use middleware => Inside run middleware
         }
 
-        private void runMiddlewareExample3(IApplicationBuilder app)
+        #endregion
+
+        #region Example #5
+
+        public void ConfigureServices5(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure5(IApplicationBuilder app)
         {
             app.Use(async (context, next) =>
             {
@@ -66,7 +143,16 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/?shortcircuit         : Inside use middleware
         }
 
-        private void runMiddlewareExample4(IApplicationBuilder app)
+        #endregion
+
+        #region Example #6
+
+        public void ConfigureServices6(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure6(IApplicationBuilder app)
         {
             app.Map("/Map", (map) =>
             {
@@ -85,7 +171,16 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/Map                   : Run middleware inside of map middleware
         }
 
-        private void runMiddlewareExample5(IApplicationBuilder app)
+        #endregion
+
+        #region Example #7
+
+        public void ConfigureServices7(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure7(IApplicationBuilder app)
         {
             app.Use(async (context, next) =>
             {
@@ -107,7 +202,16 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395                       : First middleware => Second middleware => Final middleware.
         }
 
-        private void runMiddlewareExample6(IApplicationBuilder app)
+        #endregion
+
+        #region Example #8
+
+        public void ConfigureServices8(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure8(IApplicationBuilder app)
         {
             app.Run(async (context) =>
             {
@@ -129,7 +233,16 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395                       : Final middleware.
         }
 
-        private void runMiddlewareExample7(IApplicationBuilder app)
+        #endregion
+
+        #region Example #9
+
+        public void ConfigureServices9(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure9(IApplicationBuilder app)
         {
             app.Use(async (context, next) =>
             {
@@ -155,7 +268,16 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395?shortcircuit          : First middleware => Second middleware =>
         }
 
-        private void runMiddlewareExample8(IApplicationBuilder app)
+        #endregion
+
+        #region Example #10
+
+        public void ConfigureServices10(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure10(IApplicationBuilder app)
         {
             app.UseStaticFiles();
 
@@ -168,7 +290,16 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/images/banner1.svg    : banner1.svg is displayed
         }
 
-        private void runMiddlewareExample9(IApplicationBuilder app)
+        #endregion
+
+        #region Example #11
+
+        public void ConfigureServices11(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure11(IApplicationBuilder app)
         {
             app.UseStaticFiles();
 
@@ -187,7 +318,16 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/Test.txt              : This is a test!
         }
 
-        private void runMiddlewareExample10(IApplicationBuilder app)
+        #endregion
+
+        #region Example #12
+
+        public void ConfigureServices12(IServiceCollection services)
+        {
+
+        }
+
+        public void Configure12(IApplicationBuilder app)
         {
             app.UseStaticFiles(new StaticFileOptions()
             {
@@ -210,24 +350,17 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/MyFolder/Test.txt         : This is a test!
         }
 
-        private void runServicesExample1(IApplicationBuilder app, IMyService myService)
+        #endregion
+
+        #region Example #13
+
+        public void ConfigureServices13(IServiceCollection services)
         {
-            app.Use(async (context, next) =>
-            {
-                myService.DoSomething();
-                await next.Invoke();
-            });
-
-            app.Run(async (context) =>
-            {
-                var result = myService.ReturnSomething();
-                await context.Response.WriteAsync(result);
-            });
-
-            //https://localhost:44395                       : Hello World!
+            services.AddSingleton<IFirstService, FirstService>();
+            services.AddSingleton<ISecondService, SecondService>();
         }
 
-        private void runServicesExample2(IApplicationBuilder app, ISecondService secondService)
+        public void Configure13(IApplicationBuilder app, ISecondService secondService)
         {
             app.Run(async (context) =>
             {
@@ -237,7 +370,16 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395                       : Going First – Going Second
         }
 
-        private void runServicesExample3(IApplicationBuilder app)
+        #endregion
+
+        #region Example #14
+
+        public void ConfigureServices14(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure14(IApplicationBuilder app)
         {
             app.UseMvcWithDefaultRoute();
 
@@ -246,34 +388,92 @@ namespace clu.aspnet.webapplication.mvc.core
                 await context.Response.WriteAsync("Page not found");
             });
 
-            //https://localhost:44395                       : response from home > index
+            //https://localhost:44395                       : Hello from controller
             //https://localhost:44395/Fake                  : Page not found
-            //https://localhost:44395/Home                  : response from home > index
-            //https://localhost:44395/Home/Index            : response from home > index
+            //https://localhost:44395/Home                  : Hello from controller
+            //https://localhost:44395/Home/Index            : Hello from controller
+            //https://localhost:44395/Home/Unknown          : Page not found
         }
 
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        #endregion
 
-        public IConfiguration Configuration { get; }
+        #region Example #15
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices15(IServiceCollection services)
         {
             services.AddSingleton<IMyService, MyService>();
 
-            services.AddSingleton<IFirstService, FirstService>();
-            services.AddSingleton<ISecondService, SecondService>();
+            services.AddMvc();
+        }
 
+        public void Configure15(IApplicationBuilder app)
+        {
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
+
+            //https://localhost:44395                       : Hello from service
+            //https://localhost:44395/Fake                  : Page not found
+            //https://localhost:44395/Home                  : Hello from service
+            //https://localhost:44395/Home/Index            : Hello from service
+            //https://localhost:44395/Home/Unknown          : Page not found
+        }
+
+        #endregion
+
+        #region Example 16
+
+        public void ConfigureServices16(IServiceCollection services)
+        {
             // all requests: The number from service in controller: x, the number from wrapper service: x
-            //services.AddSingleton<IRandomService, RandomService>();
-            //services.AddSingleton<IRandomWrapper, RandomWrapper>();
+            services.AddSingleton<IRandomService, RandomService>();
+            services.AddSingleton<IRandomWrapper, RandomWrapper>();
 
+            services.AddMvc();
+        }
+
+        public void Configure16(IApplicationBuilder app)
+        {
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
+        }
+
+        #endregion
+
+        #region Example 17
+
+        public void ConfigureServices17(IServiceCollection services)
+        {
             // per request: The number from service in controller: x, the number from wrapper service: x
-            //services.AddScoped<IRandomService, RandomService>();
-            //services.AddScoped<IRandomWrapper, RandomWrapper>();
+            services.AddScoped<IRandomService, RandomService>();
+            services.AddScoped<IRandomWrapper, RandomWrapper>();
 
+            services.AddMvc();
+        }
+
+        public void Configure17(IApplicationBuilder app)
+        {
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
+        }
+
+        #endregion
+
+        #region Example 18
+
+        public void ConfigureServices18(IServiceCollection services)
+        {
             // per request: The number from service in controller: x, the number from wrapper service: y
             services.AddTransient<IRandomService, RandomService>();
             services.AddTransient<IRandomWrapper, RandomWrapper>();
@@ -281,37 +481,248 @@ namespace clu.aspnet.webapplication.mvc.core
             services.AddMvc();
         }
 
-        public void Configure_(IApplicationBuilder app)
+        public void Configure18(IApplicationBuilder app)
         {
-            runMiddlewareExample1(app);
-            //runMiddlewareExample2(app);
-            //runMiddlewareExample3(app);
-            //runMiddlewareExample4(app);
-            //runMiddlewareExample5(app);
-            //runMiddlewareExample6(app);
-            //runMiddlewareExample7(app);
-            //runMiddlewareExample8(app);
-            //runMiddlewareExample9(app);
-            //runMiddlewareExample10(app);
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
         }
 
-        public void Configure_(IApplicationBuilder app, IMyService myService)
+        #endregion
+
+        #region Example 19
+
+        public void ConfigureServices19(IServiceCollection services)
         {
-            runServicesExample1(app, myService);
+            services.AddMvc();
         }
 
-        public void Configure_(IApplicationBuilder app, ISecondService secondService)
+        public void Configure19(IApplicationBuilder app)
         {
-            runServicesExample2(app, secondService);
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
+
+            //https://localhost:44395                       : My Value
         }
 
-        public void Configure(IApplicationBuilder app)
+        #endregion
+
+        #region Example 20
+
+        public void ConfigureServices20(IServiceCollection services)
         {
-            runServicesExample3(app);
+            services.AddMvc();
         }
+
+        public void Configure20(IApplicationBuilder app)
+        {
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
+
+            //https://localhost:44395                       : some text
+        }
+
+        #endregion
+
+        #region Example 21
+
+        public void ConfigureServices21(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure21(IApplicationBuilder app)
+        {
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
+
+            //https://localhost:44395                       : text from another action
+        }
+
+        #endregion
+
+        #region Example 22
+
+        public void ConfigureServices22(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure22(IApplicationBuilder app)
+        {
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
+
+            //https://localhost:44395                       : text from another controller
+        }
+
+        #endregion
+
+        #region Example 23
+
+        public void ConfigureServices23(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure23(IApplicationBuilder app)
+        {
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
+
+            //https://localhost:44395                       : 404
+        }
+
+        #endregion
+
+        #region Example 24
+
+        public void ConfigureServices24(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure24(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
+
+            //https://localhost:44395                       :
+            //https://localhost:44395/Fake                  : 404 
+            //https://localhost:44395/Home                  :
+            //https://localhost:44395/Home/Index            :
+            //https://localhost:44395/Home/Unknown          : 404
+            //https://localhost:44395/Home/Index/8          : 8
+        }
+
+        #endregion
+
+        #region Example 25
+
+        public void ConfigureServices25(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure25(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
+
+            //https://localhost:44395                       :
+            //https://localhost:44395/Fake                  : 404
+            //https://localhost:44395/Home                  :
+            //https://localhost:44395/Home/Index            :
+            //https://localhost:44395/Home/Unknown          : 404
+            //https://localhost:44395/Home/Index/8          : 8
+        }
+
+        #endregion
+
+        #region Example 26
+
+        public void ConfigureServices26(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure26(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
+
+            //https://localhost:44395/Home/Index/8          : 
+            //https://localhost:44395/Home/Index/?id=8      : 8
+        }
+
+        #endregion
+
+        #region Example 27
+
+        public void ConfigureServices27(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure27(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
+
+            //https://localhost:44395                       : Message is: some text
+            //                                              : m/dd/yyyy h:mm:ss tt
+        }
+
+        #endregion
+
+        #region Example 28
+
+        public void ConfigureServices28(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure28(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
+
+            //https://localhost:44395                       : Message is: some text
+            //                                              : m/dd/yyyy h:mm:ss tt
+        }
+
+        #endregion
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices_(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -324,7 +735,7 @@ namespace clu.aspnet.webapplication.mvc.core
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure_(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

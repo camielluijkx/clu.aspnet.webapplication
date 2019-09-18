@@ -527,7 +527,17 @@ Module 4: Developing Controllers
 					• RedirectResult. You can use this action result to redirect to a specific URL, either within your web application or in an external location.
 					• FileContentResult. You can use this action result to return a file from an action method.
 		Using Parameters:
-			TODO
+			The model binders obtain parameters from a user request and pass them to action methods. The model binders can locate parameters in a posted form, routing values, a query string, or posted files.
+			If the model binders find a parameter declared in the action method that matches the name and type of a parameter from the request, the action method is called and the parameter is passed from the request.
+			The RouteData Property:
+				The RouteData property encapsulates the information about the route. It contains a property named Values, which can be used to get the value of the parameter.
+		Using ViewBag and ViewData to Pass Information to Views:
+			You can pass a model object from the action method to the view by using the View() method. This method is frequently used to pass information from a controller action to a view. This approach is recommended because it adheres closely to the MVC pattern, in which each view renders the properties found in the model class that it receives from the controller.
+			Using the ViewBag Property:
+				The ViewBag property is a dynamic object that is part of the base Controller class. Because it is a dynamic object, you can add to it values of any type in the action method. In the view, you can use the ViewBag property to obtain the values added in the action.
+			Using the ViewData Property:
+				You can pass extra data to views by using the ViewData property. This feature is available for developers who prefer to use dictionary objects. In fact, ViewBag is a dynamic wrapper above the ViewData dictionary. This means that you could assign a value in a controller action by using ViewBag and read the same value in the view by using ViewData.
+
 	Lesson 2: Configuring Routes
 		TODO
 	Lesson 3: Writing Action Filters

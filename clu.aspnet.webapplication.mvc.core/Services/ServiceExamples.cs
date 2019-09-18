@@ -115,7 +115,7 @@ namespace clu.aspnet.webapplication.mvc.core.Services
 
         public string ReturnSomething()
         {
-            return "Hello World!";
+            return "Hello from service";
         }
     }
 
