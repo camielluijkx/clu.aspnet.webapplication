@@ -27,6 +27,7 @@ Language-Integrated Query (LINQ)
  Globally Unique Identifier (GUID)
  Dependency Injection (DI)
  Uniform Resource Locator (URL)
+ Search Engine Optimization (SEO)
 
 
 [Summary 20486D]
@@ -537,9 +538,86 @@ Module 4: Developing Controllers
 				The ViewBag property is a dynamic object that is part of the base Controller class. Because it is a dynamic object, you can add to it values of any type in the action method. In the view, you can use the ViewBag property to obtain the values added in the action.
 			Using the ViewData Property:
 				You can pass extra data to views by using the ViewData property. This feature is available for developers who prefer to use dictionary objects. In fact, ViewBag is a dynamic wrapper above the ViewData dictionary. This means that you could assign a value in a controller action by using ViewBag and read the same value in the view by using ViewData.
-
 	Lesson 2: Configuring Routes
-		TODO
+		The ASP.NET Core Routing Engine:
+			Routing is used to determine the controller class that should handle a request. Routing is also used to decide which action should be called and what parameters need to be passed to that action.
+			The following steps occur when a request is received from a web browser:
+				1. A controller is instantiated to respond to the request. Routing is used to determine the right controller class to use.
+				2. The request URL is examined. Routing is used to determine the action that needs to be called in the controller object.
+				3. Model binding is used to determine the values that should be passed to the action as parameters. The model binding mechanism consults the routing entries to determine if any segments of the URL should be passed as parameters. The model binding mechanism can also pass parameters from a posted form, from the URL query string, or from uploaded files.
+				4. The action is then invoked. Often, the action creates a new instance of a model class, perhaps by querying the database with the parameters passed to it by the invoker. This model object is passed to a view to render the results and send them to the response.
+			Routing does not operate on the protocol, server, domain, or port number of a URL, but it operates only on the directories and file name in the relative URL.
+			In ASP.NET Core, routes are used for two purposes:
+				• To parse the URLs requested by browsers. This analysis ensures that requests are forwarded to the right controllers and actions. These are called incoming URLs.
+				• To formulate URLs in webpage links and other elements. When you use helpers such as Html.ActionLink in the MVC views, the helpers construct URLs according to the routes in the routing table. These are called outgoing URLs.
+			ASP.NET Core MVC allows us to configure routes in two different ways:
+				• Configure routes by using convention-based routing. In this case, the routes are configured in the Startup.cs file and have an impact on the entire application.
+				• Configure routes by using attributes. As the name implies, attribute routing uses attributes to define routes.
+			You can combine convention-based routing and attribute-based routing in the same MVC application.
+			The Default Route:
+				UseMvcWithDefaultRoute adds MVC to the IApplicationBuilder request execution pipeline with a default route named default and the {controller=Home}/{action=Index}/{id?} template.
+				The default route is simple and logical. It works well with many web applications. The default route examines the first three segments of the URL. Each segment is delimited by a forward slash:
+					• The first segment is interpreted as the name of the controller. The routing engine forwards the request to this controller. If a first segment is not specified, the default route forwards the request to a controller called HomeController.
+					• The second segment is interpreted as the name of the action. The routing engine forwards the request to this action. If a second segment is not specified, the default route forwards the request to an action called Index.
+					• The third segment is interpreted as an id value, which is passed to the action as a parameter. This parameter is optional, so if a third segment is not specified, no default value is passed to the action.
+		Discussion: Why Add Routes?
+			• To make URLs easier for site visitors to understand:
+				If you use Globally Unique Identifiers (GUIDs) in the database, the ID segment of the URL can be long and difficult to remember. Ideally, you should consider what users know and create routes that accept that information.
+			• To improve search engine rankings:
+				Search engines do not prioritize webpages that have GUIDs or long query text in the URL. Some web bots do not even crawl such links. In addition, some search engines boost a page’s ranking when one or more of its keywords appear in the URL. User-friendly URLs are therefore a critical tool in Search Engine Optimization.
+		What Is Search Engine Optimization?
+			Most users find web applications by using search engines. Users tend to visit the links that appear at the top of the first page of search engine results more frequently than those that appear at the bottom of the page or on the later pages.
+			SEO ensures that your web application appears higher at the top of the search engine results. SEO ensures that more people visit your web application.
+			Search engines examine the content of your web application by crawling it with a program called a web bot. If you understand the priorities that web bot and search engine indexes use to order search results, you can create a web application that conforms to those priorities and thereby appears high in search engine results.
+			Information architecture is a subject that is closely related to SEO. This is because both information architecture and SEO are relevant to the structure, hierarchy, and accessibility of the objects in your web application.
+		Configuring Routes by Using Convention-Based Routing:
+			Define convention-based routing in startup class.
+			Before adding a route, it is important to understand the properties of a route. This is to ensure that these properties match the URL segments correctly and pass the requests and parameters to the right location.
+			Properties of a Route:
+				The properties of a route include name and template, both of which are string properties.
+				The name property assigns a name to a route. It is not involved in matching or request forwarding.
+				The template property is a URL pattern that is compared to a request URL to determine if the route should be used. You can use segment variables to match a part of the URL. Use braces to specify a segment variable.
+			Adding Segments to a Template:
+				T model binding mechanism will map the value entered in the URL to the value of the param parameter in the action.
+			The defaults Property:
+				This property can assign default values to the segment variables in the URL pattern. Default values are used for segment variables when the request does not specify them.
+				You can set the default values of a route directly in the template property.
+			The constraints Property:
+				The constraints property enables you to specify a regular expression for each segment variable. The route will match a request only if all the segment variables match the regular expressions that you specify.
+				It is possible to specify route constraints directly in the template property.
+			The dataTokens Property:
+				The dataTokens property enables you to specify the data tokens for the route. Each data token contains a name and a value.
+			Order of Evaluation of Routes:
+				Routes are evaluated in the order in which they are added. If a route matches a request URL, it is used. If a route does not match, it is ignored and the next route is evaluated. For this reason, you should add routes in the appropriate order. You should add the most specific routes first, such as the routes that have no segment variables and no default values. Also, routes with constraints should be added before routes without constraints.
+		Using Routes to Pass Parameters:
+			The routing engine separates the relative URL in a request into one or more segments. Each forward slash delimits one segment from the next.
+			If you want one of the segments to specify the controller’s name, you can use the {controller} segment variable. This variable is interpreted as the controller to be instantiated. 
+			Alternatively, to fix a route to a single controller, you can specify a value for the controller variable in the defaults property.
+			If you want one of the segments to specify the action method, you can use the {action} segment variable. The action invoker always interprets this variable as the action to call.
+			To fix a route to a single action, you can specify a value for the action variable in the defaults property.
+			Segment variables or default values with other names have no special meaning to MVC and are passed to actions. You can access the values of these variables by using the RouteData.Values collection or by using model binding to pass values to action parameters.
+			Using the RouteData.Values Collection:
+				In the action method, you can access the values of any segment variable by using the RouteData.Values collection.
+				In a similar way, you can use the RouteData.Values collection to access other segment variables.
+			Using Model Binding to Obtain Parameters:
+				The default MVC action invoker passes the appropriate parameters to actions. For this it examines the definition of the action to which it must pass parameters. The model binding mechanism searches for values in the request, which can be passed as parameters by name.
+				One of the locations that it searches is the RouteData.Values collection. Therefore, you can use the default model binder to pass parameters to action. If the name of an action method parameter matches the name of a route segment variable, the model binder passes the parameter automatically.
+				You can set several segments in the template of a route, and all of them can be matched to parameters of an action.
+		Configuring Routes by Using Attributes:
+			Attribute-based routing allows you to configure routes by using attributes. The primary advantage of attribute-based routing is that it allows you to define your routes in the same file as the controller that the routes refer to.
+			You can use the Route attribute to specify the route for a specific action.
+			Pass Parameters Using Attribute Routing:
+				You can use attribute routing to pass parameters to an action.
+			Optional Parameters:
+				You can configure a segment variable to be optional by using a question mark.
+			Annotate a Controller Class with a Route Attribute:
+				Typically, all the routes in a controller class start with the same prefix.
+				You can set a common prefix for an entire controller class by using the [Route] attribute above the controller class.
+			Combine Convention-Based Routing with Attribute-Based Routing:
+				Convention-based routing and attribute-based routing can be used in the same application.
+			Attribute Routing with Http[Verb] Attributes:
+				In attribute routing you can use the Http[Verb] attributes instead of using the Route attribute. The Http[Verb] attributes should be used when you want to limit access to the action to a specific HTTP verb.
+				To make the attribute routing less repetitive, you can apply the Route attribute to a controller, and apply the Http[Verb] attribute to an action. In such cases, the Route attribute is used to set the common prefix for an entire controller class, and its template is prepended to the template of the action.
 	Lesson 3: Writing Action Filters
 		TODO
 

@@ -10,6 +10,11 @@ using System.IO;
 
 namespace clu.aspnet.webapplication.mvc.core
 {
+    public class RouteOrigin
+    {
+        public string Name { get; set; }
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -424,7 +429,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 16
+        #region Example #16
 
         public void ConfigureServices16(IServiceCollection services)
         {
@@ -447,7 +452,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 17
+        #region Example #17
 
         public void ConfigureServices17(IServiceCollection services)
         {
@@ -470,7 +475,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 18
+        #region Example #18
 
         public void ConfigureServices18(IServiceCollection services)
         {
@@ -493,7 +498,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 19
+        #region Example #19
 
         public void ConfigureServices19(IServiceCollection services)
         {
@@ -514,7 +519,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 20
+        #region Example #20
 
         public void ConfigureServices20(IServiceCollection services)
         {
@@ -535,7 +540,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 21
+        #region Example #21
 
         public void ConfigureServices21(IServiceCollection services)
         {
@@ -556,7 +561,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 22
+        #region Example #22
 
         public void ConfigureServices22(IServiceCollection services)
         {
@@ -577,7 +582,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 23
+        #region Example #23
 
         public void ConfigureServices23(IServiceCollection services)
         {
@@ -598,7 +603,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 24
+        #region Example #24
 
         public void ConfigureServices24(IServiceCollection services)
         {
@@ -625,7 +630,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 25
+        #region Example #25
 
         public void ConfigureServices25(IServiceCollection services)
         {
@@ -652,7 +657,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 26
+        #region Example #26
 
         public void ConfigureServices26(IServiceCollection services)
         {
@@ -675,7 +680,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        #region Example 27
+        #region Example #27
 
         public void ConfigureServices27(IServiceCollection services)
         {
@@ -693,12 +698,12 @@ namespace clu.aspnet.webapplication.mvc.core
             });
 
             //https://localhost:44395                       : Message is: some text
-            //                                              : m/dd/yyyy h:mm:ss tt
+            //                                                m/dd/yyyy h:mm:ss tt
         }
 
         #endregion
 
-        #region Example 28
+        #region Example #28
 
         public void ConfigureServices28(IServiceCollection services)
         {
@@ -716,7 +721,604 @@ namespace clu.aspnet.webapplication.mvc.core
             });
 
             //https://localhost:44395                       : Message is: some text
-            //                                              : m/dd/yyyy h:mm:ss tt
+            //                                                m/dd/yyyy h:mm:ss tt
+        }
+
+        #endregion
+
+        #region Example #29
+
+        public void ConfigureServices29(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure29(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(); // no routes are configured
+
+            //https://localhost:44395                       : 404
+            //https://localhost:44395/Some/Display          : 404
+        }
+
+        #endregion
+
+        #region Example #30
+
+        public void ConfigureServices30(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure30(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "myRoute",
+                    template: "{action}/{controller}");
+            });
+
+            //https://localhost:44395                       : 404
+            //https://localhost:44395/Some/Display          : 404
+            //https://localhost:44395/Display/Some          : Reached the action
+        }
+
+        #endregion
+
+        #region Example #31
+
+        public void ConfigureServices31(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure31(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}");
+            });
+
+            //https://localhost:44395/Some/Display          : Reached the action
+            //https://localhost:44395/Some/Display/1        : 404
+            //https://localhost:44395/Some/Display?id=1     : Reached the action
+        }
+
+        #endregion
+
+        #region Example #32
+
+        public void ConfigureServices32(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure32(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{param}");
+            });
+
+            //https://localhost:44395/Some/Display          : 404
+            //https://localhost:44395/Some/Display/1        : Reached the action
+            //https://localhost:44395/Some/Display?id=1     : 404
+            //https://localhost:44395/Some/Display/1?id=1   : Reached the action
+            //https://localhost:44395/Some/ShowParam/hello   : hello
+        }
+
+        #endregion
+
+        #region Example #33
+
+        public void ConfigureServices33(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure33(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{param}",
+                    defaults: new { controller = "Some", action = "ShowParam", param = "val" });
+            });
+
+            //https://localhost:44395                        : val
+            //https://localhost:44395/Some                   : val
+            //https://localhost:44395/Some/ShowParam         : val
+            //https://localhost:44395/Some/ShowParam/hello   : hello
+        }
+
+        #endregion
+
+        #region Example #34
+
+        public void ConfigureServices34(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure34(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Some}/{action=ShowParam}/{param=val}");
+            });
+
+            //https://localhost:44395                        : val
+            //https://localhost:44395/Some                   : val
+            //https://localhost:44395/Some/ShowParam         : val
+            //https://localhost:44395/Some/ShowParam/hello   : hello
+        }
+
+        #endregion
+
+        #region Example #35
+
+        public void ConfigureServices35(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure35(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{param}",
+                    defaults: new { controller = "Some", action = "ShowParam" },
+                    constraints: new { param = "[0-9]+" });
+            });
+
+            //https://localhost:44395                        : 404
+            //https://localhost:44395/Some                   : 404
+            //https://localhost:44395/Some/ShowParam         : 404
+            //https://localhost:44395/Some/ShowParam/hello   : 404
+            //https://localhost:44395/Some/ShowParam/12345   : 12345
+        }
+
+        #endregion
+
+        #region Example #36
+
+        public void ConfigureServices36(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure36(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "showParam",
+                    template: "{controller=Some}/{action=ShowParam}/{param}");
+
+                routes.MapRoute(
+                    name: "showNumber",
+                    template: "{controller=Some}/{action=ShowNumber}/{param:int}");
+            });
+
+            //https://localhost:44395/Some/ShowParam/hello   : hello
+            //https://localhost:44395/Some/ShowParam/12345   : 12345
+            //https://localhost:44395/Some/ShowNumber/hello  : 0
+            //https://localhost:44395/Some/ShowNumber/12345  : 12345
+        }
+
+        #endregion
+
+        #region Example #37
+
+        public void ConfigureServices37(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure37(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "showParam",
+                    template: "{controller=Some}/{action=FancyParam}/{param}",
+                    defaults: null,
+                    constraints: null,
+                    dataTokens: new { routeOrigin = new RouteOrigin { Name = "fancy param route" } });
+
+                routes.MapRoute(
+                    name: "showNumber",
+                    template: "{controller=Some}/{action=FancyNumber}/{param:int}",
+                    defaults: null,
+                    constraints: null,
+                    dataTokens: new { routeOrigin = new RouteOrigin { Name = "fancy number route" } });
+            });
+
+            //https://localhost:44395/Some/FancyParam/hello  : This is some controller.
+            //                                                 The route data is 'fancy param route'
+            //https://localhost:44395/Some/FancyNumber/12345 : This is some controller.
+            //                                                 The route data is 'fancy number route'
+        }
+
+        #endregion
+
+        #region Example #38
+
+        public void ConfigureServices38(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure38(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "firstRoute",
+                    template: "{controller}/{action}/{param}",
+                    defaults: new { controller = "Some", action = "ShowNumber" },
+                    constraints: new { param = "[0-9]+" });
+
+                routes.MapRoute(
+                    name: "secondRoute",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
+
+            //https://localhost:44395/Some/ShowNumber/hello  : 0
+            //https://localhost:44395/Some/ShowNumber/hello  : 12345
+            //https://localhost:44395                        : Home > Index
+        }
+
+        #endregion
+
+        #region Example #39
+
+        public void ConfigureServices39(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure39(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "secondRoute",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+
+                routes.MapRoute(
+                    name: "firstRoute",
+                    template: "{controller}/{action}/{param}",
+                    defaults: new { controller = "Some", action = "ShowNumber" },
+                    constraints: new { param = "[0-9]+" });
+            });
+
+            //https://localhost:44395/Some/ShowNumber/hello  : 0
+            //https://localhost:44395/Some/ShowNumber/12345  : 0
+            //https://localhost:44395                        : Home > Index
+        }
+
+        #endregion
+
+        #region Example #40
+
+        public void ConfigureServices40(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure40(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "someRoute",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Example", action = "Print" });
+            });
+
+            //https://localhost:44395/Example/Print         : Controller: Example. Action: Print 
+        }
+
+        #endregion
+
+        #region Example #41
+
+        public void ConfigureServices41(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure41(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "someRoute",
+                    template: "{controller}/{action}/{id?}", // id is optional (e.g. null also matches)
+                    defaults: new { controller = "Example", action = "Print" });
+            });
+
+            //https://localhost:44395/Example/Print         : id:
+            //https://localhost:44395/Example/Print/8       : id: 8
+        }
+
+        #endregion
+
+        #region Example #42
+
+        public void ConfigureServices42(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure42(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "someRoute",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Example", action = "Print" });
+            });
+
+            //https://localhost:44395/Example/Print         : id:
+            //https://localhost:44395/Example/Print/8       : id:8
+        }
+
+        #endregion
+
+        #region Example #43
+
+        public void ConfigureServices43(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure43(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "someRoute",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Example", action = "Print" });
+            });
+
+            //https://localhost:44395/Example/Print         : id: 0
+            //https://localhost:44395/Example/Print/8       : id: 8
+        }
+
+        #endregion
+
+        #region Example #44
+
+        public void ConfigureServices44(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure44(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "someRoute",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Example", action = "Print" });
+            });
+
+            //https://localhost:44395/Example/Print         : id: 
+            //https://localhost:44395/Example/Print/8       : id: 8
+        }
+
+        #endregion
+
+        #region Example #45
+
+        public void ConfigureServices45(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure45(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "someRoute",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Example", action = "Print" });
+            });
+
+            //https://localhost:44395/Example/Print         : id: 444
+            //https://localhost:44395/Example/Print/8       : id: 8
+        }
+
+        #endregion
+
+        #region Example #46
+
+        public void ConfigureServices46(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure46(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "someRoute",
+                    template: "{controller}/{action}/{id}/{title?}",
+                    defaults: new { controller = "Example", action = "Print" });
+            });
+
+            //https://localhost:44395/Example/Print         : 404
+            //https://localhost:44395/Example/Print/8       : id: 8. title: 
+            //https://localhost:44395/Example/Print/8/ABC   : id: 8. title: ABC
+            //https://localhost:44395/Example/Print/ABC/8   : id: ABC. title: 8
+        }
+
+        #endregion
+
+        #region Example #47
+
+        public void ConfigureServices47(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure47(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc();
+
+            //https://localhost:44395                       : 404
+            //https://localhost:44395/Some                  : Some method
+        }
+
+        #endregion
+
+        #region Example #48
+
+        public void ConfigureServices48(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure48(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc();
+
+            //https://localhost:44395                       : 404
+            //https://localhost:44395/My                    : 404
+            //https://localhost:44395/hello                 : hello
+        }
+
+        #endregion
+
+        #region Example #49
+
+        public void ConfigureServices49(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure49(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc();
+
+            //https://localhost:44395                       : 404
+            //https://localhost:44395/My                    : 404
+            //https://localhost:44395/My/hello              : hello
+            //https://localhost:44395/My/hello/8            : param1: hello, param2: 8
+            //https://localhost:44395/My/hello/Joe          : 404
+        }
+
+        #endregion
+
+        #region Example #50
+
+        public void ConfigureServices50(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure50(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc();
+
+            //https://localhost:44395                       : 404
+            //https://localhost:44395/My                    : 404
+            //https://localhost:44395/My/hello              : hello
+            //https://localhost:44395/My/hello/8            : param1: hello, param2: 8
+            //https://localhost:44395/My/hello/Joe          : param1: hello, param2: Joe
+        }
+
+        #endregion
+
+        #region Example #51
+
+        public void ConfigureServices51(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure51(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc();
+
+            //https://localhost:44395/My/Method1            : Method1
+            //https://localhost:44395/My/Method2            : Method2
+        }
+
+        #endregion
+
+        #region Example #52
+
+        public void ConfigureServices52(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure52(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}");
+            });
+
+            //https://localhost:44395/SomeRoute             : Method1
+            //https://localhost:44395/Extra/SomeRoute       : 404
+            //https://localhost:44395/Extra/Method1         : 404
+            //https://localhost:44395/Extra/Method2         : Method2
+        }
+
+        #endregion
+
+        #region Example #53
+
+        public void ConfigureServices53(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure53(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc();
+
+            //https://localhost:44395/Cities/1              : City 1
+        }
+
+        #endregion
+
+        #region Example #54
+
+        public void ConfigureServices54(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure54(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc();
+
+            //https://localhost:44395/Cities                : City 1, City 2, City 3
+            //https://localhost:44395/Cities/1              : City 1
         }
 
         #endregion
