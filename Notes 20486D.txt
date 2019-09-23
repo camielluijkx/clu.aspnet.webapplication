@@ -652,7 +652,83 @@ Module 4: Developing Controllers
 
 Module 5: Developing Views
 	Lesson 1: Creating Views with Razor Syntax
-		TODO
+		When an MVC web application receives a request, a controller action processes the request. Often, the controller action passes a model object to a view. The view builds the data by inserting the properties from the model object and other sources into the HTML markup. Then, the view renders the completed data to the browser. The browser displays the data it receives from the view. 
+		Adding Views:
+			In an MVC application, controllers handle all the application logic. Each controller contains one or more action methods, and an action handles the incoming web requests. 
+			Views handle the presentation logic and should not contain any application logic. Views are used to render a response to the browser.
+			In an MVC application, there is usually one controller for every model class. There might be some controllers that do not correspond to any model classes. However, each controller can have multiple views.
+			By convention, all the views in an MVC application reside within the top-level Views folder. Within this folder, there is a folder for each controller that is used in the application.
+			How to Create a View File:
+				Property							Description
+				View name							This is the name of the view. The view file name is this name with 
+													the appropriate extension added. The name you choose should match the name	
+													returned by the corresponding controller action. If the action controller does 
+													not specify the name of the view to use, MVC assumes the name of the view 
+													matches the name of the controller action. 
+				Model class							If you create a strongly-typed view, you need to specify the model class to 
+													bind to the view. Visual Studio will use this class when it formulates 
+													IntelliSense prompts and checks for compile-time errors. 
+				Template							A template is a basic view that Visual Studio can use to create the view. If 
+													you specify a model class for the view, Visual Studio can create simple 
+													templates for Create, Edit, Details, Delete, and List views. If you don’t 
+													specify the model class for the view, you may choose to build a view from the 
+													Empty (without model) scaffold template. 
+				Reference script libraries			When you select this check box in MVC 5, references to common client-side 
+													script files are included in the project. In ASP.NET Core MVC, this check box 
+													has no effect. 
+				Create as a partial view			A partial view is a section of Razor code that you can re-use in multiple in 
+													your application. 
+				Use a layout page					A layout page can be used to impose a standard layout and branding on many 
+													pages within the web application.
+				Within a controller, you can use the View method to create a ViewResult object. The view renders data to the browser. 
+		Differentiating Server-Side Code from HTML:
+			The Razor view engine interprets view files and runs any server-side code contained in the view files. To do this, the Razor view engine must distinguish the server-side code from the HTML content. 
+			The HTML content should be sent to the browser unchanged. The Razor view engine looks for the @ symbol to identify the server-side code. 
+			A section of code marked with the @ symbol is referred to as a Razor code expression. In the Razor syntax, you mark the start of a Razor code expression with the @ symbol. However, there is no expression ending symbol. Instead, Razor infers the end of a code expression by using a fairly sophisticated parsing engine. 
+			Writing a for Loop by Using Razor:
+				You can write for loops by using the Razor syntax if you know exactly how many times you want to loop.
+			Razor has sophisticated logic to distinguish code from content and often the @ symbol is all that is required. However, occasionally, you might find that an error occurs because Razor misinterprets content as code. To fix such errors, you can use the @: delimiter, which explicitly declares a line as content and not as code.
+			Modifying the Interpretation of Code and Content:
+				Sometimes, you might need to modify the logic that Razor uses to interpret code expressions.
+			If you want to declare several lines as content, use the <text> tag instead of the @: delimiter. Razor removes the <text> and </text> tags before returning the content to the browser.
+		Features of the Razor Syntax:
+			Razor includes many useful features that you can use to control the way in which ASP.NET Core MVC renders your view as HTML. These features include the following: 
+				• Razor comments
+				• Implicit code expressions and parentheses	
+				• Razor code blocks and conditions
+				• Razor loops
+			Razor Comments:
+				You can declare a Razor comment by using the @* delimiter.
+			Implicit Code Expressions and Parentheses:
+				Razor uses implicit code expressions to determine parts of a line that are server-side code. Usually, implicit code expressions render the HTML you want, but occasionally, you might find that Razor interprets an expression as HTML when it should be run as server-side code.
+				You can control and alter behavior by using parentheses to enclose the expression so that Razor can evaluate the expression. 
+			Razor Code Blocks and Conditions:
+				If you want to write multiple lines of server-side code without prefacing every line with the @ symbol, you can use a Razor code block. 
+				Razor includes code blocks that run conditional statements. 
+			Razor Loops:
+				Razor also includes code blocks that loop through collections. You can loop through all the objects in an enumerable collection by using the foreach code block.
+				Razor loops are useful for creating index views, which display many objects of a particular model class. To implement an index view, a controller action passes an enumerable collection of objects to the view.
+		Alternative View Engines:
+			A view engine is a component of the MVC framework that is responsible for locating view files, running the server-side code they contain, and rendering HTML that the browser can display to the user. 
+			The Razor view engine is the default view engine in MVC and is highly flexible and efficient. Furthermore, it is easy to learn if someone has experience in HTML and C#. Also, Visual Studio provides good IntelliSense feedback for Razor code. 
+			Despite its many advantages, some developers might prefer to use a different a view engine. The reasons can include: 
+				• View Location Logic. Razor assumes that all views are located in the Views top-level folder. Within this, Razor assumes that each controller has a separate folder. Razor also looks for some views in the Shared subfolder. These views can be used by more than one controller. If you do not want to use this view location logic, you can use an alternate view engine. 
+				• View Syntax. Each view engine uses a different syntax in view files. Other view engines can use different delimiters. You might prefer one syntax over another based on the technologies that you or your team previously worked with. 
+			You can create your own view engine to implement custom logic for locating views or to implement custom syntax for view files. To create a custom view engine, you should create a class that implements the IViewEngine interface. 
+			The IViewEngine interface defines the contract for a view engine. It contains a FindView method, which finds a specified view by using a specified action context. The FindView method returns a ViewEngineResult object. 
+			Custom view engines are rarely created because they require the developers to write sophisticated string-parsing code. The default view engine, Razor, is powerful and flexible. The default logic for finding view files is also simple and rarely needs modification. 
+		Dependency Injection into Views:
+			With Razor views, you can use dependency injection to inject services directly into views. By injecting a service directly into a view, you can call it whenever you wish by using the Razor logic, potentially gaining immediate access to the functionality of the service, without needing to rely on a controller. 
+			A very common use case where this is useful is localization services. As part of localization requirements, you will often want to localize large sections of text in a view, and it will be very awkward to have the model manage the text for specific segments. By using a localization service in a view, you can easily maintain localization in the view, without having to create complex controller logic. 
+			On the opposite end of the spectrum, you should also avoid using services on a view with the intention to present data. By using services to retrieve data, you are ignoring the principles of MVC and creating a direct dependency between our view and the data. 
+			Mostly, you will have to use only stateless services in views, and mainly services designed to perform transformations rather than create data. For instance, a service that performs formatting on dates for an application is logical to keep in views because this kind of service will be repeated often, and result in a lot of view-related logic ending in a controller. On the other hand, a service that retrieves data from a database is a bad choice to use in views because retrieving data off a database is a costly operation. If this operation is repeated multiple times, the performance of a view will suffer. 
+			Dependency injection into views is performed by using directives, which are special keywords that you can use after the @ symbol to perform specific actions. To inject services, you will use the inject directive. 
+			Inject Directive:
+				@inject <type> <instance name>
+				The type is the interface of the service that you wish to inject. To find a type, you will have to use the full path for the namespace of the interface. 
+				The instance name is an alias you create to refer to a service. Throughout a view, calling the alias will grant you access to the methods exposed by an interface. 
+				After you inject an interface, you can access the service at any time inside the code contained by the @ symbol. 
+
 	Lesson 2: Using HTML Helpers and Tag Helpers
 		TODO
 	Lesson 3: Reusing Code in Views

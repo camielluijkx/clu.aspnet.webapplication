@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+
+    Hello from the Index view
+    <br />
+
+    Result: @String.Concat("a", "b")
+    <br />
+
+    Result: @String.Concat("a", "b") <span>Razor knows that I'm an html!!!</span> @String.Concat("a", "b") I'm a regular text - Razor is smart enough to know I'm not a server-side code. @String.Concat("a", "b")
+    <br />
+    @*Result: ab Razor knows that I'm an html!!! ab I'm a regular text - Razor is smart enough to know I'm not a server-side code. ab*@
+
+    @for (int a = 0; a < 5; a++)
+    {
+        @a
+    }
+    @*01234*@
+    <br />
+
+    @for (int b = 0; b < 5; b++)
+    {
+        @:b
+    }
+    @*bbbbb*@
+    <br />
+
+    @for (int c = 0; c < 5; c++)
+    {
+        <span>c</span>
+    }
+    @*ccccc*@
+    <br />
+
+    @for (int d = 0; d < 5; d++)
+    {
+        <span>@d</span>
+    }
+    @*0 1 2 3 4*@
+    <br />
+
+    @for (int e = 0; e < 5; e++)
+    {
+        <span>@@</span>
+    }
+    @*@ @ @ @ @*@
+    <br />
+
+    @for (int f = 0; f < 2; f++)
+    {
+        <text>
+            f
+            f
+        </text>
+    }
+    @*f f f f*@
+    <br />
+
+    @* This text will not be rendered by the Razor view engine because this is a comment. *@
+
+    <span>Price Including Sales Tax: @ViewBag.Price * 1.2</span>
+    @*Price Including Sales Tax: 2 * 1.2*@
+    <br />
+
+    <span>Price Including Sales Tax: @(ViewBag.Price * 1.2)</span>
+    @*Price Including Sales Tax: 2.4*@
+    <br />
+
+    @{
+        // Razor interprets all text within these curly braces as server-side code
+        int i = 5;
+        int j = 6;
+        int z = i + j;
+        @z
+    }
+    @*11*@
+    <br />
+
+    @{
+        int k = 5;
+        int l = 6;
+
+        @if (k < l)
+        {
+            @k
+        }
+    }
+    @*5*@
+    <br />
+
+    @model IEnumerable<clu.aspnet.webapplication.mvc.core.Models.Product>
+    @foreach (var product in Model)
+    {
+        <span>@product.Name</span>
+    }
+    @*Product1 Product2*@
+    <br />
+
+    @inject clu.aspnet.webapplication.mvc.core.Services.IFormatNumber formatNumber
+    @formatNumber.GetFormattedNumber(1234535334)
+    @*1,234,535,33*@
+
+</body>
+</html>

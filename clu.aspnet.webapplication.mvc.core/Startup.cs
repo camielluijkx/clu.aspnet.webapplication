@@ -1334,12 +1334,11 @@ namespace clu.aspnet.webapplication.mvc.core
 
         public void Configure55(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseMvc(routes =>
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
+                await context.Response.WriteAsync("Page not found");
             });
 
             //https://localhost:44395/Some                  : OnActionExecuting > OnActionExecuted > OnResultExecuting > OnResultExecuted
@@ -1349,7 +1348,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #region Example #56
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices56(IServiceCollection services)
         {
             services.AddMvc(options =>
             {
@@ -1362,23 +1361,46 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-2.2
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure56(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseMvc(routes =>
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
+                await context.Response.WriteAsync("Page not found");
             });
 
-            //https://localhost:44395/Cities                : 
+            //https://localhost:44395/Cities                : ActionFilterAttribute
+        }
+
+        #endregion
+
+        #region Example #61
+
+        public void ConfigureServices61(IServiceCollection services)
+        {
+            // all requests: The number from service in controller: x, the number from wrapper service: x
+            services.AddSingleton<IFormatNumber, FormatNumber>();
+
+            services.AddMvc();
+        }
+
+        public void Configure61(IApplicationBuilder app)
+        {
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
+
+            //https://localhost:44395/Product               : Index -> View
         }
 
         #endregion
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void _ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -1391,7 +1413,7 @@ namespace clu.aspnet.webapplication.mvc.core
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void _Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

@@ -204,4 +204,17 @@ namespace clu.aspnet.webapplication.mvc.core.Services
             Console.WriteLine(message);
         }
     }
+
+    public interface IFormatNumber
+    {
+        string GetFormattedNumber(int number);
+    }
+
+    public class FormatNumber : IFormatNumber
+    {
+        public string GetFormattedNumber(int number)
+        {
+            return string.Format("{0:n0}", number);
+        }
+    }
 }
