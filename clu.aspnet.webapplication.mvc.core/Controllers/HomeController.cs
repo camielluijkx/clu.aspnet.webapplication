@@ -205,6 +205,48 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
 
         #endregion
 
+        #region Example #63
+
+        public IActionResult Index63()
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region Example #64
+
+        public ViewResult Index64()
+        {
+            SimpleModel model = new SimpleModel() { Value = "My Value" };
+
+            return View(model);
+        }
+
+        #endregion
+
+        #region Example #65
+
+        public ViewResult Index65()
+        {
+            ViewBag.Message = "message";
+
+            return View();
+        }
+
+        #endregion
+
+        #region Example #68
+
+        public IActionResult InvokeVC()
+        {
+            return ViewComponent("My");
+
+            //https://localhost:44395/Home/InvokeVC         : some text 
+        }
+
+        #endregion
+
         public IActionResult Index()
         {
             return View();

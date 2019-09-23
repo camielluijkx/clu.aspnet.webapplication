@@ -761,7 +761,40 @@ Module 5: Developing Views
 					TODO: implement ValidationMessageTagHelper
 					TODO: implement custom TagHelper
 	Lesson 3: Reusing Code in Views
-		TODO
+		A better practice is to use a partial view. A partial view renders only a section of HTML content, which you can then insert into several other views at run time. Because a partial view is a single file that is reused in several locations in a web application, if you implement a change in one location, the change is updated in other locations. Partial views increase the manageability of MVC web applications and facilitate a consistent presentation of content throughout a web application. 
+		A view component is another way to reuse code in views. View components are similar to partial views. However, view components have many benefits when compared to partial views. They can be treated as mini controllers because they render a chunk of data instead of rendering the whole response. A view component consists of a class and a view. The class is usually inherited from the ViewComponent class and the view uses Razor to call the methods in the class. 
+		Creating Partial Views:
+			Creating and Naming Partial Views:
+				By convention, the names of partial views are prefixed with an underscore. This convention is optional but is often helpful to distinguish partial views from regular views in Solution Explorer. 
+				Partial views are often created inside the /Views/Shared folder in your site. Views in the Shared folder are accessible to many controllers.
+			Strongly-typed and Dynamic Partial Views:
+				You can create strongly-typed partial views if you are sure that the views will always display the same model class. Visual Studio provides the most informative IntelliSense feedback and error-checking for strongly-typed partial views. A strongly-typed view has a declaration of the @model directive at the top of the file. 
+				You can create a dynamic partial view if you are not sure that the partial view will always display the same model class. You can create dynamic partial views by omitting the @model directive declaration. 
+		Using Partial Views:
+			You can use the Html.PartialAsync method to render a partial view within another view file. MVC inserts the HTML content that the partial view renders into the parent view and then returns the complete webpage to the browser.
+			Passing Model Object to Partial Views:
+				Models can be passed from action methods to views. A parent view will share the same model object with the partial view. This is a good way of sharing data between the controller action, view, and the partial view. 
+			Using ViewBag in Partial Views:
+				You can use the ViewBag and ViewData collections to pass data between an action method and a view. A parent view will share the same ViewBag or ViewData with the partial view. This is a good way to share data between a controller action, a view, and a partial view. 
+		Creating View Components:
+			You can use view components to render identical or similar HTML content in different locations of your web application. In this manner, view components are similar to partial views. However, view components are much more powerful than partial views. 
+			A view component can be treated as a mini-controller which means that you can use it to render a small chunk of markup instead of a whole response. 
+			A view component consists of two parts:
+				• A class. The class should be public and non-abstract. This class is usually derived from the ViewComponent base class. It can be annotated with the ViewComponentAttribute attribute. You can place the view component class in any folder of the project. However, a good practice is to place it in a folder named ViewComponents. The class should have a method called InvokeAsync, which defines its logic. The ViewComponent base class has a method named View, which returns a ViewViewComponentResult object. The View method can get a parameter that specifies the name of the partial view that needs to be rendered. 
+				• A view. The view will typically be located in a folder under the Views\Shared\Components folder. This is because view components are usually not specific to a controller. The name of the folder should be the same as the name of the view component class. However, if the name of the class has the ViewComponent suffix, then the folder name should not include the ViewComponent suffix. 
+		Using View Components:
+			You can include a view component in a view by using the @Component.InvokeAsync method. The @Component.InvokeAsync method gets the name of the view component class as a parameter. In case the view component class name ends with the suffix ViewComponent, then the parameter will be the name of the view component class without the suffix.
+			Invoking a View Component using a Tag Helper:
+				In addition to invoking a view component from a view by using the @Component.InvokeAsync method, it is also possible to invoke a view component from a view by using a tag helper. 
+				To invoke a view component by using a tag helper, you should use a vc element followed by a colon and the name of the view component. To use a view component as a tag helper, you must use the @addTagHelper directive, and pass to it the name of the assembly in which the tag helper is declared.
+			Invoking a View Component from a Controller:
+				To invoke a view component from an action, you can return from the action a ViewComponentResult object. To return a ViewComponentResult object, you can use the ViewComponent method, and pass to it the name of the view component.
+		Invoking View Components with Parameters:
+			The InvokeAsync method can take any number of parameters. Those parameters will be passed when the view component is invoked in a view or in a controller. 
+			Passing Parameters to a View Component using a Tag Helper:
+				It is possible to pass parameters to a view component from a view by using a tag helper. To pass parameters from a view to a view component by using a tag helper, you can add attributes to the vc element. 
+			Passing Parameters to a View COmponent from a Controller:
+				TODO
 
 Module 6: Developing Models
 	Lesson 1: Creating MVC Models

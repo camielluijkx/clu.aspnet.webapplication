@@ -1401,12 +1401,12 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #region Example #62
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices62(IServiceCollection services)
         {
             services.AddMvc();
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure62(IApplicationBuilder app)
         {
             app.UseStaticFiles();
 
@@ -1425,7 +1425,7 @@ namespace clu.aspnet.webapplication.mvc.core
         #endregion
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void _ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -1438,7 +1438,7 @@ namespace clu.aspnet.webapplication.mvc.core
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void _Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

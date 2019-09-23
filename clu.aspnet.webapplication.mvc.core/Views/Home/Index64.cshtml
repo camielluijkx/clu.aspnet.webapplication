@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+
+    @model clu.aspnet.webapplication.mvc.core.Models.SimpleModel
+    @await Html.PartialAsync("_MyPartialView")
+    <p>Value received in index view from model is @Model.Value</p>
+    @await Html.PartialAsync("_MyPartialView")
+    @*Value received in partial view from model is My Value
+
+        Value received in index view from model is My Value
+
+        Value received in partial view from model is My Value*@
+
+</body>
+</html>

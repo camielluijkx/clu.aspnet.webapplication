@@ -11,5 +11,4 @@
         
         // Other fields are omitted
     }
-
 }
