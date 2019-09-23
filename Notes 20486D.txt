@@ -793,8 +793,8 @@ Module 5: Developing Views
 			The InvokeAsync method can take any number of parameters. Those parameters will be passed when the view component is invoked in a view or in a controller. 
 			Passing Parameters to a View Component using a Tag Helper:
 				It is possible to pass parameters to a view component from a view by using a tag helper. To pass parameters from a view to a view component by using a tag helper, you can add attributes to the vc element. 
-			Passing Parameters to a View COmponent from a Controller:
-				TODO
+			Passing Parameters to a View Component from a Controller:
+				It is possible to pass parameters to a view component from a controller by using the ViewComponent method. The second parameter of the ViewComponent method represents an object with properties representing arguments to be passed to the InvokeAsync method of the view component.
 
 Module 6: Developing Models
 	Lesson 1: Creating MVC Models

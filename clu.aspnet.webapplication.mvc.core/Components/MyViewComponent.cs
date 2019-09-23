@@ -12,13 +12,18 @@ namespace clu.aspnet.webapplication.mvc.core.Components
 
         public async Task<IViewComponentResult> InvokeAsync(int param)
         {
-            int id = await SomeOperationAsync(param);
+            int id = await someOperationAsync(param);
+
             return View("Default", id);
         }
 
-        private async Task<int> SomeOperationAsync(int param)
+        private async Task<int> someOperationAsync(int param)
         {
-            await Task.Run(() => {/* some operation */});
+            await Task.Run(() => 
+            {
+                /* some operation */
+            });
+
             return param;
         }
     }

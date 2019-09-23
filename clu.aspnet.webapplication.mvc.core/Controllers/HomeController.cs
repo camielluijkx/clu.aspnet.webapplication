@@ -238,11 +238,22 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
 
         #region Example #68
 
-        public IActionResult InvokeVC()
+        public IActionResult InvokeVC68()
         {
             return ViewComponent("My");
 
-            //https://localhost:44395/Home/InvokeVC         : some text 
+            //https://localhost:44395/Home/InvokeVC         : Id: 6
+        }
+
+        #endregion
+
+        #region Example #71
+
+        public IActionResult InvokeVC71()
+        {
+            return ViewComponent("My", new { param = 7 });
+
+            //https://localhost:44395/Home/InvokeVC         : Id: 7
         }
 
         #endregion
