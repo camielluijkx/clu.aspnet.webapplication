@@ -16,5 +16,15 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
         }
 
         #endregion
+
+        #region Example #61
+
+        [Route("Name/AnotherAction")]
+        public IActionResult AnotherAction()
+        {
+            return Content("AnotherAction result");
+        }
+
+        #endregion
     }
 }

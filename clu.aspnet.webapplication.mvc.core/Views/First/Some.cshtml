@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+
+    @Html.ActionLink("Press the link", "MyAction", "Second")
+    @*<a href="/Second/Index">Press the link</a>*@
+    @*https://localhost:44395/First/Some > https://localhost:44395/Second/Index*@
+    <br />
+
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    <a asp-action="MyAction" asp-controller="Second">Press the link</a>
+    @*<a href="/Second/Index">Press the link</a>*@
+    @*https://localhost:44395/First/Some > https://localhost:44395/Second/Index*@
+    <br />
+
+</body>
+</html>

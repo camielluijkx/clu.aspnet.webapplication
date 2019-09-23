@@ -635,7 +635,7 @@ Module 4: Developing Controllers
 			• Action Filters. Action filters run before and after the code in the action method. You can use action filters to manipulate the parameters that an action receives. They can also be used to manipulate the result returned from an action. Action filters implement either the IActionFilter interface or the IAsyncActionFilter interface. 
 			• Exception Filters. Exception filters run only if an action method or another filter throws an exception. These filter classes are used to handle errors. Exception filters implement either the IExceptionFilter interface or the IAsyncExceptionFilter interface. 
 			• Result Filters. Result filters run before and after an action result is run. Result filters implement either the IResultFilter interface or the IAsyncResultFilter interface. 
-			TODO implement some examples
+			TODO: implement some examples
 		You can create your own filter classes or use existing filter classes: 
 			• The ResponseCacheAttribute filter class. Annotating an action with the ResponseCache attribute will cache the response to the client. The ResponseCache attribute contains several properties.
 			• The AllowAnonymousAttribute filter class. Annotating an action with the AllowAnonymous attribute will allow users to access an action without logging in.
@@ -728,9 +728,38 @@ Module 5: Developing Views
 				The type is the interface of the service that you wish to inject. To find a type, you will have to use the full path for the namespace of the interface. 
 				The instance name is an alias you create to refer to a service. Throughout a view, calling the alias will grant you access to the methods exposed by an interface. 
 				After you inject an interface, you can access the service at any time inside the code contained by the @ symbol. 
-
 	Lesson 2: Using HTML Helpers and Tag Helpers
-		TODO
+		Introduction to HTML Helpers and Tag Helpers:
+			In general, views are composed of correctly formed HTML elements. However, because the views are not static (like normal HTML) and can even run code at creation time, you might sometimes need HTML behaviors. But creating the entire behavior manually could be time consuming.
+			To resolve this issue, and allow you to develop applications faster with less repetition on repeated logic and less dependency on JavaScript, you can use HTML helpers and tag helpers. 
+			HTML helpers are C# methods that you can use to create common and complex HTML elements, such as links and various input controls and forms, and manage the elements and their relationship to controls. This is done by using Razor syntax. 
+			Tag helpers are an alternative to HTML helpers. Tag helpers help you add properties to existing HTML elements and custom html elements, instead of adding Razer code. This will help you keep your html more consistent. 
+			As a result, code with tag helpers looks a lot more like HTML code than HTML helpers. Regardless of this, the end result is consistent between the two. To use tag helpers, use the @addTagHelper directive, which is used to load tag helper classes. 
+		Using HTML Action Helpers:
+			HTML helpers are simple methods that, in most cases, return a string. This string is a small section of HTML that the view engine inserts into the view file to generate a completed webpage. 
+			It is not mandatory to use HTML helpers and you have the flexibility to create views that render any type of HTML content without using any HTML helpers. 
+			You can use the Html.ActionLink and Url.Action helpers to render HTML that calls controller actions. 
+			The Html.ActionLink Helper:
+				You can use the Html.ActionLink helper to render a link to an action. The helper returns an <a> element with the correct href parameter value. 
+			Using Html.ActionLink to Call Actions in Other Controllers:
+				You can also use the @Html.ActionLink helper to call actions in other controllers.
+			Passing Parameters to Html.ActionLink:
+				You can pass parameters to the Html.ActionLink helper.
+			The Url.Action Helper:
+				The code in a view can contain the Url.Action helper. You can use the Url.Action helper to render a URL without the enclosing <a> element. To render the URL, the routing engine is used. 
+		Using Tag Helpers:
+			ASP.NET Core MVC includes several predefined tag helpers. These predefined tag helpers are located in the Microsoft.AspNetCore.Mvc.TagHelpers namespace. To use them, you need to add the @addTagHelper directive to the view to define the tag helpers that this view will use. Alternatively, you can add the @addTagHelper directive to a _ViewImports.cshtml file that is located under the Views folder, so that it is available to all the views. 
+			Calling Actions in Other Controllers:
+				You can use tag helpers to call actions in other controllers.
+			Passing Parameters to an Action:
+				In case you want to pass parameters to an action, you can use the asp-route-{value} attribute. The {value} placeholder should be identical to the name of the route parameter. 
+			Using the _ViewImports.cshtml File:
+				If you add the @addTagHelper directive to a view, the tag helpers are available only in this view. In case you want that, the tag helpers will be available for all views in the Views folder and its sub directories. 
+				You can add the @addTagHelper directive to a _ViewImports.cshtml file. The _ViewImports.cshtml file should be located in the Views folder.
+				All tag helpers implement the ITagHelper interface, and many tag helpers inherit from the TagHelper class. 
+					TODO: implement InputTagHelper examples
+					TODO: implement ValidationMessageTagHelper
+					TODO: implement custom TagHelper
 	Lesson 3: Reusing Code in Views
 		TODO
 

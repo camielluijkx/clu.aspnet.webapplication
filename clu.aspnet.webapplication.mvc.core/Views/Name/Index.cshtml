@@ -14,5 +14,16 @@
     @*name1 name2 name3*@
     <br />
 
+    @Html.ActionLink("Press me", "AnotherAction")
+    @*<a href="/Home/AnotherAction">Press me</a>*@
+    @*AnotherAction result*@
+    <br />
+
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    <a asp-action="AnotherAction">Press me</a>
+    @*<a href="/Home/AnotherAction">Press me</a>*@
+    @*AnotherAction result*@
+    <br />
+
 </body>
 </html>

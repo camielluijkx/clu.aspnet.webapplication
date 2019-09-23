@@ -1399,8 +1399,33 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        #region Example #62
+
         public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+            app.UseStaticFiles();
+
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Page not found");
+            });
+
+            //https://localhost:44395/images/test.jpg       : test.jpg is displayed
+            //https://localhost:44395/Photo/Choose          : Index -> View
+            //https://localhost:44395/Photo/GetImage/1      : test.jpg
+        }
+
+        #endregion
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void _ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -1413,7 +1438,7 @@ namespace clu.aspnet.webapplication.mvc.core
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void _Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
