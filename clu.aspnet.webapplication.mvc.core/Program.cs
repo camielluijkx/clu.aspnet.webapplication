@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace clu.aspnet.webapplication.mvc.core
 {
@@ -12,6 +13,14 @@ namespace clu.aspnet.webapplication.mvc.core
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+
+            .ConfigureLogging((hostingContext, logging) =>
+            {
+                if (hostingContext.HostingEnvironment.IsDevelopment())
+                {
+                    logging.AddConsole(); // add logging to output window
+                }
+            })
+            .UseStartup<Startup>();
     }
 }

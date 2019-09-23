@@ -1,3 +1,10 @@
+[Miscellaneous]
+
+Course is not focussing on DotNetCore development.
+
+Focus on de similarities between ASP.NET MVC and ASP.NET Core MVC.
+
+
 [Abbreviations]
 
 Internet Information Services (IIS)
@@ -24,10 +31,10 @@ Hypertext Transfer Protocol (HTTP)
 Secure Sockets Layer (SSL)
 Windows Communication Foundation (WCF)
 Language-Integrated Query (LINQ)
- Globally Unique Identifier (GUID)
- Dependency Injection (DI)
- Uniform Resource Locator (URL)
- Search Engine Optimization (SEO)
+Globally Unique Identifier (GUID)
+Dependency Injection (DI)
+Uniform Resource Locator (URL)
+Search Engine Optimization (SEO)
 
 
 [Summary 20486D]
@@ -619,7 +626,29 @@ Module 4: Developing Controllers
 				In attribute routing you can use the Http[Verb] attributes instead of using the Route attribute. The Http[Verb] attributes should be used when you want to limit access to the action to a specific HTTP verb.
 				To make the attribute routing less repetitive, you can apply the Route attribute to a controller, and apply the Http[Verb] attribute to an action. In such cases, the Route attribute is used to set the common prefix for an entire controller class, and its template is prepended to the template of the action.
 	Lesson 3: Writing Action Filters
-		TODO
+		Cross cutting concerns: Types of requirements that are relevant to many parts of the application and cut across logical boundaries.
+		Filters are MVC classes that you can use to manage cross-cutting concerns in your web application. You can apply a filter to a controller action by annotating the action method with the appropriate attribute. You can also apply a filter to every action in a controller by annotating the controller class with the attribute. 
+		Filters run after an action is chosen to run. They run within a filter pipeline. The stage in the filter pipeline in which the filter is run is determined by the type of the filter.
+		Filter Types:
+			• Authorization filters. Authorization filters run before any other filter and before the code in the action method. They are used to check a user’s access rights for the action. 
+			• Resource Filters. Resource filters appear in the filter pipeline after the authorization filters and before any other filters. They can be used for performance reasons. Resource filters implement either the IResourceFilter interface or the IAsyncResourceFilter interface. 
+			• Action Filters. Action filters run before and after the code in the action method. You can use action filters to manipulate the parameters that an action receives. They can also be used to manipulate the result returned from an action. Action filters implement either the IActionFilter interface or the IAsyncActionFilter interface. 
+			• Exception Filters. Exception filters run only if an action method or another filter throws an exception. These filter classes are used to handle errors. Exception filters implement either the IExceptionFilter interface or the IAsyncExceptionFilter interface. 
+			• Result Filters. Result filters run before and after an action result is run. Result filters implement either the IResultFilter interface or the IAsyncResultFilter interface. 
+			TODO implement some examples
+		You can create your own filter classes or use existing filter classes: 
+			• The ResponseCacheAttribute filter class. Annotating an action with the ResponseCache attribute will cache the response to the client. The ResponseCache attribute contains several properties.
+			• The AllowAnonymousAttribute filter class. Annotating an action with the AllowAnonymous attribute will allow users to access an action without logging in.
+			• The ValidateAntiForgeryTokenAttribute filter class. Annotating an action with the ValidateAntiForgeryToken attribute will help prevent cross-site request forgery attacks.
+	Creating and Using Action Filters:
+		You can create custom filters by implementing the IActionFilter interface or the IResultFilter interface. However, the ActionFilterAttribute base class implements both the IActionFilter and IResultFilter interfaces for you. 
+		By deriving your filter from the ActionFilterAttribute class, you can create a single filter that can run code both before and after an action is run, and both before and after the result is returned. 
+		Using a Custom Action Filter:
+			After you create a custom action filter, you can apply it to any action method or class in your web application by annotating the method or class with the action filter name.
+		Action Filter Context:
+			The OnActionExecuting, OnActionExecuted, OnResultExecuting and OnResultExecuted event handlers take a context object as a parameter. The context object inherits from the FilterContext class. The FilterContext class contains properties that you can use to get additional information regarding the action and the result.
+		Using Dependency Injection in Filters:
+			In case you need your filters to get dependencies using their constructor, you can add filters by type. To add a filter by type, you can use the ServiceFilter attribute. 
 
 Module 5: Developing Views
 	Lesson 1: Creating Views with Razor Syntax

@@ -1,4 +1,5 @@
-﻿using clu.aspnet.webapplication.mvc.core.Services;
+﻿using clu.aspnet.webapplication.mvc.core.Attributes;
+using clu.aspnet.webapplication.mvc.core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using System;
 using System.IO;
 
 namespace clu.aspnet.webapplication.mvc.core
@@ -1323,8 +1325,60 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        #region Example #55
+
+        public void ConfigureServices55(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure55(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
+
+            //https://localhost:44395/Some                  : OnActionExecuting > OnActionExecuted > OnResultExecuting > OnResultExecuted
+        }
+
+        #endregion
+
+        #region Example #56
+
         public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc(options =>
+            {
+                //options.Filters.Add(new LogActionFilter(...)); // an instant
+                options.Filters.Add(typeof(LogActionFilter)); // by type
+            });
+
+            services.AddSingleton<ILogger, Logger>();
+
+            //https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-2.2
+        }
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
+
+            //https://localhost:44395/Cities                : 
+        }
+
+        #endregion
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void _ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -1337,7 +1391,7 @@ namespace clu.aspnet.webapplication.mvc.core
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void _Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

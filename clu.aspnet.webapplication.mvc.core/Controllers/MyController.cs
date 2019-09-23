@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using clu.aspnet.webapplication.mvc.core.Attributes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace clu.aspnet.webapplication.mvc.core.Controllers
 {
     [Route("Some")] // all the routes in a controller class should start with the same prefix
+    [SimpleActionFilter]
     public class MyController : Controller
     {
         public IActionResult SomeMethod()

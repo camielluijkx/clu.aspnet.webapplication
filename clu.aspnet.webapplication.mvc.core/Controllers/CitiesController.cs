@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using clu.aspnet.webapplication.mvc.core.Attributes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace clu.aspnet.webapplication.mvc.core.Controllers
 {
     [Route("cities")]
+    [ServiceFilter(typeof(LogActionFilter))]
     public class CitiesController : Controller
     {
         [HttpGet]

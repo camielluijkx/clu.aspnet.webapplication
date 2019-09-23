@@ -191,4 +191,17 @@ namespace clu.aspnet.webapplication.mvc.core.Services
             return _randomService.GetNumber();
         }
     }
+
+    public interface ILogger
+    {
+        void LogInformation(string message);
+    }
+
+    public class Logger : ILogger
+    {
+        public void LogInformation(string message)
+        {
+            Console.WriteLine(message);
+        }
+    }
 }
