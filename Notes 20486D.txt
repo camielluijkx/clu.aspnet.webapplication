@@ -798,7 +798,51 @@ Module 5: Developing Views
 
 Module 6: Developing Models
 	Lesson 1: Creating MVC Models
-		TODO
+		Developing Models
+			create models in a folder named Models, because MVC relies on convention
+			create public properties for each property in the model and include the data type
+			create read-only properties by omitting the set; keyword (or private set)
+		Passing Models to Views:
+			When an ASP.NET Core MVC web application receives a request from a web browser, it instantiates a controller object to respond to the request. Next, the ASP.NET Core MVC web application determines the action method that should be called on the controller object. Often, the action creates a new instance of a model class, which can be passed to a view to display results to the user.
+			For large applications, it is recommended to use ViewModels to separate the presentation from the domain.
+			You can use the Razor @model operator to specify the strongly typed domain model type of the view. To access the value of a property in the domain object, use @Model.PropertyName.
+			Passing a Collection of Items:
+				Some views display several instances of a model class. In such cases, the controller passes a list of model objects to the view, instead of a single model object. You usually loop through the items in the list by using a Razor foreach loop.
+			Passing a Model to a Different View:
+				You can use another version of the Controller.View method to call a view whose name is different from the name of the action. When you use this version, you need to explicitly specify the name of the view.
+		Binding Views to Model Classes and Displaying Data:
+			The views that are designed to display properties from a specific model class are called strongly typed views. You can bind such views to the model class whose properties they are displaying, which enables you to get IntelliSense feedback as you write the Razor code. 
+			Other views might display properties from different model classes in different cases, or may not use a model class at all. These types of views are called dynamic views and you cannot bind them to a specific model class.
+			Strongly Typed Views:
+				A strongly typed view includes a declaration of the model class. When you declare the model class in the view, Microsoft Visual Studio provides additional IntelliSense feedback and error-checking as you write the code because it can check the properties of the model class. This also simplifies troubleshooting run-time errors. Therefore, Whenever you can, create strongly typed views because this extra IntelliSense and error-checking features can help you reduce coding errors. A strongly typed view only works with an object of the model class in the declaration.
+				In the view files, you can access properties of the model object by using the Model keyword. To access a property in a model, use: @Model.PropertyName.
+			Using Dynamic Views:
+				Sometimes, you might want to create a view that can display more than one model class. Sometimes, the controller action does not pass any model class to the view. In such cases, you can create a dynamic view. A dynamic view does not include the @model declaration at the top of the page.
+				When you create dynamic views, Visual Studio does not provide much IntelliSense feedback and error checking because it cannot check the model class properties to verify the code. In such scenarios, it is your responsibility to ensure that you access only the properties that exist. To access a property that may or may not exist, check the property for null before you use it.
+				There are several HTML helpers and tag helpers that you can use to simplify working with models in views.
+			Using the @Html.EditorForModel HTML Helper:
+				The @Html.EditorForModel HTML helper returns an HTML input element for each property in the model.
+			Using the @Html.BeginForm HTML Helper:
+				@Html.BeginForm HTML helper is considered as a better approach.
+		What Are Model Binders?
+			A model binder is a component of an ASP.NET Core MVC application that creates an instance of a model class, based on the data sent in the request. ASP.NET Core MVC includes a default model binder that meets the needs of most web applications. In addition, you may choose to create a custom model binder for advanced situations.
+			What Does a Model Binder Do?
+				A model binder ensures that the correct data is sent to the parameters in a controller action method. This enables ASP.NET Core MVC to create instances of model classes that satisfy the user’s request.
+			How the Default Model Binder Passes Parameters:
+				In a default ASP.NET Core MVC application, there is only one model binder to use – the default model binder. The default model binder passes parameters by using the following logic:
+					1. The binder examines the definition of the action to which it must pass parameters.
+					2. The binder searches for values in the request that can be passed as parameters. The binder searches for values in the following locations, in order:
+						o Form Values. If the user fills out a form and clicks a submit button, you can find parameters in the Request.Form collection.
+						o Route Values. Depending on the routes that you have defined in your web application, the model binder may be able to identify parameters in the URL.
+						o Query Strings. If the user request includes named parameters after a question mark, you can find these parameters in the Request.QueryString collection.
+						o Files. If the user request includes uploaded files, these can be used as parameters.
+				Notice that if there are form values and route values in the request, form values take precedence. Query string values are only used if there are no form values and no route values available as parameters.
+			Handling Form Values:
+				You can overload an action method. You can create two action methods with the same name that differ by the parameters they get.
+				A common scenario is an action that loads a form and an action that saves a form, both of them have the same name. The ASP.NET Core MVC runtime knows which method should be invoked by using the HttpPostAttribute attribute and HttpGetAttribute attribute. You can annotate an action with the HttpGetAttribute attribute, which indicates that it is a GET operation that is usually used to load a form. You can also annotate an action with the HttpPostAttribute attribute, which indicates that it is a POST operation that is usually used to save a form.
+		Adding CRUD Operations to Controllers:
+			Often, a controller has CRUD operations. The create operations are used to create or add new items. The read operations are used to read, retrieve, search, or view existing entries. The update operations are used to update or edit existing entries. The delete operations are used to delete existing entries.
+
 	Lesson 2: Working with Forms
 		TODO
 	Lesson 3: Validating MVC Application

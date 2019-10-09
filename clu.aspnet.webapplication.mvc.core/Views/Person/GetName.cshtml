@@ -1,0 +1,12 @@
+﻿@model clu.aspnet.webapplication.mvc.core.Models.Person
+
+<form action="/Person/GetName" method="post">
+    @Html.EditorForModel()
+    <input type="submit" value="Submit my name" />
+</form>
+
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+    <input type="submit" value="Submit my name" />
+}
