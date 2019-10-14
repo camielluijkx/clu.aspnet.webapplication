@@ -21,7 +21,7 @@ Test Driven Development (TDD)
 Application Programming Interface (API)
 Create, Read, Update and Delete (CRUD)
 Command Line Integration (CLI)
-Object-Relational Mapping (ORM)
+Object-Relational Mapping / Mapper (ORM)
 Entity Framework (EF)
 Extreme Programming (XP)
 Unified Modeling Language (UML)
@@ -35,6 +35,8 @@ Globally Unique Identifier (GUID)
 Dependency Injection (DI)
 Uniform Resource Locator (URL)
 Search Engine Optimization (SEO)
+Data Definition Language (DDL)
+Universal Windows Platform (UWP)
 
 
 [Summary 20486D]
@@ -920,7 +922,82 @@ Module 6: Developing Models
 
 Module 7: Using Entity Framework Core in ASP.NET Core
 	Lesson 1: Introduction to Entity Framework Core
-		TODO
+		Connecting to a Database Using ADO.NET:
+			ADO.NET and Databases:
+				When you create .NET Framework applications, including ASP.NET Core MVC web applications, you can use the ADO.NET technology to access databases. ADO.NET is a basic data access API in the .NET Framework and contains a set of data providers that support most of the free and commercial databases available today. A data provider implements database-specific protocols and features and at the same time presents a consistent API so that replacing the application's data provider does not involve many code changes.
+				ADO.NET contains several data providers, which include:
+					• System.Data.SqlClient. Used to connect to SQL Server databases and Microsoft Azure SQL databases. 
+					• System.Data.Odbc. Used to connect to databases that support the ODBC API. 
+				You can also find third-party data providers online and you can implement your own data provider.
+			The ADO.NET Connection Object:
+				You can use the ADO.NET connection object to connect to a database. Each provider has an ADO.NET connection object that implements the IDbConnection interface: 
+					• SqlConnection
+					• OdbcConnection 
+				A connection object connects to the database and initiates additional operations, such as executing commands or managing transactions. Typically, you create a connection object with a connection string, which is a locator for your database and might contain connection-related settings, such as authentication credentials and timeout settings. 
+			The ADO.NET Command Object:
+				You can use the ADO.NET command object to send commands to a database. Commands can return data, such as the result of a select query or a stored procedure. Alternately, commands may not return any data, such as when you use an insert or delete statement or a Data Definition Language (DDL) query. 
+				Each provider has an ADO.NET command object that implements the IDbCommand interface: 
+					• SqlCommand
+					• OdbcCommand
+				A command object can represent a single command or a set of commands. Query commands return a set of results as a DataReader object or a DataSet object or a single value, usually, the result of an aggregated action, such as a row count, or calculation of an average. 
+			The ADO.NET DataReader Object:
+				You can use the ADO.NET data reader object to dynamically iterate a result set obtained from a database. If you use a data reader to access data, you must maintain a live connection while you read from the database. Additionally, data readers can only move forward while iterating the data. This data-access strategy is also referred to as the connected architecture. 
+				Each provider has an ADO.NET data reader object that implements the IDataReader interface: 
+					• SqlDataReader
+					• OdbcDataReader
+				When you use a data reader, you can access only one database record at a time, as shown in the preceding example. If you need multiple records at once, you must store them as you move to the next record. Although this seems like a major inconvenience, data readers are very efficient in terms of memory utilization because they do not require the entire result set to be fetched into memory. 
+			The ADO.NET DataAdapter Object:
+				You can use the ADO.NET data adapter object to load a result set obtained from a database into the memory. After loading the entire result set and caching it in the memory, you can access any of its rows, unlike the data reader, which only provides forward iteration. You should use this data-access strategy, referred to as the disconnected architecture, when you do not want to maintain a live connection to the database while processing the data. 
+				Data adapters store the results in a tabular format. You can also change the data after it is loaded and use the data adapter to apply the changes back to the database. Each provider has an ADO.NET data adapter object that implements the IDataAdapter interface: 
+					• SqlDataAdapter
+					• OdbcDataAdapter
+				Although data adapters are convenient to use (especially in conjunction with the DataSet class, they impose a larger overhead than data readers because the entire result set must be fetched into memory before you can perform any operations.
+			The DataSet Object:
+				The DataSet object is one of the most frequently used objects in ADO.NET. You use it to retrieve tabular data from a database. Although you can fill a DataSet object manually with data, you typically load it by using the DataAdapter class. 
+				You can use the DataSet objects to hold information from more than one table at one time and to maintain relationships between the tables. 
+		Object Relational Mapper (ORM):
+			Developers write code that works with classes and objects. In contrast, databases store data in tables with columns and rows, and database administrators create and analyze databases by running Transact-SQL queries. 
+			When you use ADO.NET to interact with your database, your application becomes strongly linked to the database. With ADO.NET, you implement most of your data access as plain-text SQL statements or you call stored procedures implemented on the database server in some SQL dialect. This approach is error-prone and inflexible. Changing the database schema might require considerable modifications to the code of the application. 
+			ORM is a programming technique that simplifies the application’s interaction with data by using a metadata descriptor to connect object code to a relational database. ORM provides an abstraction that maps application objects to database records. 
+			There are multiple ORM frameworks. You can choose the one which is appropriate for you. One of the most popular ORM frameworks is Entity Framework. Entity Framework was created by Microsoft and it maps the tables and columns found in a database to the objects and properties that are used in .NET code. 
+			Besides Entity Framework, there are also other ORM frameworks such as Hibernate and Django. Nevertheless, Entity Framework was made for .NET Framework by Microsoft as the best match for .NET applications. The EF Core is a version which can run on different operating systems and work with different databases.
+		Overview of Entity Framework:
+			Entity Framework provides a one-stop solution to interact with data that is stored in a database. Instead of writing plain-text SQL statements, you can work with your own domain classes, and you do not have to parse the results from a tabular structure to an object structure. These domain classes are called entities. Entity Framework keeps track of the changes you make to the entities to enable updating the database with data that exists in memory. 
+			Entity Framework introduces an abstraction layer between the database schema and the code of your application, which makes your application more flexible. Using Entity Framework, you can access objects by using strongly typed code and query them by using LINQ. Therefore, you no longer have to rely on SQL statements. This makes your code more robust.
+			Entity Framework Approaches:
+				Entity Framework provides three general approaches to create your data access layer (DAL) of the application: 
+					• Database First
+					• Model First
+					• Code First
+				In each of these approaches, Entity Framework can either create a new database, according to the data model or use an existing database. 
+				Model First and Database First:
+					In these approaches, the data model is generated by using a designer in Visual Studio. The model is stored in a .edmx file. The entity classes and the relationships are generated from the model. 
+					If you do not already have a database, after you design your data model, you can generate database scripts from the model by using the Visual Studio designer. You can then run the script on a new database to create the tables. On the other hand, if your database existed prior to creating the data model, you can use the Visual Studio designer to reverse engineer the data model from the database tables.
+				Code First:
+					In this approach, you do not use a .edmx file to design your model, and you do not rely on the Visual Studio designer. The domain model is simply a set of classes with properties that you provide. In the Code First approach, Entity Framework scans your domain classes and their properties and tries to map them to the database. 
+					You can use the Code First approach both with new databases and with existing ones. If you do not have a database, the default behavior of the Code First approach is to create the database the first time you run your application. If your database already exists, Entity Framework will connect to it and use the defined mappings between your model classes and the existing database tables. 
+					Entity Framework Versions
+						There are different versions of Entity Framework and it is important to be familiar with them. 
+					Entity Framework 6 (EF6)
+						Entity Framework 6 (EF6) was first released in 2008. With EF6 you can control the data stored in the database and use it within your application. It supports the Model First, Database First, and Code First approaches, which allow you to choose the design approach for your application. However, EF6 is not supported on operating systems other than Windows. 
+					Entity Framework Core (EF Core)
+						After the decision of making .NET Framework cross platform, supporting several operating systems and not only Windows, there was a need to re-implement Entity Framework. As a result, EF Core was created. EF Core is the .NET Core version of Entity Framework. The EF Core is extensible; hence it comes lightweight giving you the minimum needed features to work with and is capable of adding more features by request. Moreover, EF Core is open source, hence you can find solutions or specific features as well as creating your own. It is important to note that EF Core works only with the Code First approach. However, it is a modern, advanced and rising framework that can be used widely and by a great variety of platforms. 
+		Database Providers:
+			EF Core is a layer between your code and a database. It is used to connect your code to the database. A database provider is a library which is used by EF Core to connect to a specific database. Database providers are distributed as NuGet packages. If you want to use a database provider in your application, you can install the corresponding NuGet package. 
+			The Microsoft SQL Provider:
+				A very commonly used database provider in EF Core is the SQL Server provider. The SQL Server provider enables you to connect a SQL Server database to your application by using EF Core. SQL Server database is a Microsoft’s relational database with a tabular structure. 
+			The SQLite Provider:
+				SQLite is a popular, open source database that is widely used by developers. You can use the SQLite provider to connect an SQLite database to your application by using EF Core. 
+			The InMemory Provider:
+				Entity Framework Core introduced the InMemory provider. It is important to point out the InMemory provider does not connect to a real relational database and does not mimic a database, but it is designed to be a tool for testing your application. 
+			Other Providers:
+				There are plenty of other database providers. Using these providers, it is possible to connect to various database engines such as MySQL, Maria DB and Db2. However, notice that while some database providers are maintained by the EF Core Project (Microsoft) vendor, others database providers might be maintained by other vendors. Before using a database provider, ensure that it meets your requirement. 
+			Adding a Database Provider to Your Application:
+				Usually a database provider is distributed as a NuGet package. Therefore, it is quite simple to add a database provider to your application. To add a database provider to your application you can either use the dotnet tool or use the NuGet Package Manager Console.
+				Add a Database Provider by using the dotnet Tool
+					dotnet add package provider_package_name 
+				Adding a Database Provider by using a NuGet Package Manager Console Command:
+					install-package provider_package_name
 	Lesson 2: Working with Entity Framework Core
 		TODO
 	Lesson 3: Using Entity Framework Core in ASP.NET Core
