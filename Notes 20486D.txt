@@ -40,6 +40,8 @@ Universal Windows Platform (UWP)
 plain-old CLR objects (POCO)
 Package Manager Console (PMC)
 Cascading Style Sheets (CSS)
+Content Delivery Network (CDN)
+Node Package Manager (npm)
 
 
 [Summary 20486D]
@@ -1131,7 +1133,166 @@ Module 8: Using Layouts, CSS and JavaScript in ASP.NET Core MVC
 			The Required Parameter:
 				The RenderSection method gets the name of the section as a parameter. It can get another parameter that indicates if the section is required. This is an optional parameter of type bool. Consider a section in a layout that is required and you do not have a corresponding @section directive in the view file. In this case, an exception will be thrown at run time. 
 	Lesson 2: Using CSS and JavaScript
-		TODO
+		Importing Styles:
+			Cascading Style Sheets (CSS) is an industry standard for applying styles to HTML pages. After creating CSS styles, you should import these styles into the web application. Different methods of applying CSS to a webpage are available. These methods include external CSS file, inline CSS, and CSS code block in HTML. Developers usually use an external CSS file because this file is shared across multiple pages and it helps to apply a consistent style across the application. It is common to add a link to the external CSS file from a layout. Therefore, after importing the CSS file into the web application, you need to modify the layout of the web application, so that you can use the CSS styles that you imported. You can modify the layout of a web application by using the <link> element.
+			CSS selectors help browsers to determine how the CSS styles should be applied. You can use various selectors, such as class and id selectors to apply styles to HTML elements.
+			CSS class Selector:
+				You can define a CSS class selector to specify a style for a group of elements. To apply the class selector to an HTML element, you need to add the class attribute to the HTML element. You can use the .<class> syntax to add the style in the CSS file.
+				Using a class attribute in a view:
+					<p class="menu">this is menu</p>
+				Applying a style to a class:
+					.menu {
+						font-weight:bold;
+					}
+			CSS id Selector:
+				You can use the CSS id selector to specify a style for any unique element in your HTML code. To apply the id selector to an HTML element, you need to add the id attribute and a unique name to the HTML element. You can use the #<id> syntax to add the style in the CSS file. 
+				Using an id attribute in a view:
+					<p id="leftmenu">this is menu</p>
+				Creating an id selector:
+					#leftmenu {
+						font-size:16px;
+					}
+		Rendering and Executing javaScript Code:
+			JavaScript code helps add interactive functionalities to the webpages of your application. You can add JavaScript code to web applications by:
+				• Adding the JavaScript code to a view file. 
+				• Defining the JavaScript code in dedicated JavaScript files.
+			Inserting a JavaScript function:
+				<script>
+					function helloWorld() {
+						alert('Hello World');
+					}
+				</script>
+			If you have multiple views in a web application, you need to add the JavaScript code for each view. You cannot simultaneously add JavaScript code for multiple views. Therefore, you can define the JavaScript code in a JavaScript file (.js file). Then, you can reference the JavaScript file in multiple views. This enables you to maintain a single JavaScript file to edit the JavaScript code for multiple views. You can also have a reference to multiple JavaScript code files from a single view. 
+			The example.js file:
+				function helloWorld() {
+					alert('Hello World');
+				}
+			Referencing a JavaScript file:
+				<script src="~/example.js"></script>
+			Referencing a JavaScript File from a Layout:
+				In ASP.NET Core MVC applications, it is common to add a reference to the JavaScript file from a layout. Therefore, after importing the JavaScript file into the web application, you need to modify the layout of the web application, so that you can use the JavaScript code. You can modify the layout of a web application, by using the <script> element. 
+			Calling JavaScript Functions:
+				You can call functions defined in JavaScript files by using script blocks or event handlers. 
+			Using a script block to call a function:
+				<script>
+					helloWorld();
+				</script>
+			If you want to avoid calling the JavaScript function directly, you can use the onclick JavaScript event to trigger JavaScript functions. The onclick event initiates the JavaScript function when you click the corresponding HTML element. JavaScript functions that are attached to the document object model (DOM) events are called event handlers. 
+			Using an event handler in a view:
+				<input type="button" value="Hello" onclick="helloWorld();" />
+			Calling JavaScript Built-In Functions:
+				JavaScript has a large variety of built-in functions that allow you to perform different actions. There are functions that deal with converting one type of variable to another, functions that perform mathematic calculations and there are many others. 
+			The following functions are examples of functions that deal with converting one type of variable to another: 
+				• parseInt(). This function accepts a string and returns an integer. For example, the string "20.6" will be converted to 20. 
+				• parseFloat(). This function accepts a string and returns a floating point number. For example, the string "50.1" will be converted to 50.1. 
+			In addition to built-in functions, there are also built-in objects in JavaScript. For example, there is a built-in object in JavaScript named Math. Math is an object that allows to perform mathematic calculations on numbers:
+				• Math.round(). A function that is used to round off a number to the nearest integer. 
+				• Math.floor(). A function that is used to round down a number to the nearest integer. 
+				• Math.ciel(). A function that is used to round up a number to the nearest integer.
+			Using built-in JavaScript functions:
+				var userInput = "50.5";
+				var parsedNumber = parseFloat(userInput); // Output 50.5
+				var roundedNumber = Math.round(parsedNumber); // Output 51
+				var flooredNumber = Math.floor(parsedNumber); // Output 50
+				var ceiledNumber = Math.ceil(parsedNumber); // Output 51
+		Using External Libraries:
+			Serving Files from a Local Folder:
+				One of the ways to add a library to an ASP.NET Core application is to download the source files from an official source such as jQuery from the jQuery website or Bootstrap from the Bootstrap website. 
+				After downloading the files, in order to load them in the application, you should add them to the static files folder which by default is the wwwroot folder. 
+			Linking a layout to the jQuery library:
+				 <script src="~/js/jquery-3.3.1.js"></script>
+			One of the disadvantages of serving files from a local folder is that the loading time of those files is long. To make the loading time shorter you can serve the files by using a Content Delivery Networks (CDN) instead of serving them from a local folder. 
+			Serving Files using CDN:
+				A CDN is a group of geographically distributed servers used for hosting content for web applications. In many cases, you can bring web content geographically closer to your application’s users by using a CDN to host libraries. This will also improve the scalability and robustness of the delivery of that content. 
+				Another benefit of CDN is that many websites use the same CDN, so the files they use are cached in the user's browser. This can help to decrease the loading time of your website because the files you are using have already been downloaded to the client’s browser. 
+				The amount of content stored in a CDN varies among different web applications. Some applications store all their content on a CDN, while other applications store only some of their content. 
+				Microsoft has a dedicated CDN called Microsoft Ajax CDN that hosts some popular libraries, such as jQuery and Bootstrap. 
+				You can often reduce the loading time of your web application, by using the libraries hosted on Microsoft Ajax CDN. Web browsers can cache these libraries on a local system. 
+				Linking to the jQuery library by using a CDN:
+					<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"></script>
+				Having a .min.js extension means this file is minified and is more lightweight than the file with the .js extension.
+				Applications in production should not entirely depend on CDN assets because they might be unavailable. Applications should test the CDN asset referenced and when it is not available, to use a fallback method such as serving a local file. 
+			Using Package Managers:
+				You can avoid adding libraries manually to your web application by using a package manager. Package manager is a tool that automates the process of installing, upgrading and configuring packages. It also allows developers to create, share and use handy code. Using a package manager helps to reduce the need for configuration tasks while adding libraries to an application. 
+				There are several package managers that you can choose from, which include: 
+					• NuGet
+					• Yarn
+					• Webpack
+					• Bower
+					• npm
+				NuGet:
+					NuGet is a free and open source package manager which Microsoft has created for the Microsoft development platform and it is part of Visual Studio. In past versions of ASP.NET, it was recommended to use the NuGet package manager to install client-side libraries such as jQuery and Bootstrap. In ASP.NET Core this has changed and the NuGet package manager should be used mainly to install server-side packages. 
+				Yarn:
+					Yarn is a very fast and secure package and dependency manager. It allows to use and share code with other developers. Yarn checks the integrity of the packages being installed before executing the code. 
+				Webpack:
+					Webpack is a module bundler for JavaScript applications and serves as a task runner. It processes your application and creates a dependency graph. This graph maps exactly what are the modules that your application needs. Webpack creates bundles including the project’s dependencies. 
+				Bower:
+					Bower is a lightweight package manager that helps to manage frameworks, libraries, and assets on the web. It does not bundle the packages or perform tasks as Webpack but only installs the packages your application needs. 
+				npm:
+					One of the most popular package managers that allows adding libraries and front-end frameworks to your application. It has many registered packages and the number is constantly growing. 
+				Using npm in ASP.NET Core Applications:
+					To start using npm in your ASP.NET Core application, you should add a package.json file to your solution in your project’s root folder. This file gives npm information which allows it to identify the project and to handle the project's dependencies. It can also contain more information about the project such as a project description and the version number in a specific distribution. 
+					The package.json file includes several kinds of properties. It includes information describing your application which includes application version, name, and privacy settings. The most important properties for developers are dependencies and devDependencies. 
+						• dependencies. This is a list of packages that your client-side logic depends on such as jQuery and Bootstrap. When a package is located in the dependencies section, npm will always install it as part of the application. 
+						• devDependencies. This is a list of packages that will be installed only in a development environment. Those packages are not related to the client-side logic but to bundling, minification, and compilation among others. 
+					Each package listed in the dependencies and devDependencies section has a version number that indicates which version of the package will be installed. Visual Studio will always recommend installing the latest stable version of each package.
+				Adding jQuery by using npm:
+					{
+					  "version": "1.0.0",
+					  "name": "asp.net",
+					  "private": true,
+					  "dependencies": {
+						"jquery": "3.3.1"
+					  },
+					  "devDependencies": {
+   
+					  }
+					}
+				After adding jQuery inside the dependencies section and saving the package.json file, the jQuery package will be downloaded and placed inside the node_modules folder. This folder is located inside the root folder of the application and will contain all the code the application needs. 
+				By default, static files in an ASP.NET Core application can be served only if they are located in the wwwroot folder. If, however you want to allow static files to be served from a different folder, for example, the node_modules folder, you can use the UseStaticFiles method and pass an instance of type StaticFileOptions to it as a parameter. 
+				Add the node_modules folder to the static files middleware inside the Startup.cs file:
+					app.UseStaticFiles(new StaticFileOptions
+					{
+						FileProvider = new PhysicalFileProvider(
+							Path.Combine(env.ContentRootPath, "node_modules")
+						),
+						RequestPath = "/node_modules"
+					});
+				Using scripts installed with npm:
+					 <script src="../node_modules/jquery/dist/jquery.js"></script>
+				Directly referencing the node_modules folder from inside of views is not considered a good practice. A better practice is to use bundling and minification.
+				Bundling and Minification:
+					Script libraries that you add to an application can slow down the loading time of webpages because it takes time to download the scripts into the browser. Bundling and minification help reduce the loading time of web applications by reducing both the number and size of HTTP requests. 
+						• Bundling helps combine multiple JavaScript libraries into a single HTTP request. 
+						• Minification compresses code files before incorporating them in the client application.
+					To use bundling and minification in an ASP.NET Core application, you can use the bundleconfig.json configuration file. The bundleconfig.json configuration file defines how the application’s static files will be bundled and minified. 
+				Adding jQuery to a bundleconfig.json File:
+					[
+					  {
+						"outputFileName": "wwwroot/css/site.min.css",
+						// An array of relative input css file paths. 
+						"inputFiles": [
+						  "wwwroot/css/site.css"
+						]
+					  },
+					  {
+						"outputFileName": "wwwroot/js/scripts.min.js",
+						"inputFiles": [
+						  // An array of relative input js file paths including jQuery. 
+						   "wwwroot/lib/jquery/dist/jquery.js",
+						   "wwwroot/js/site.js"
+						],
+						// Optionally specify minification options
+						"minify": {
+						  "enabled": true,
+						  "renameLocals": true
+						},
+						// Optionally generate .map file
+						"sourceMap": false
+					  }
+					]
+				To enable the execution of bundling and minification during the build time, you can download the BuildBundlerMinifier NuGet package from the NuGet package manager. This package injects MSBuild Targets which are grouped tasks that run at build and clean time. 
+				Each time that you run a Build or Clean in your application, the bundleconfig.json file will be analyzed by the build process and the output files will be produced based on the defined configuration. 
 	Lesson 3: Using jQuery
 		TODO
 
