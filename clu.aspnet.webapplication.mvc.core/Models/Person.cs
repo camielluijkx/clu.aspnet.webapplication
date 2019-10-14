@@ -38,5 +38,17 @@ namespace clu.aspnet.webapplication.mvc.core.Models
 
         [Range(0, 150)]
         public int Age { get; set; }
+
+        public int PersonId { get; set; }
+
+        public int CountryId { get; set; }
+
+        //public Country Country { get; set; }
+        public virtual Country Country { get; set; }
+
+        public int CityId { get; set; }
+
+        //public City City { get; set; }
+        public virtual City City { get; set; }
     }
 }

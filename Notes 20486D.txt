@@ -37,6 +37,7 @@ Uniform Resource Locator (URL)
 Search Engine Optimization (SEO)
 Data Definition Language (DDL)
 Universal Windows Platform (UWP)
+plain-old CLR objects (POCO)
 
 
 [Summary 20486D]
@@ -999,7 +1000,66 @@ Module 7: Using Entity Framework Core in ASP.NET Core
 				Adding a Database Provider by using a NuGet Package Manager Console Command:
 					install-package provider_package_name
 	Lesson 2: Working with Entity Framework Core
-		TODO
+		Using an Entity Framework Context:
+			In EF Core, a context is how you access the database, without the need for additional wrappers or abstractions. An Entity Framework context is the glue between your domain model classes and the underlying framework that connects to the database and maps object operations to database commands. 
+			An Entity Framework context is used to: 
+				• Provide basic create, read, update, and delete (CRUD) operations, and to simplify the code that you need to write to execute these operations. 
+				• Handle the opening and closing of database connections. 
+				• Handle the database generation when working with the Code First approach.
+			Adding an Entity Framework Context:
+				To coordinate with Entity Framework functionalities, you will have to create an Entity Framework context. A context in Entity Framework Core is a class that inherits from the DbContext class. 
+			Domain Model Classes (Entities):
+				In addition to creating an Entity Framework context, you should also create the domain model classes of your application. Domain model classes are POCO classes. The reason for this name is that they do not have any dependency on EF Core. They just define the properties of the data that is stored in the database. The domain model classes are called entities. In your code, you specify which entities are included in the data model and you can also customize certain Entity Framework behavior for each entity. 
+			Adding DbSet Properties to an Entity Framework Context:
+				When working with EF Core, you want to ensure that the entities defined in the code are mapped to tables defined in the database. To achieve this, you can add the DbSet<> properties to the Entity Framework context. Each DbSet<> property gets an entity type as a type parameter. In relational databases, the entity is mapped to a table in the database. EF Core will map the properties according to the mapping information provided by the classes.
+			Connecting an Entity Framework Context to SQLite Database:
+				You can connect an Entity Framework context to a database. To connect an Entity Framework context to a database, you need to use a database provider which corresponds to the database chosen. 
+				One of the most popular databases that you can access when using EF Core is SQLite. SQLite is a serverless database, which means that you don’t need to have a separate server to use it (it is file based). One of the big advantages of SQLite, when compared to other databases, is that it is very easy to configure. 
+				To use an Entity Framework context in an ASP.NET Core application, you need to register a service by using the AddDbContext<> method, passing it the Entity Framework context class type as a generic type parameter. You should register the service in the ConfigureServices method of the Startup class.
+				Using an Entity Framework Context in a Controller:
+					After configuring the Entity Framework context, you can use it in a controller. The Entity Framework context is passed to the constructor of the controller you are using due to the dependency injection mechanism.
+				Creating and Deleting a Database:
+					You can use the Database property of a DbContext object to create a database or delete a database. By using the Database property of the DbContext object, you can call the EnsureCreated and EnsureDeleted methods. When you call the EnsureCreated method, Entity Framework creates a database based on the information in your DbContext-derived class if the database does not already exist. When you call the EnsureDeleted method, Entity Framework deletes the database if it already exists.
+				Data Seeding:
+					You can use a data seeding to populate the database with sample data when a database is created. When you call the EnsureCreated method, a new database will be created and initialized with the sample data. Notice that in case a database already exists when EnsureCreated is called, the sample data won’t be added to the database.
+		Using LINQ to Entities:
+			LINQ is a set of extension methods that enable you to write complex query expressions. You can use these expressions to extract data from databases, enumerable objects, XML documents, and other data sources. The expressions are similar to Transact-SQL queries, but you can get IntelliSense support and error checking in Visual Studio. 
+			What is LINQ to Entities?
+				LINQ to Entities is the version of LINQ that works with EF Core. LINQ to Entities enables you to write complex and sophisticated queries to locate specific data, join data from multiple objects, and take other actions on objects from an Entity Framework context. If you are using EF Core, you can write LINQ queries wherever you require a specific instance of a model class, a set of objects, or for more complex application needs. You can write LINQ queries in query syntax, which resembles SQL syntax, or method syntax, in which operations such as “select” are called as methods on objects. 
+			The LINQ Query:
+				The query is specifying the information which you want to get from your database. Moreover, you have the option to specify how the retrieved information will be sorted, grouped or formatted before it is returned. The LINQ query is stored in a query variable and initialized with a query expression. A query expression is a query expressed in query syntax, it is a first-class language construct and it can be used in any context in which a C# expression is valid. You should notice that the writing of LINQ query is slightly different than writing a SQL query. 
+		Loading Related Data:
+			In EF Core you can load related entities by using navigation properties. To load related data, you need to choose an ORM pattern. EF Core contains several ORM patterns, which include: 
+				• Explicit loading. Using this pattern, the related data is loaded explicitly from the database after the original query is completed. 
+				• Eager loading. Using this pattern, the related data is loaded from the database as part of the original query. 
+				• Lazy loading. Using this pattern, the related data is loaded from the database as you access the navigation property.
+			Navigation Properties:
+				In EF Core you can link an entity to other entities using by navigation properties. When an entity is related to another entity, you should add a navigation property to represent the association. When the multiplicity of the association is one or zero-or-one, the navigation property is represented by a reference object. When the multiplicity of the association is many, the navigation property is represented by a collection. 
+			Explicit Loading:
+				To load related entities by using the explicit loading ORM pattern, you should use the Entry method of the Entity Framework context class.
+				You can also use the explicit loading ORM pattern in conjunction with LINQ. To do so, you should first call the Query method, and then you can call the LINQ methods such as Count and Where.  
+			Eager Loading:
+				In addition to loading related data by using the explicit loading ORM pattern, you can also choose to load related data by using the eager loading ORM pattern. However, while loading related data by using the explicit loading ORM pattern is executed explicitly after the original query is completed, when the eager loading ORM pattern is used the related data is loaded as part of the original query. 
+				To load related entities by using the explicit loading ORM pattern you need to use the Include method. The Include method specifies related entities to be included in the query results. 
+				In case you need to include related data from multiple relationships, you can use the Include method several times in the same query. 
+				If you need to include more levels of related data, you can use the ThenInclude method. The ThenInclude method can be used to drill down through the relationships. 
+			Lazy Loading:
+				The lazy loading ORM pattern can be used when you want to load related data from the database as you access the navigation property. 
+				In case you want that EF Core will use lazy loading to load a navigation property, you should change the navigation property to be overridden. To change a navigation property to be overridden you can use the virtual keyword. 
+				If you want to use the lazy loading ORM pattern, in addition to changing the navigation properties to be overridden, you should also turn on the creation of lazy-loading proxies. To turn on the creation of lazy-loading proxies, you can call the UseLazyLoadingProxies method. 
+		Manipulating Data by Using Entity Framework:
+			EF Core can track entities that you retrieve from the database. EF Core uses change tracking so that when you call the SaveChanges method on the Entity Framework context object, it can synchronize your updates with the database. You can check the status of any entity (such as whether it was modified), inspect the history of your changes, and undo changes if required. 
+			Each entity in EF Core can be in one of the following states: 
+				• Added. The entity was added to the context and does not exist in the database. 
+				• Modified. The entity was changed since it was retrieved from the database. 
+				• Unchanged. The entity was not changed since it was retrieved from the database. 
+				• Deleted. The entity was deleted since it was retrieved from the database. 
+			Inserting New Entities:
+				To add an entity to the database, you can use the Entity Framework context object. When you use the Entity Framework context object to add a new entity to a database, the context marks the change tracking status of the entity as Added. When you call the SaveChanges method, the Entity Framework context object adds the entity to the database. No changes are applied to the database until you call the SaveChanges method. 
+			Deleting Entities:
+				To delete an entity from the database, you can use the Entity Framework context object. When you delete an entity from a database, the context marks the change tracking status of the entity as Deleted. When you call the SaveChanges method, the Entity Framework context object deletes the entity from the database. 
+			Updating Entities:
+				To update an entity in the database, you can use the Entity Framework context object. When you update an entity, the context marks the change tracking status of the entity as Modified. When you call the SaveChanges method, the Entity Framework context object updates the entity in the database. 
 	Lesson 3: Using Entity Framework Core in ASP.NET Core
 		TODO
 

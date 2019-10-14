@@ -1,9 +1,11 @@
 ﻿using clu.aspnet.webapplication.mvc.core.Attributes;
+using clu.aspnet.webapplication.mvc.core.DataAccess;
 using clu.aspnet.webapplication.mvc.core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -1420,6 +1422,65 @@ namespace clu.aspnet.webapplication.mvc.core
             //https://localhost:44395/images/test.jpg       : test.jpg is displayed
             //https://localhost:44395/Photo/Choose          : Index -> View
             //https://localhost:44395/Photo/GetImage/1      : test.jpg
+        }
+
+        #endregion
+
+        #region Example #79
+
+        public void ConfigureServices79(IServiceCollection services)
+        {
+            services.AddDbContext<HrContext>(options => options.UseSqlite("Data Source=hr.db"));
+
+            services.AddMvc();
+        }
+
+        public void Configure79(IApplicationBuilder app, HrContext context)
+        {
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
+            app.UseMvc();
+        }
+
+        #endregion
+
+        #region Example #80
+
+        public void ConfigureService80s(IServiceCollection services)
+        {
+            services.AddDbContext<DemographyContext>(options => options.UseSqlite("Data Source=demography.db"));
+
+            services.AddMvc();
+        }
+
+        public void Configure80(IApplicationBuilder app, HrContext context)
+        {
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
+            app.UseMvc();
+        }
+
+        #endregion
+
+        #region Example #85
+
+        public void ConfigureServices85(IServiceCollection services)
+        {
+            services.AddDbContext<DemographyContext>(options => options
+                .UseLazyLoadingProxies()
+                .UseSqlite("Data Source=demography.db"));
+            services.AddMvc();
+
+        }
+
+        public void Configure85(IApplicationBuilder app, HrContext context)
+        {
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
+            app.UseMvc();
         }
 
         #endregion
