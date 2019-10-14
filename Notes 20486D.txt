@@ -39,6 +39,7 @@ Data Definition Language (DDL)
 Universal Windows Platform (UWP)
 plain-old CLR objects (POCO)
 Package Manager Console (PMC)
+Cascading Style Sheets (CSS)
 
 
 [Summary 20486D]
@@ -1111,7 +1112,24 @@ Module 7: Using Entity Framework Core in ASP.NET Core
 
 Module 8: Using Layouts, CSS and JavaScript in ASP.NET Core MVC
 	Lesson 1: Using Layouts
-		TODO
+		What are Layouts?
+			The ASP.NET Core MVC Razor engine includes a feature called layouts. Layouts are also called template views. Layouts enable you to define a common style template and then apply it to all the views in a web application. The functionality of layouts is similar to that of the master page in a traditional ASP.NET web application. You can use layouts to define the content layout or logic that is shared across views. 
+			You can define multiple layouts in an ASP.NET Core MVC application, and each layout can have multiple sections. You can define these sections anywhere in the layout file, even in the <head> section of the HTML. Sections enable you to output dynamic content to multiple, non-contiguous regions of the final response that is sent to the browser. 
+		Creating a Layout:
+			When you create layouts, you should store the layout files in the \Views\Shared folder of the project. The \Views\Shared folder is the default location where you can store common view files or templates.
+			The @RenderBody method indicates to the rendering engine where the content of the view should be placed. 
+			The layout and view share the same ViewBag. You can use the ViewBag property to pass information between a view and a layout. To pass information, you can add a property to the ViewBag property in the View file and use the same property in the layout file. Properties help you control the content in the layout to dynamically render webpages from the code in the view file. For example, consider that a template uses the ViewBag.Title property to render the <title> content in the view. This property helps you to not only define the Title property of the ViewBag property in the view but also to retrieve the property in the layout. This retrieval is possible because the code in the view file runs before the layout. 
+		Linking Views and Layouts:
+			After defining a layout, you can link the layout to the view files. To link a layout to a view, you should add the Layout directive at the top of the view file. 
+			You can use the ViewBag.Title property to pass the page title information from the view to the layout. You can define other properties along with the ViewBag property, such as <meta> elements in the <head> section and enable them to pass information to the layout. 
+			The _ViewStart.cshtmlFile:
+				Usually, you have the same layout across an entire web application. You can define the layout for an application by using the _ViewStart.cshml file. During run time, the code in the _ViewStart.cshtml file runs before all the other views in the web application. Therefore, you can place all common application logic in the _ViewStart.cshtml file. 
+				To use the _ViewStart.cshtml file, you should add it to the \Views folder of your project. The following code illustrates the content of the _ViewStart.cshtml file.
+				If the web application contains the _ViewStart,cshtml file shown above, you don’t have to include the link to the layout in the Index view. 
+		Using Sections in a Layout:
+			A section is a region of content within a layout. It is a placeholder within a layout that allows a view to insert content. You can add sections to a layout by using the RenderSection method. The RenderSection method gets the name of the section as a parameter. In a view, you can set the content of the section by using the @section directive followed by the name of the section. 
+			The Required Parameter:
+				The RenderSection method gets the name of the section as a parameter. It can get another parameter that indicates if the section is required. This is an optional parameter of type bool. Consider a section in a layout that is required and you do not have a corresponding @section directive in the view file. In this case, an exception will be thrown at run time. 
 	Lesson 2: Using CSS and JavaScript
 		TODO
 	Lesson 3: Using jQuery

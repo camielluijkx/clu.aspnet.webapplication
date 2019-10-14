@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    @RenderSection("section1")
+    <div>This is layout content between section1 and the body</div>
+    @RenderBody()
+    <div>This is layout content between the body and section2</div>
+    @*@RenderSection("section2")*@
+    @RenderSection("section2", false)
+</body>
+</html>
+
+@*This is section1 content
+This is layout content between section1 and the body
+This is the body
+This is layout content between the body and section2
+This is section2 content*@
