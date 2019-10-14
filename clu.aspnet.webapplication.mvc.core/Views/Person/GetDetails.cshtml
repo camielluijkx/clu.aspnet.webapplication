@@ -1,0 +1,51 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model clu.aspnet.webapplication.mvc.core.Models.Person
+@*@Html.EditorForModel()*@
+
+<h1>Get person details</h1>
+
+@*@Html.LabelFor(p => p.FirstName)
+    @Html.EditorFor(p => p.FirstName)
+    <br />
+    @Html.LabelFor(p => p.LastName)
+    @Html.EditorFor(p => p.LastName)
+    <br />
+    @Html.LabelFor(p => p.ContactMe)
+    @Html.EditorFor(p => p.ContactMe)*@
+
+@*<label asp-for="FirstName"></label>
+    <input asp-for="FirstName" />
+    <br />
+    <label asp-for="LastName"></label>
+    <input asp-for="LastName" />
+    <br />
+    <label asp-for="ContactMe"></label>
+    <input asp-for="ContactMe" />*@
+
+@*@using (Html.BeginForm("ShowDetails", "Person"))*@
+@*@using (Html.BeginForm("ShowDetails", "Person", FormMethod.Post))
+{
+    <label asp-for="FirstName"></label>
+    <input asp-for="FirstName" />
+    <br />
+    <label asp-for="LastName"></label>
+    <input asp-for="LastName" />
+    <br />
+    <label asp-for="ContactMe"></label>
+    <input asp-for="ContactMe" />
+    <br />
+    <input type="submit" value="Submit my details" />
+}*@
+<form asp-controller="Person" asp-action="ShowDetails">
+    <label asp-for="FirstName"></label>
+    <input asp-for="FirstName" />
+    <br />
+    <label asp-for="LastName"></label>
+    <input asp-for="LastName" />
+    <br />
+    <label asp-for="ContactMe"></label>
+    <input asp-for="ContactMe" />
+    <br />
+    <input type="submit" value="Submit my details" />
+</form>

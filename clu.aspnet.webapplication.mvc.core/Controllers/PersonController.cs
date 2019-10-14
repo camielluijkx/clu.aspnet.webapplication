@@ -91,5 +91,30 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [Route("Person/GetDetails")]
+        public IActionResult GetDetails()
+        {
+            return View();
+        }
+
+        //[Route("Person/ShowDetails")]
+        //public IActionResult ShowDetails()
+        //{
+        //    Person person = new Person
+        //    {
+        //        FirstName = "James",
+        //        LastName = "Smith",
+        //        ContactMe = true
+        //    };
+
+        //    return View(person);
+        //}
+
+        [Route("Person/ShowDetails")]
+        public IActionResult ShowDetails(Person person)
+        {
+            return View(person);
+        }
     }
 }

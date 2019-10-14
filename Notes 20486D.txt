@@ -841,10 +841,56 @@ Module 6: Developing Models
 				You can overload an action method. You can create two action methods with the same name that differ by the parameters they get.
 				A common scenario is an action that loads a form and an action that saves a form, both of them have the same name. The ASP.NET Core MVC runtime knows which method should be invoked by using the HttpPostAttribute attribute and HttpGetAttribute attribute. You can annotate an action with the HttpGetAttribute attribute, which indicates that it is a GET operation that is usually used to load a form. You can also annotate an action with the HttpPostAttribute attribute, which indicates that it is a POST operation that is usually used to save a form.
 		Adding CRUD Operations to Controllers:
-			Often, a controller has CRUD operations. The create operations are used to create or add new items. The read operations are used to read, retrieve, search, or view existing entries. The update operations are used to update or edit existing entries. The delete operations are used to delete existing entries.
-
+			Often, a controller has CRUD operations. The create operations are used to create or add new items. The read operations are used to read, retrieve, search, or view existing entries. The update operations are used to update or edit existing entries. The delete operations are used to delete existing entries
 	Lesson 2: Working with Forms
-		TODO
+		Using Display and Edit Data Annotations:
+			A model class usually contains several properties each of which usually includes:
+				• The name of the property. 
+				• The data type of the property. 
+				• The access levels of the property to indicate read and write access. 
+			In addition, you can supply more metadata to describe the properties of models in ASP.NET Core MVC. The ASP.NET Core MVC runtime uses this metadata to determine how to render each property in views for displaying and editing. These attributes are called display and edit annotations. 
+			Data annotations that are mentioned above are included in the System.ComponentModel.DataAnnotations namespace.
+		Using Display Helpers:
+			Html.DisplayNameFor renders the name of a model class property. Html.DisplayFor renders the value of a model class property. Both these helpers examine the definition of the property in the model class, including the data display annotations, to ensure that they render the most appropriate HTML.
+			The Html.DisplayNameFor Helper:
+				You can use the Html.DisplayNameFor helper to render the display name for a property from the model class. If your view is strongly typed, Visual Studio checks whether the model class contains a property with the correct name as you type the code. Otherwise, you must ensure that you use a property that exists or verify that it is not null before you use it. You specify the property of the model class to the Html.DisplayNameFor HTML helper by using a lambda expression. 
+				The text rendered by the Html.DisplayNameFor helper depends on the model class. If you used a DisplayAttribute attribute to give a more descriptive name to a property, Html.DisplayNameFor will use the value of the Name parameter. Otherwise, it will render the name of the property.
+			The Html.DisplayFor Helper:
+				The Html.DisplayFor helper considers any display annotations that you specify in the model class, and then renders the value of the property. It generates different HTML markups depending on the data type of the property that is being rendered.
+		Using Editor Helpers:
+			Within HTML forms, there are many HTML input controls that you can use to gather data from users. In Razor views, the Html.LabelFor and Html.EditorFor HTML helpers make it easy to render the most appropriate input controls for the properties of a model class. 
+			Control					Example													Description
+			Text box				<input type="text" name="Title" />						Renders a single-line text box in which the user can enter a 
+																							string. The name attribute is used to identify the entered 
+																							value in the query string or to send form data by using the 
+																							POST method. 
+			Multi-line text box		<textarea name="Description" rows="20" cols="80" />		Renders a multi-line text box in which the user can enter 
+																							longer strings. 
+		Check box					<input type="checkbox" name="ContactMe" />				Renders a check box to submit a boolean value.
+		The Html.LabelFor HTML Helper:
+			The Html.LabelFor helper is similar to the Html.DisplayNameFor helper because it renders the name of the property that you specify, considering the DisplayAttribute attribute if it is specified in the model class. However, unlike the Html.DisplayNameFor helper, the Html.LabelFor helper renders a <label> element.
+		The Html.EditorFor HTML Helper:
+			The Html.EditorFor helper renders the most appropriate HTML input elements and other form controls for each property data type in a model class.
+			Control					Model Class Property									HTML Rendered by EditorFor()
+			Text box				public string Title { get; set; }						<input type="text" name="Title" />
+			Multi-line text box		[DataType(DataType.MultilineText)]						<textarea name="Description" rows="20" cols="80" />
+									public string Description { get; set;}
+			Check box				public bool ContactMe { get; set; }						<input type="checkbox" name="ContactMe" />
+			If the action passes an existing model object to the view, the Html.EditorFor helper also populates each control with the current values of each property. 
+		The LabelTagHelper and InputTagHelper Tag Helpers:
+			Tag helpers are an alternative to HTML helpers. Similar to HTML helpers, the role of tag helpers is to embed server-side code inside a view. However, it is much easier for non-programmers, such as designers, to understand them because tag helpers look like regular HTML elements. Tag helpers are implemented by using programming languages such as C#. 
+			The LabelTagHelper tag helper is an alternative to the Html.LabelFor HTML helper. It generates a <label> element for a property in a model and you can use it by adding an asp-for attribute to a <label> element. The value of the generated for HTML attribute matches the name of the property in the model class. The content of the <label> element matches the Name property of the DisplayAttribute attribute that is specified in the model class. 
+			The InputTagHelper tag helper is an alternative to the Html.EditorFor HTML helper. It generates an <input> element for a property of a model and you can use it by adding an asp-for attribute to a <input> element. The InputTagHelper tag helper adds an id and a name based on the property name specified in the asp-for attribute. Similar to the Html.Editor HTML helper, the type of the input element is determined based on the .NET type of the property of the model class. 
+		Using Form Helpers:
+			To accept user input, you can provide a form on your webpage. A typical form consists of a set of labels and input controls. The labels indicate to the user the property for which they should provide a value. The input controls enable the user to enter a value. Input controls can be text boxes, check boxes, radio buttons, file selectors, drop-down lists, or other types of control. There is usually a submit button and cancel button on forms. 
+			The Html.BeginForm HTML Helper:
+				To build a form in HTML, you must start with a <form> element on the HTML webpage and all labels and input controls must be within the <form> element. In an MVC view, you can use the Html.BeginForm HTML helper to render this element and set the controller action to which the form sends data. 
+				You can also specify the HTTP method that the form uses to submit data. If the form uses the POST method, which is the default, the browser sends form values to the web server in the body of the form. If the form uses the GET method, the browser sends form values to the web server in the query string in the URL. 
+				In the rendered HTML, the <form> element must be closed with a </form> tag. In Razor views, you can ensure that the form element is closed with a @using code block. Razor renders the </form> tag at the closing bracket of the code block.
+			The FormTagHelper Tag Helper:
+				The FormTagHelper tag helper is an alternative to the Html.BeginForm HTML helper. It generates a <form> HTML element. You can add to the FormTagHelper helper an asp-controller attribute to bind it to a specific controller. You also can add to the FormTagHelper helper an asp-action attribute to bind it to a specific action. Although the default form method value is post, you can specify another form method.
+
+
 	Lesson 3: Validating MVC Application
 		TODO
 

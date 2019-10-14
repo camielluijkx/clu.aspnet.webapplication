@@ -45,6 +45,12 @@
     <Content Update="Views\Name\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Person\ShowDetails.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Person\GetDetails.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Person\ShowName.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
