@@ -1,15 +1,19 @@
 ﻿using clu.aspnet.webapplication.mvc.core.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace clu.aspnet.webapplication.mvc.core.Models
 {
     public class Person
     {
         [Display(Name = "First Name: ")]
+        [Required] // Data Annotation
+        [StringLength(20)]
         public string FirstName { get; set; }
 
         [Display(Name = "Last Name: ")]
+        [NotMapped] // Data Annotation
         public string LastName { get; set; }
 
         [Display(Name = "Contact me? ")]
@@ -39,6 +43,7 @@ namespace clu.aspnet.webapplication.mvc.core.Models
         [Range(0, 150)]
         public int Age { get; set; }
 
+        [Key] // Data Annotation
         public int PersonId { get; set; }
 
         public int CountryId { get; set; }

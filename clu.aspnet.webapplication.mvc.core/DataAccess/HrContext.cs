@@ -39,6 +39,9 @@ namespace clu.aspnet.webapplication.mvc.core.DataAccess
             persons.ForEach(p => p.Name = $"{p.FirstName} {p.LastName}");
 
             modelBuilder.Entity<Person>().HasData(persons.ToArray());
+
+            // Naming Database Tables
+            modelBuilder.Entity<Person>().ToTable("People");
         }
     }
 }

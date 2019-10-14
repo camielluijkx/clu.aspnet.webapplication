@@ -23,8 +23,11 @@ namespace clu.aspnet.webapplication.mvc.core
     {
         public Startup(IConfiguration configuration)
         {
+            _configuration = configuration;
             Configuration = configuration;
         }
+
+        private IConfiguration _configuration;
 
         public IConfiguration Configuration { get; }
 
@@ -1476,6 +1479,91 @@ namespace clu.aspnet.webapplication.mvc.core
         }
 
         public void Configure85(IApplicationBuilder app, HrContext context)
+        {
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
+            app.UseMvc();
+        }
+
+        #endregion
+
+        #region Example #86
+
+        public void ConfigureServices86(IServiceCollection services)
+        {
+            string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=HumanResources;Trusted_Connection=True;";
+
+            services.AddDbContext<HrContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddMvc();
+        }
+
+        public void Configure86(IApplicationBuilder app, HrContext context)
+        {
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
+            app.UseMvc();
+        }
+
+        #endregion
+
+        #region Example #89
+
+        public void ConfigureServices89(IServiceCollection services)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+
+            services.AddDbContext<HrContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddMvc();
+        }
+
+        public void Configure89(IApplicationBuilder app, HrContext context)
+        {
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
+            app.UseMvc();
+        }
+
+        #endregion
+
+        #region Example #90
+
+        public void ConfigureServices90(IServiceCollection services)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<HrContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddMvc();
+        }
+
+        public void Configure90(IApplicationBuilder app, HrContext context)
+        {
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
+            app.UseMvc();
+        }
+
+        #endregion
+
+        #region Example #91
+
+        public void ConfigureServices91(IServiceCollection services)
+        {
+            services.AddTransient<IRepository, MyRepository>();
+
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<HrContext>(options => options.UseSqlServer(connectionString));
+            services.AddMvc();
+        }
+
+        public void Configure91(IApplicationBuilder app, HrContext context)
         {
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();

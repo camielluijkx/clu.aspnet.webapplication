@@ -38,6 +38,7 @@ Search Engine Optimization (SEO)
 Data Definition Language (DDL)
 Universal Windows Platform (UWP)
 plain-old CLR objects (POCO)
+Package Manager Console (PMC)
 
 
 [Summary 20486D]
@@ -1061,7 +1062,52 @@ Module 7: Using Entity Framework Core in ASP.NET Core
 			Updating Entities:
 				To update an entity in the database, you can use the Entity Framework context object. When you update an entity, the context marks the change tracking status of the entity as Modified. When you call the SaveChanges method, the Entity Framework context object updates the entity in the database. 
 	Lesson 3: Using Entity Framework Core in ASP.NET Core
-		TODO
+		Connecting to Microsoft SQL Server:
+			The UseSqlServer method configures the Entity Framework context to connect to a SQL Server database.
+			The name, data type and constraints of each column are determined by EF Core using a set of conventions. 
+			By convention, the entity key of an entity in EF Core is either a property named Id or a property named <type name>Id.
+			Configuration in EF Core:
+				EF Core uses conventions to build a database based on the content of the Entity Framework context and the entities which belong to the Entity Framework context. In case you find that some of those conventions are not suitable for your needs, you can use configuration to override the conventions. 
+				One way to specify configuration in EF Core is by using Fluent API. When you use Fluent API, you write the configuration in the OnModelCreating method of the Entity Framework context class. 
+				In addition to Fluent API, you can also specify the configuration in EF Core by using another method called data annotations. However, the data annotations method is quite different from the Fluent API method. While in the Fluent API method the configuration is specified in the OnModelCreating method of the Entity Framework context class, in the data annotations method the configuration in specified by using attributes in the entities. 
+		Configuration in ASP.NET Core:
+			Usually, an application needs to get parameters. These parameters are used to define settings and preferences which are needed when running the application. An example of such a parameter is the connection string which is used by the application to connect to a database. A recommended approach is to store such parameters in a configuration file. Storing the parameters in a configuration file will allow you to change the settings and preferences without recompiling the application. 
+			ASP.NET Core is capable of reading parameters from various sources. To access a source ASP.NET Core uses a configuration provider. There are configuration providers for several configuration file formats, including JSON, XML, and INI. In addition, there are configuration providers for other sources such as command line arguments and environment variables. You can even create a custom provider if needed. 
+			JSON Configuration:
+				JSON is a text format which can be used for several purposes, such as transmitting data between applications and storing data in a file. One of the biggest advantages of JSON is that it is very easy for people to read and write JSON. JSON can also be parsed and generated easily by applications. 
+				To use a JSON configuration file in ASP.NET Core, you should add the JSON configuration provider. To add the JSON configuration provider, you can call the AddJsonFile method on an object that implements the IConfigurationBuilder interface. The AddJsonFile method gets the path to the configuration file as a parameter. Then you can call the Build method on the object, which implements the IConfigurationBuilder interface, to build an object that implements the IConfiguration instance with settings from the set of sources registered in the IConfigurationBuilder.Sources property. Finally, you can call the UseConfiguration method, passing it the object which implements the IConfiguration instance as a parameter to use the given configuration settings on the web host. 
+				The call to the WebHost.CreateDefaultBuilder method initializes a new instance of the WebHostBuilder class with pre-configured defaults. One of the defaults is loading values from a configuration file named appsettings.json. Therefore, if you need to load values from a file named appsettings.json, calling the CreateDefaultBuilder method is sufficient and you don’t need to call the AddJsonFile method and pass to it appsettings.json as a parameter. 
+				To load a value from the configuration file, you can use an indexer of an object which implements the IConfiguration interface and pass to it the name of the name-value pair as a parameter. 
+				If the name of the name-value pair is hierarchical, you should use a colon to separate the sections of the name to retrieve the value. 
+			XML Configuration:
+				In addition to using JSON configuration files in ASP.NET Core, it is also possible to use XML configuration files in ASP.NET Core. To use an XML configuration file in ASP.NET Core, you should add the XML configuration provider. To add the XML configuration provider, you can call the AddXmlFile method on an object which implements the IConfigurationBuilder interface. 
+				You can configure an ASP.NET Core application to read parameters from multiple configuration files. To do that you should add several configuration providers. For example, in case you want to read parameters from both JSON and XML files, you should call both AddJsonFile and AddXmlFile on an object which implements the IConfigurationBuilder interface. Notice that in case you read data from multiple sources, the order in which the data providers are added matter. In case the same name exists in multiple sources, only the value from the last source will be returned. Values from other sources will be ignored.
+		Specifying a Connection String in a Configuration File:
+			Storing the connection string for your application in a configuration file instead of storing it as a hard-coded string in your code is a good practice. In older versions of ASP.NET, all configurations including connection strings were stored in the web.config file. In ASP.NET Core, you can store the connection strings in other configuration files in various formats, including JSON, XML and INI. You can also store the connection strings in other sources such as environment variables or command line arguments. 
+			To read a connection string from a configuration file, you can replace the call to the indexer of IConfiguration with a call to the GetConnectionString method. 
+		The Repository Pattern:
+			Web applications usually need to access databases and typically, the simplest approach is to use the controller to access the database directly. However, calling the database directly from the controller is not always the best practice. A more flexible approach is that the controller will call a repository that will access the database. Using this approach, the controller will not access the database directly.
+			To call a repository from a controller, you should perform the following steps: 
+				1. Define an interface for the repository class. This interface declares the methods that the repository class uses to read and write data from and to the database. 
+				2. Create and write code for the repository class. This class must implement all the data access methods declared in the interface. 
+				3. Use dependency injection to inject the repository class to a controller.
+				4. Modify the controller class to use the repository class. 
+		Using Migrations:
+			Working with an application that interacts with a database requires you to create models and sometimes, you might find yourself changing or upgrading those models according to the application needs. When working with EF Core, your database is relying on the models you have created. To reflect the changes in the models to the database, you can use migrations. Using migrations, you will be able to create a database, upgrade it and manipulate it according to your application models. 
+			If you created your database by using an Entity Framework context, and you later want to change something in your domain model classes e.g. your schemas, EF Core will not update the database automatically. You might encounter exceptions while running queries or saving your changes to the database. You can use migrations to update the database schema automatically to match the changes you made in your classes without having to recreate the database. 
+			With migrations, you define the initial state of your classes and your database. After you change your classes and execute the migrations in design time, the set of changes you performed over your classes is translated to the required migration steps for the database, and then those steps are generated as database instructions in the code. You can apply the changes to the database in design-time, before deploying the version of the application. Alternatively, you can have the application execute the migration code after it starts. 
+			Entity Framework Core Package Manager Console Tools:
+				You can work with migrations by using the Entity Framework Core Package Manager Console (PMC) Tools. You can use NuGet’s Package Manager Console to run the PMC tools in Visual Studio. 
+				To create a database by using migrations, you should first add an initial migration. Then, you need to apply the migration to the database. As a result, the schema of the database will be created.
+				Adding an Initial Migration:
+					Add-Migration InitDatabase
+				Create the Schema of the Database:
+					Update-Database
+				When you change an entity, the database and the code are not in sync anymore. To sync the code and the database, you should add another migration.
+				Adding a New Migration:
+					Add-Migration AddAge
+				Applying the new Migration to the Database:
+					Update-Database
 
 Module 8: Using Layouts, CSS and JavaScript in ASP.NET Core MVC
 	Lesson 1: Using Layouts

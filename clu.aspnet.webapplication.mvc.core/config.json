@@ -1,0 +1,8 @@
+{
+  "firstName": "Mark",
+  "lastName": "Smith",
+  "address": {
+    "streetAddress": "35 3rd Street",
+    "city": "Miami"
+  }
+}
