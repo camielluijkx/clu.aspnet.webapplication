@@ -37,7 +37,8 @@
     <br />
     <input type="submit" value="Submit my details" />
 }*@
-<form asp-controller="Person" asp-action="ShowDetails">
+
+@*<form asp-controller="Person" asp-action="ShowDetails">
     <label asp-for="FirstName"></label>
     <input asp-for="FirstName" />
     <br />
@@ -46,6 +47,65 @@
     <br />
     <label asp-for="ContactMe"></label>
     <input asp-for="ContactMe" />
+    <br />
+    <input type="submit" value="Submit my details" />
+</form>*@
+
+@*@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+    <input type="submit" value="Submit my details" />
+}*@
+
+@*@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+     
+    @Html.EditorForModel()
+    <input type="submit" value="Submit my details" />
+}*@
+
+@*@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+ 
+    @Html.LabelFor(p => p.Name)
+    @Html.EditorFor(p => p.Name)
+    @Html.ValidationMessageFor(p => p.Name)
+    <br />
+    @Html.LabelFor(p => p.Age)
+    @Html.EditorFor(p => p.Age)
+    @Html.ValidationMessageFor(p => p.Age)
+    <br />
+    @Html.LabelFor(p => p.EmailAddress)
+    @Html.EditorFor(p => p.EmailAddress)
+    @Html.ValidationMessageFor(p => p.EmailAddress)
+    <br />
+    @Html.LabelFor(p => p.Description)
+    @Html.EditorFor(p => p.Description)
+    @Html.ValidationMessageFor(p => p.Description)
+    <br />
+    <input type="submit" value="Submit my details" />
+}*@
+
+<form asp-controller="Person" asp-action="GetDetails">
+    <div asp-validation-summary="All"></div>
+ 
+    <label asp-for="Name"></label>
+    <input asp-for="Name" />
+    <span asp-validation-for="Name"></span>
+    <br />
+    <label asp-for="Age"></label>
+    <input asp-for="Age" />
+    <span asp-validation-for="Age"></span>
+    <br />
+    <label asp-for="EmailAddress"></label>
+    <input asp-for="EmailAddress" />
+    <span asp-validation-for="EmailAddress"></span>
+    <br />
+    <label asp-for="Description"></label>
+    <input asp-for="Description" />
+    <span asp-validation-for="Description"></span>
     <br />
     <input type="submit" value="Submit my details" />
 </form>

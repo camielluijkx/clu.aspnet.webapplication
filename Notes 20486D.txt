@@ -889,10 +889,34 @@ Module 6: Developing Models
 				In the rendered HTML, the <form> element must be closed with a </form> tag. In Razor views, you can ensure that the form element is closed with a @using code block. Razor renders the </form> tag at the closing bracket of the code block.
 			The FormTagHelper Tag Helper:
 				The FormTagHelper tag helper is an alternative to the Html.BeginForm HTML helper. It generates a <form> HTML element. You can add to the FormTagHelper helper an asp-controller attribute to bind it to a specific controller. You also can add to the FormTagHelper helper an asp-action attribute to bind it to a specific action. Although the default form method value is post, you can specify another form method.
-
-
 	Lesson 3: Validating MVC Application
-		TODO
+		Validating User Input with Data Annotations:
+			You can use data annotations in MVC models to set validation criteria for user input. Input validation is the process by which MVC checks data provided by a user or a web request to ensure that it is in the right format.
+			The Required, Range, StringLength, and RegularExpression annotations implement input validation in MVC. If users do not enter data that satisfies the criteria specified for each property, the view displays a standard error message that prompts the user to enter the correct data. 
+			To specify the error message that the user sees when data is not valid, use the ErrorMessage property on the validation data annotations.
+		Using ModelState.IsValid in the Controller:
+			A controller can use the ModelState.IsValid property to check whether the user has submitted valid data. If the data is valid, value of ModelState.IsValid will be true, otherwise it will be false.
+		Using Validation Helpers:
+			When you request information from users, you often want the users to enter the data in a specific format so that it can be used further in the web application. In controller actions, you can check the ModelState.IsValid property to verify if a user has entered valid data. 
+			When users submit a form with invalid data, most websites display validation messages. These messages are often highlighted in red, but other colors or formats can be used. 
+			The Html.ValidationSummary HTML Helper:
+				Use the Html.ValidationSummary HTML helper to render a summary of all the invalid data in the form. This helper is usually called at the top of the form. When the user submits invalid data, the validation messages are displayed for each invalid field in a bulleted list. 
+			The Html.ValidationMessageFor HTML Helper:
+				Use the Html.ValidationMessageFor HTML helper to render validation messages next to each input in the form.
+			The ValidationMessageTagHelper and ValidationSummaryTagHelper Tag Helpers:
+				The ValidationMessageTagHelper tag helper is an alternative to the Html.ValidationMessageFor HTML helper. You can use the ValidationMessageTagHelper tag helper to display a validation message for a specific property of a model. You can use this tag helper by adding an asp-validation-for attribute to a <span> element. 
+				The ValidationSummaryTagHelper tag helper is an alternative to the Html.ValidationSummary HTML helper that you can use to display validation messages that apply to the entire model. You can use this tag helper by adding an asp-validation-summary attribute to a <div> element. The value of the attribute asp-validation-summary attribute can be one of the following values: 
+					• All. Using this value will cause both property and model level validation messages to be displayed. 
+					• ModelOnly. Using this value will cause only model level validation messages to be displayed (excludes all property errors). 
+					• None. Using this value will cause no validation summary to be displayed.
+		Adding Custom Validations:
+			You can use data annotations to indicate to MVC how it should validate the data that a user enters in a form or passes in query strings. Although the built-in validation attributes are very flexible, in some situations you might want to run some custom validation code: 
+				• Running a Data Store Check. You want to check the data entered against the data that has already been stored in the database or is in another database store. 
+				• Comparing Values. You want to compare two entered values with each other. 
+				• Mathematical Checks. You want to calculate a value from the entered data and check that the value is valid. 
+			To do this, you create a class that inherits from the System.ComponentModel.DataAnnotations.ValidationAttribute class. 
+			Notice that the IsValid method of the ValidationAttribute class is overloaded. In case you need an access to the whole model class, you can override another version of the IsValid method, which gets as a second parameter an object of type ValidationContext. 
+			You can use the ValidationContext parameter to use a service that was registered in the ConfigureServices method of the Startup class. 
 
 Module 7: Using Entity Framework Core in ASP.NET Core
 	Lesson 1: Introduction to Entity Framework Core

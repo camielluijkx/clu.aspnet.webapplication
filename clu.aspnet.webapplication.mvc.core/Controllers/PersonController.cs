@@ -92,11 +92,11 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
             return RedirectToAction("Index");
         }
 
-        [Route("Person/GetDetails")]
-        public IActionResult GetDetails()
-        {
-            return View();
-        }
+        //[Route("Person/GetDetails")]
+        //public IActionResult GetDetails()
+        //{
+        //    return View();
+        //}
 
         //[Route("Person/ShowDetails")]
         //public IActionResult ShowDetails()
@@ -115,6 +115,28 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
         public IActionResult ShowDetails(Person person)
         {
             return View(person);
+        }
+
+        [Route("Person/GetDetails")]
+        [HttpGet]
+        public IActionResult GetDetails()
+        {
+            return View();
+        }
+
+        [Route("Person/GetDetails")]
+        [HttpPost]
+        public IActionResult GetDetails(Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                return View("ShowDetails", person);
+            }
+
+            else
+            {
+                return View();
+            }
         }
     }
 }
