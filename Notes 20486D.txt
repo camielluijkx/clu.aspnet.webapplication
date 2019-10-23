@@ -1139,44 +1139,52 @@ Module 8: Using Layouts, CSS and JavaScript in ASP.NET Core MVC
 			CSS class Selector:
 				You can define a CSS class selector to specify a style for a group of elements. To apply the class selector to an HTML element, you need to add the class attribute to the HTML element. You can use the .<class> syntax to add the style in the CSS file.
 				Using a class attribute in a view:
-					<p class="menu">this is menu</p>
+					Example:
+						<p class="menu">this is menu</p>
 				Applying a style to a class:
-					.menu {
-						font-weight:bold;
-					}
+					Example:
+						.menu {
+							font-weight:bold;
+						}
 			CSS id Selector:
 				You can use the CSS id selector to specify a style for any unique element in your HTML code. To apply the id selector to an HTML element, you need to add the id attribute and a unique name to the HTML element. You can use the #<id> syntax to add the style in the CSS file. 
 				Using an id attribute in a view:
-					<p id="leftmenu">this is menu</p>
+					Example:
+						<p id="leftmenu">this is menu</p>
 				Creating an id selector:
-					#leftmenu {
-						font-size:16px;
-					}
+					Example:
+						#leftmenu {
+							font-size:16px;
+						}
 		Rendering and Executing javaScript Code:
 			JavaScript code helps add interactive functionalities to the webpages of your application. You can add JavaScript code to web applications by:
 				• Adding the JavaScript code to a view file. 
 				• Defining the JavaScript code in dedicated JavaScript files.
 			Inserting a JavaScript function:
-				<script>
+				Example:
+					<script>
+						function helloWorld() {
+							alert('Hello World');
+						}
+					</script>
+			If you have multiple views in a web application, you need to add the JavaScript code for each view. You cannot simultaneously add JavaScript code for multiple views. Therefore, you can define the JavaScript code in a JavaScript file (.js file). Then, you can reference the JavaScript file in multiple views. This enables you to maintain a single JavaScript file to edit the JavaScript code for multiple views. You can also have a reference to multiple JavaScript code files from a single view. 
+			The example.js file:
+				Example:
 					function helloWorld() {
 						alert('Hello World');
 					}
-				</script>
-			If you have multiple views in a web application, you need to add the JavaScript code for each view. You cannot simultaneously add JavaScript code for multiple views. Therefore, you can define the JavaScript code in a JavaScript file (.js file). Then, you can reference the JavaScript file in multiple views. This enables you to maintain a single JavaScript file to edit the JavaScript code for multiple views. You can also have a reference to multiple JavaScript code files from a single view. 
-			The example.js file:
-				function helloWorld() {
-					alert('Hello World');
-				}
 			Referencing a JavaScript file:
-				<script src="~/example.js"></script>
+				Example:
+					<script src="~/example.js"></script>
 			Referencing a JavaScript File from a Layout:
 				In ASP.NET Core MVC applications, it is common to add a reference to the JavaScript file from a layout. Therefore, after importing the JavaScript file into the web application, you need to modify the layout of the web application, so that you can use the JavaScript code. You can modify the layout of a web application, by using the <script> element. 
 			Calling JavaScript Functions:
 				You can call functions defined in JavaScript files by using script blocks or event handlers. 
 			Using a script block to call a function:
-				<script>
-					helloWorld();
-				</script>
+				Example:
+					<script>
+						helloWorld();
+					</script>
 			If you want to avoid calling the JavaScript function directly, you can use the onclick JavaScript event to trigger JavaScript functions. The onclick event initiates the JavaScript function when you click the corresponding HTML element. JavaScript functions that are attached to the document object model (DOM) events are called event handlers. 
 			Using an event handler in a view:
 				<input type="button" value="Hello" onclick="helloWorld();" />
@@ -1190,17 +1198,19 @@ Module 8: Using Layouts, CSS and JavaScript in ASP.NET Core MVC
 				• Math.floor(). A function that is used to round down a number to the nearest integer. 
 				• Math.ciel(). A function that is used to round up a number to the nearest integer.
 			Using built-in JavaScript functions:
-				var userInput = "50.5";
-				var parsedNumber = parseFloat(userInput); // Output 50.5
-				var roundedNumber = Math.round(parsedNumber); // Output 51
-				var flooredNumber = Math.floor(parsedNumber); // Output 50
-				var ceiledNumber = Math.ceil(parsedNumber); // Output 51
+				Example:
+					var userInput = "50.5";
+					var parsedNumber = parseFloat(userInput); // Output 50.5
+					var roundedNumber = Math.round(parsedNumber); // Output 51
+					var flooredNumber = Math.floor(parsedNumber); // Output 50
+					var ceiledNumber = Math.ceil(parsedNumber); // Output 51
 		Using External Libraries:
 			Serving Files from a Local Folder:
 				One of the ways to add a library to an ASP.NET Core application is to download the source files from an official source such as jQuery from the jQuery website or Bootstrap from the Bootstrap website. 
 				After downloading the files, in order to load them in the application, you should add them to the static files folder which by default is the wwwroot folder. 
 			Linking a layout to the jQuery library:
-				 <script src="~/js/jquery-3.3.1.js"></script>
+				Example:
+					<script src="~/js/jquery-3.3.1.js"></script>
 			One of the disadvantages of serving files from a local folder is that the loading time of those files is long. To make the loading time shorter you can serve the files by using a Content Delivery Networks (CDN) instead of serving them from a local folder. 
 			Serving Files using CDN:
 				A CDN is a group of geographically distributed servers used for hosting content for web applications. In many cases, you can bring web content geographically closer to your application’s users by using a CDN to host libraries. This will also improve the scalability and robustness of the delivery of that content. 
@@ -1209,7 +1219,8 @@ Module 8: Using Layouts, CSS and JavaScript in ASP.NET Core MVC
 				Microsoft has a dedicated CDN called Microsoft Ajax CDN that hosts some popular libraries, such as jQuery and Bootstrap. 
 				You can often reduce the loading time of your web application, by using the libraries hosted on Microsoft Ajax CDN. Web browsers can cache these libraries on a local system. 
 				Linking to the jQuery library by using a CDN:
-					<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"></script>
+					Example:
+						<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"></script>
 				Having a .min.js extension means this file is minified and is more lightweight than the file with the .js extension.
 				Applications in production should not entirely depend on CDN assets because they might be unavailable. Applications should test the CDN asset referenced and when it is not available, to use a fallback method such as serving a local file. 
 			Using Package Managers:
@@ -1237,29 +1248,32 @@ Module 8: Using Layouts, CSS and JavaScript in ASP.NET Core MVC
 						• devDependencies. This is a list of packages that will be installed only in a development environment. Those packages are not related to the client-side logic but to bundling, minification, and compilation among others. 
 					Each package listed in the dependencies and devDependencies section has a version number that indicates which version of the package will be installed. Visual Studio will always recommend installing the latest stable version of each package.
 				Adding jQuery by using npm:
-					{
-					  "version": "1.0.0",
-					  "name": "asp.net",
-					  "private": true,
-					  "dependencies": {
-						"jquery": "3.3.1"
-					  },
-					  "devDependencies": {
+					Example:
+						{
+						  "version": "1.0.0",
+						  "name": "asp.net",
+						  "private": true,
+						  "dependencies": {
+							"jquery": "3.3.1"
+						  },
+						  "devDependencies": {
    
-					  }
-					}
+						  }
+						}
 				After adding jQuery inside the dependencies section and saving the package.json file, the jQuery package will be downloaded and placed inside the node_modules folder. This folder is located inside the root folder of the application and will contain all the code the application needs. 
 				By default, static files in an ASP.NET Core application can be served only if they are located in the wwwroot folder. If, however you want to allow static files to be served from a different folder, for example, the node_modules folder, you can use the UseStaticFiles method and pass an instance of type StaticFileOptions to it as a parameter. 
 				Add the node_modules folder to the static files middleware inside the Startup.cs file:
-					app.UseStaticFiles(new StaticFileOptions
-					{
-						FileProvider = new PhysicalFileProvider(
-							Path.Combine(env.ContentRootPath, "node_modules")
-						),
-						RequestPath = "/node_modules"
-					});
+					Example:
+						app.UseStaticFiles(new StaticFileOptions
+						{
+							FileProvider = new PhysicalFileProvider(
+								Path.Combine(env.ContentRootPath, "node_modules")
+							),
+							RequestPath = "/node_modules"
+						});
 				Using scripts installed with npm:
-					 <script src="../node_modules/jquery/dist/jquery.js"></script>
+					 Example:
+						<script src="../node_modules/jquery/dist/jquery.js"></script>
 				Directly referencing the node_modules folder from inside of views is not considered a good practice. A better practice is to use bundling and minification.
 				Bundling and Minification:
 					Script libraries that you add to an application can slow down the loading time of webpages because it takes time to download the scripts into the browser. Bundling and minification help reduce the loading time of web applications by reducing both the number and size of HTTP requests. 
@@ -1267,34 +1281,251 @@ Module 8: Using Layouts, CSS and JavaScript in ASP.NET Core MVC
 						• Minification compresses code files before incorporating them in the client application.
 					To use bundling and minification in an ASP.NET Core application, you can use the bundleconfig.json configuration file. The bundleconfig.json configuration file defines how the application’s static files will be bundled and minified. 
 				Adding jQuery to a bundleconfig.json File:
-					[
-					  {
-						"outputFileName": "wwwroot/css/site.min.css",
-						// An array of relative input css file paths. 
-						"inputFiles": [
-						  "wwwroot/css/site.css"
+					Example:
+						[
+						  {
+							"outputFileName": "wwwroot/css/site.min.css",
+							// An array of relative input css file paths. 
+							"inputFiles": [
+							  "wwwroot/css/site.css"
+							]
+						  },
+						  {
+							"outputFileName": "wwwroot/js/scripts.min.js",
+							"inputFiles": [
+							  // An array of relative input js file paths including jQuery. 
+							   "wwwroot/lib/jquery/dist/jquery.js",
+							   "wwwroot/js/site.js"
+							],
+							// Optionally specify minification options
+							"minify": {
+							  "enabled": true,
+							  "renameLocals": true
+							},
+							// Optionally generate .map file
+							"sourceMap": false
+						  }
 						]
-					  },
-					  {
-						"outputFileName": "wwwroot/js/scripts.min.js",
-						"inputFiles": [
-						  // An array of relative input js file paths including jQuery. 
-						   "wwwroot/lib/jquery/dist/jquery.js",
-						   "wwwroot/js/site.js"
-						],
-						// Optionally specify minification options
-						"minify": {
-						  "enabled": true,
-						  "renameLocals": true
-						},
-						// Optionally generate .map file
-						"sourceMap": false
-					  }
-					]
 				To enable the execution of bundling and minification during the build time, you can download the BuildBundlerMinifier NuGet package from the NuGet package manager. This package injects MSBuild Targets which are grouped tasks that run at build and clean time. 
 				Each time that you run a Build or Clean in your application, the bundleconfig.json file will be analyzed by the build process and the output files will be produced based on the defined configuration. 
 	Lesson 3: Using jQuery
-		TODO
+		Introduction to jQuery:
+			jQuery helps query the HTML Document Object Model (DOM) and obtain a set of HTML DOM elements.
+			This feature of jQuery helps to:
+				• Reduce the amount of code that you need to write to perform a task.
+				• Reduce the client-side development time of web applications.
+			jQuery includes the following features:
+				• DOM element selections.
+				• DOM traversal and modification.
+				• DOM manipulation, based on CSS selectors.
+				• Events.
+				• Effects and animations.
+				• AJAX.
+				• Extensibility through plug-ins.
+				• Utilities.
+				• Compatibility methods.
+				• Multi-browser support.
+			jQuery Files:
+				The jQuery original version and jQuery minified version provide similar functionalities; however, they optimize web applications for different purposes:
+					• jQuery original version (jQuery-<version>.js). This is the uncompressed version of jQuery.
+					• jQuery minified version (jQuery-<version>.min.js). This includes the compressed and gZip versions of jQuery.
+				When you are in the production environment, you can use the jQuery minified version to reduce the loading time of the web application. However, if you use the minified version while working on the development environment, you cannot access the source code of the JavaScript libraries during the debug operation. Therefore, you can use the original version of jQuery, while you are in the development environment.
+				In addition to the regular version of jQuery, there is also a slim version of jQuery. The slim version of jQuery excludes modules that exist in the original version of jQuery, such as ajax and effects. It also excludes deprecated code.
+			The jQuery Syntax:
+				Every jQuery line of code starts with the $ or jQuery variables and it allows you to call functions that exist inside the jQuery interface, to query the DOM and perform DOM manipulations.
+				After adding the jQuery library to your application, a global variable is automatically added to the window object named $. It holds the whole interface which jQuery exposes and it also includes the query function that allows it to traverse the DOM. jQuery also adds a global variable named jQuery that is pointing to the same object as the $ variable. This variable is used when another library or code is using the $ sign and you want to avoid collision between the jQuery library and the other library.
+				Example:
+					<script>
+						$(function() {
+							$.each([4, 9], function(index, value) {
+								alert(index + ":" + value);
+							});
+						});
+					</script>
+				Example:
+					<script>
+						jQuery(function() {
+							jQuery.each([4, 9], function(index, value) {
+								alert(index + ":" + value);
+							});
+						});
+					</script>
+		Accessing HTML Elements by using jQuery:
+			jQuery helps to access and manipulate HTML elements, to create interactive web applications. jQuery selector syntax starts with a call to the jQuery object which accepts a string consisting of CSS selectors.
+			Using jQuery selectors:
+				Example:
+					$(element name|#id|.class)
+			Using a jQuery selector to access an HTML element with hello id:
+				Exmple:
+					$("#hello")
+			Accessing all instances of the a element:
+				Example:
+					$("a")
+			You can use more than one selector in a single query to access multiple types of elements at once.
+				Using more than one selector in a query:
+					Example:
+						$("a, div.big, #hello")
+				After accessing the HTML elements, you can perform actions on the elements, such as:
+					• Defining event handlers to respond to events associated with the selected HTML elements.
+					• Reading the attributes of the HTML elements.
+				Using a jQuery event handler:
+					Example:
+						$("#hello").click(function(event) {
+							alert("Hello World");
+						});
+			The document.ready() and $() Functions:
+				If the jQuery scripts load before the webpage loads, you might encounter errors such as object not defined. You can place the jQuery code in the document.ready function, to prevent the code from loading until all HTML elements in the page load.
+				Using the document.ready function:
+					Example:
+						$(document).ready(function() {
+							// Code placed here will not execute before all HTML elements in the page load.
+						});
+				Experienced developers usually shorten this code by using the $() syntax instead of $(document).ready.
+				Shorthand for $(document).ready:
+					Example:
+						$(function() {
+							// Code placed here will not execute before all HTML elements in the page load.
+						});
+				Using jQuery in a view:
+					Example:
+						<div>
+							Hello
+							<input type="button" value="Hello" id="hello" />
+						</div>
+						<script>
+							$(function() {
+								$("#hello").click(function(event) {
+									alert("Hello World");
+								});
+							});
+						</script>
+				It is important to load jQuery library to the page before calling the $() or $(document).ready() functions. Using the $ object before the jQuery library is loaded might cause an exception. When using a layout file to load scripts, place the jQuery library source script inside the <head> tag before all the other files.
+			Use jQuery to Read Attributes of HTML Elements:
+				You can use functions in jQuery to read the attributes of the HTML elements. An example of such a function is the text function. You can use the text function to get the text inside of HTML elements. If there are multiple HTML elements inside a specific element, the function will return the combined text of all HTML elements.
+				The text function:
+					Example:
+						<h1>This is the main headline of a <span>HTML document</span></h1>
+						<script>
+							$(function() {
+								let res = $('h1').text(); 
+								console.log(res); // Result: "This is the main headline of a HTML document".
+							});
+						</script>
+		Modifying HTML Elements by using jQuery:
+			You can use jQuery to query HTML DOM and obtain HTML elements. You can use jQuery functions to modify the attributes associated with the HTML elements. The following are some commonly used jQuery functions, which enable you to modify HTML elements.
+			The val Function:
+				You can use the val function to get or set the value of an HTML element.
+				Example: 
+					$("#hello").val('Hello World');
+			The css Function:
+				You can use the css function to get or set the inline CSS style associated with an HTML element.
+				Example: 
+					$('#hello').css('background-color', 'blue');
+			The addClass Function:
+				You can use the addClass function to assign a CSS class to an HTML element.
+				Example:
+					$('#hello').addClass('input_css_class');
+			The animate Function:
+				You can use the animate function to animate CSS properties of HTML elements.
+				Example:
+					$("#hello").animate({
+						"fontSize": "32px",
+						"letterSpacing": "10px"
+					}, 1200);
+			Calling a Server by using jQuery:
+				jQuery includes the ajax function that helps:
+					• Perform asynchronous calls to a server.
+					• Retrieve the data returned from a server.
+				You can pass several parameters to the ajax function to control how to call the server. :
+					• method. This parameter controls the request method that you can use while calling the server. Common method values are: GET, POST, PUT and DELETE.
+					• dataType. This parameter defines the data type you expect to get from the server.
+					• url. This parameter provides the URL of the server.
+					• data. This parameter defines the data that you should provide as a parameter to the server.
+					• contentType. This parameter defines the HTTP content type that you should use, when you submit HTTP requests to the server.
+				The ajax function returns an object that implements the Promise interface. The object returned from the ajax function has several functions, which include:
+					• done. This function is triggered when the call completes successfully.
+					• fail. This function is triggered when the call completes with errors.
+				When a call to a server completes, jQuery triggers one of the two callback functions based on the success of the call.
+				Using the ajax function:
+					Example:
+						$.ajax({
+							method: "GET",
+							dataType: "json",
+							url: "http://server-domain/api/Customer",
+							data: {'id': '123'},
+							contentType: "application/json; charset=utf-8"
+						}).done(function(msg) {
+							alert("Data received: " + msg);
+						}).fail(function (msg) {
+							alert(msg);
+						});
+		Client-Side Validation by using jQuery:
+			In ASP.NET Core MVC applications, data validation can happen both on the client-side and the server-side. You could potentially leave the validation to the server-side, but server-side validation consumes more time. Server-side validation alone is inconvenient to the users because they will have to wait until the whole round trip to the server is complete in order to know whether their input is correct or not. Even though it might seem to be only a few fractions of a second, it adds up to be a lot of time and causes frustration.
+			On the other hand, client-side validation alone is not enough. Any advanced user can easily bypass it and send any information they want to the server. That is why it is a best practice to have both client-side validation and server-side validation.
+			Adding Client-Side Validations:
+				To perform client-side validation in an ASP.NET Core MVC application, you need to add links to two JavaScript scripts, along with the jQuery library:
+					• jQuery Validate. A jQuery plugin that makes client-side form validations easy. The plugin has a built-in bundle of useful validation methods, including URL and email validation. You can perform these validations before a form submit or after any user interaction.
+					• jQuery Unobtrusive Validation. A custom Microsoft library that is built based on the jQuery Validate plugin. This plugin allows you to use the same validation logic you wrote on the server-side in the form of data annotations and metadata and apply it to the client-side immediately.
+				Adding jQuery validation scripts to package.json:
+					Example:
+						{
+						  "version": "1.0.0",
+						  "name": "asp.net",
+						  "private": true,
+						  "devDependencies": {},
+						  "dependencies": {
+							"jquery": "3.3.1",
+							"jquery-validation": "1.17.0”,    
+							"jquery-validation-unobtrusive": "3.2.10”
+						  }
+						}
+				Using scripts with npm:
+					Example:
+						<!DOCTYPE html>
+						<html>
+						<head>
+							<meta name="viewport" content="width=device-width" />
+							<title>@ViewBag.Title</title>
+							<link href="~/css/site.css" rel="stylesheet" />
+							<script src="../node_modules/jquery/dist/jquery.js"></script>
+							<script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>    <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusiv e.min.js"></script>
+						</head>
+						<body>
+							<div>
+								@RenderBody()
+							</div>
+						</body>
+						</html>
+				When using jQuery Unobtrusive Validation, instead of writing validation logic in two places, you will write it once. MVC's Tag Helpers and HTML Helpers consume the validation attributes and type metadata from model properties and render HTML 5 attributes starting with data- on form elements needing validation. MVC will generate the data- attributes for both built-in and custom attributes.
+				jQuery Unobtrusive Validation will then parse the data- attributes and passes the logic to jQuery Validate. This way you can duplicate the server-side validation logic to the client without writing the same logic twice.
+				A model with validation attributes:
+					Example:
+						public class Customer
+						{
+							[Required(ErrorMessage = "Please enter your name")]
+							public string Name { get; set; }
+ 
+							[DataType(DataType.EmailAddress)]
+							[Required(ErrorMessage = "Please enter your email address")]
+							public string Email { get; set; }
+						}
+				Client-side validation by using jQuery unobtrusive validation:
+					@model Customer
+					<form method="post" asp-action="SomeAction">
+						<div class="form-field">
+							<label asp-for="Name"></label>
+							<input asp-for="Name" />
+							<span asp-validation-for="Name"></span>
+						</div>
+						<div class="form-field">
+							<label asp-for="Email"></label>
+							<input asp-for="Email" />
+							<span asp-validation-for="Email"></span>
+						</div>
+						<div class="form-field">
+							<input class="submit-btn" type="submit" />
+						</div>
+					</form>
 
 Module 9: Client-Side Development
 	Lesson 1: Applying Styles
