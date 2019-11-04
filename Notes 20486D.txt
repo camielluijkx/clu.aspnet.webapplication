@@ -1623,8 +1623,9 @@ Module 9: Client-Side Development
 				To compile a Sass file, you can use several techniques, which include:
 					• Install Sass globally by using npm and then using the sass command.
 					• Configure a task runner.
-				Installing Sass:
-					npm install -g sass
+				Installing Sass globally:
+					Example:
+						npm install -g sass
 				Compiling a Sass File:
 					Example:
 						sass main.scss main.css
@@ -1789,8 +1790,9 @@ Module 9: Client-Side Development
 				To compile a Less file, you can use several techniques, which include:
 					• Install Less globally by using npm and then using the lessc command.
 					• Configure a task runner.
-				Installing Less:
-					npm install -g less
+				Installing Less globally:
+					Example:
+						npm install -g less
 				Compiling a Less File:
 					Example:
 						lessc main.less main.css
@@ -1898,7 +1900,92 @@ Module 9: Client-Side Development
 						  color: #b3f075;
 						}
 	Lesson 2: Using Task Runners
-		TODO
+		Using Grunt:
+			Grunt operates by having each task run separately of every other task. Grunt itself only supports the basic infrastructure for running tasks and you will need to add additional plugins or configure the logic for the tasks in order to support them. As a result, Grunt supports a large number of additional task libraries each of which can be run as required, while avoiding having to deal with a bloated environment full of unnecessary code, and you can run a very bare environment by using only the plugins that you need.
+			Being a client-side task runner, Grunt will mainly be used to perform operations on client-side code. This can include things like performing minification (compressing JavaScript or CSS code to reduce space requirements, and therefore improve loading times), bundling (merging several different JavaScript or CSS files into one file, in order to reduce the number of requests), compiling nonstandard file types (such as Sass or TypeScript) and more.
+			Configuring the Environment:
+				The first step required to start working with Grunt is to configure the environment with the necessities to hold a Grunt environment. To do this, you will first need to add Grunt as part of the npm configuration. This can be done inside the package.json file by adding Grunt to the devDependencies section.
+				Grunt in package.json:
+					Example:
+						{
+						  "version": "1.0.0",
+						  "name": "asp.net",
+						  "private": true,
+						  "devDependencies": {
+							"grunt": "1.0.2"
+						  }
+						}
+				After adding Grunt to the package.json file, you need to add a new js file in the base folder of the project. This file should be named Gruntfile.js. Inside the Gruntfile.js file you need to create a wrapper function in a specific format, every single Gruntfile.js requires it, and cannot be used without it.
+				Sections of Gruntfile.js:
+					The wrapper inside the Gruntfile.js file is the external shell in which all of the Grunt code will run. There can be several different sections inside the wrapper function, which include:
+						• Project and task configuration information. The project and task configuration are handled inside the grunt.initConfig method. In here it is possible to configure various tasks and their behavior.
+						• Loading the Grunt plugins and tasks. Loading the Grunt plugins is done by using the grunt.loadNpmTasks method. This method accepts the name of a plugin which is then loaded. Once the plugin is loaded, it is possible to run the task.
+						• Custom tasks which are created by the user. This can range from a task designed to run several other tasks all the way to creating custom tasks with logic that is relevant for the specific application.
+				Adding a Grunt Plugin to package.json:
+					Example:
+						{
+						  "version": "1.0.0",
+						  "name": "asp.net",
+						  "private": true,
+						  "devDependencies": {
+							"grunt": "1.0.2",
+							"grunt-sass": "2.1.0"
+						  } 
+						}
+				Once the plugin is added to and downloaded by npm, you need to configure it in the grunt.initConfig method. The grunt.initConfig method receives an options parameter which is used to configure tasks. 
+				To compile files from a folder, you will need to first update the dist property (dist is a shorthand for distribute) and underneath to set the files property which is used to determine which files are copied.
+				The files property can accept an array of objects which can be used to declare the logic for Sass compilation, so that you can potentially copy from multiple sources into multiple destinations, or into the same destination.
+				Each object in the array is defined in the following format which is a standard Grunt format which can be used across many Grunt plugins:
+					• expand. When set to true, signifies working with directories rather than files.
+					• cwd. Short for current working directory, denotes the folder from which to run the script.
+					• src. Short for source, an array of regular expressions to match the files. Usually for Sass files [‘**/*.scss’] or [‘**/*.sass’] will be used.
+					• dest. Short for destination, determines the folder to which Sass files will be compiled.
+					• ext. Short for extension, determines under what file extension complied files will be saved. Usually .css for Sass.
+				Gruntfile.js with Sass Configuration:
+					Example:
+						module.exports = function(grunt) {
+							grunt.initConfig({
+								sass: {
+									dist: {
+										files: [{
+											expand: true,
+											cwd: 'Styles',
+											src: ['**/*.scss'],
+											dest: 'wwwroot/Styles',
+											ext: '.css'
+										}]
+									}
+								}
+							});    
+						};
+						The compilation for Sass is being configured from a directory (expand: true).
+						The directory you will compile from is Styles (cwd: ‘Styles’).
+						You will compile all files with the extension .scss inside of the folder (src: [‘**/*.scss’]).
+						The compiled files will be deployed to the wwwroot/styles folder (dest: ‘wwwroot/styles’).
+						The files will be deployed with the file extension css (ext: ’.css’).
+				Finally, once you have configured the parameters for the task, you will need to load it by calling the grunt.loadNpmTasks method, and supply grunt-sass as a parameter to the loading function.
+				Once you have completed this, you should be able to see the new task inside the Visual Studio Task Runner Explorer window and you can run the task by right-clicking it and clicking on Run.
+				Sass Compilation Task Configuration:
+					Example:
+						module.exports = function(grunt) {    
+						grunt.initConfig({
+							sass: {
+								dist: {
+									files: [{
+										expand: true,
+										cwd: 'Styles',
+										src: ['**/*.scss'],
+										dest: 'wwwroot/styles',
+										ext: '.css'
+									}]
+								}
+							}
+						});    
+						grunt.loadNpmTasks("grunt-sass");
+					};
+			Registering a Custom Task:
+				TODO
+			https://docs.microsoft.com/en-us/aspnet/core/client-side/using-grunt?view=aspnetcore-3.0
 	Lesson 3: Responsive Design
 		TODO
 

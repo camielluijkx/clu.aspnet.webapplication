@@ -3,3 +3,6 @@ packages
 obj
 bin
 .vs
+/clu.aspnet.webapplication.mvc.core/node_modules
+/clu.aspnet.webapplication.mvc.core/package-lock.json
+*.user
