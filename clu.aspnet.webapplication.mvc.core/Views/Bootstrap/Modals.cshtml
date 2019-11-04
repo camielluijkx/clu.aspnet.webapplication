@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Bootstrap Modal Example";
+}
+<h2>@ViewBag.Title</h2>
+<h3>This page shows a Bootstrap designed modal</h3>
+
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalWindow">
+    Click to Open a Modal Window
+</button>
+
+<div id="modalWindow" class="modal" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>This is a modal window</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

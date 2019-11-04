@@ -1529,7 +1529,374 @@ Module 8: Using Layouts, CSS and JavaScript in ASP.NET Core MVC
 
 Module 9: Client-Side Development
 	Lesson 1: Applying Styles
-		TODO
+		Introduction to Bootstrap:
+			Bootstrap is an open-source framework for building responsive web applications using HTML, CSS, and JavaScript. It allows you to quickly develop the client-side of your application by using pre-built components and styles.
+			Adding Bootstrap to Your Project:
+				To add Bootstrap to your application, you should add the following dependencies:
+					• jQuery. Bootstrap is based on jQuery. To use Bootstrap components, you should include jQuery in your application.
+					• popper.js. Another Bootstrap dependency. This script library allows you to manage elements that "pop out" of the natural flow of your application.
+				After adding the dependencies, you should also include bootstrap.css, which includes the styles and bootstrap.js, which includes the scripts. If you are using the production environment, include the minified versions.
+				Adding Bootstrap by using npm:
+					Example:
+						{
+						  "version": "1.0.0",
+						  "name": "asp.net",
+						  "private": true,
+						  "dependencies": {
+							"bootstrap": "4.1.3",
+							"jquery": "3.3.1",
+							"popper.js": "1.14.3"
+						  },
+						  "devDependencies": {   
+						  }
+						}
+				Link a Layout to Bootstrap:
+					Example:
+						<!DOCTYPE html>
+						<html>
+						<head>
+							<meta name="viewport" content="width=device-width" />
+							<link href="~/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+							<title>@ViewBag.Title</title>
+						</head>
+						<body>
+							<div>
+								@RenderBody()
+							</div>
+ 
+							<script src="~/node_modules/jquery/dist/jquery.js"></script>    <script src="~/node_modules/popper.js/dist/umd/popper.js"></script>    <script src="~/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+						</body>
+						</html>
+		Bootstrap Components:
+			Bootstrap includes many components that can be added to your web application. Some of these components are composed of pure HTML and CSS markup and some components need JavaScript code to work.
+			To make Bootstrap components work, it is important to remember that each component has a very specific HTML structure and a corresponding CSS code. If you create an HTML structure that is different from the one that Bootstrap expects, your website might not look as you wanted.
+			Alerts:
+				Alerts are used to display messages to users as a result of their actions. Bootstrap alerts are responsive and can include links inside them.
+				To create an alert, you can add a div to your view and apply two CSS classes to this div. The first CSS class is alert, which defines this div as an alert. The second class that needs to be added will define the alert type and color. For instance, the alert-danger class defines the alert with a red color scheme. Other alert classes include alert-primary, alert-secondary, alert-success, alert-warning, alert-info, alert-light and alert-dark. You can add a role=”alert” attribute to the div to appropriately convey its purpose to assistive technologies such as screen readers. To create a link inside an alert, add an <a> tag and give it a CSS class of alert-link.
+				https://localhost:44395/Bootstrap/Alerts
+			Buttons:
+				Buttons are used to create styled action elements inside forms, alerts, tables, grids and more. Bootstrap includes several predefined styles for buttons with multiple size options and states.
+				To create a button, you can add a button HTML element to your view and apply CSS classes to it. A mandatory CSS class is btn, which applies Bootstrap design for buttons to this element. You can then apply several CSS classes that define the button characteristics. These CSS classes include:
+					• Button color classes: btn-primary, btn-secondary, btn-success, btn-danger, btn-warning, btn-info, btn-light, btn-dark.
+					• Button with outline: btn-outline-primary, btn-outline-secondary, btn-outline-success, btn-outline-danger, btn-outline-warning, btn-outline-info, btn-outline-light, btn-outline-dark.
+					• Button size classes: btn-lg, btn-sm.
+					• Button state classes: active, disabled.
+				https://localhost:44395/Bootstrap/Buttons
+			Dropdowns:
+				Dropdowns are used to create lists of links that overlay the content of the page when they are shown. Dropdowns are togglable and interactive.
+				To create a dropdown list, you can add a div with the dropdown class, which will include all the elements needed to be displayed. Then, you can add a button or link that when clicked will toggle the display of the dropdown list. This button can have all the classes that were covered above in the description of Bootstrap buttons. Also, this button needs to have the dropdown-toggle class and the data-toggle=”dropdown” attribute that will allow it to toggle the display of the dropdown list.
+				After the button, you need to add a div with the dropdown-menu class. This div will include all the links and items displayed inside the dropdown list. An item inside the dropdown list should have the dropdown-item class. To separate items in a dropdown list, you can add a div with the dropdown-divider class.
+				https://localhost:44395/Bootstrap/Dropdowns
+			Forms:
+				Bootstrap includes styles for many types of form controls that can be used practically in any web application. Bootstrap form controls include: textual form controls such as <input type="text">and <textarea>, password field, checkbox, radio button, select, file input, range input and more.
+				To get the desired look, it is important to follow the required hierarchy of the HTML elements and the CSS classes. For example, to create an input element for some text field that has a label, the label and input HTML elements should be under a div with the form-group class. Each input control should have the form-control class.
+				https://localhost:44395/Bootstrap/Forms
+			Navs:
+				Bootstrap has a large variety of responsive and mobile friendly navigational controls. They can allow you to add navigation menus easily. All navigational controls share the nav class. Each item in the nav menu should have the nav-item class. Each link inside the menu item should have the nav-link class. The disabled class should be used on disabled links and the active class should be used on the currently active link.
+				https://localhost:44395/Bootstrap/Navs
+			Navbars:
+				A navbar is a Bootstrap responsive navigation header that can include the website name, menu and more. To get started with navbars, it is important to be familiar with the following:
+					• Each navbar should be wrapped with at least two classes: navbar and a class compound of navbar-expand and one of the following endings: -sm, -md, -lg, or -xl. For example, navbar-expand-sm or navbar-expand-md and so on.
+					• Each navbar wrapper can have a class that defines its color scheme, for example, navbar-light or navbar-dark. You can also customize the color schema with bg-* classes, for example, bg-light.
+					• Navbar comes with pre-built sub-components which include:
+						o navbar-brand. Can be used to display the name of the company or website.
+						o navbar-nav. Can be used for navigation.
+						o navbar-toggler. Can be used for toggling. You should also add the data-toggle=”collapse” attribute and the data-target=”#id” attribute, where id stands for the element needed to be toggled. In case you want the icon to look like a hamburger, you can use the navbar-toggler-icon class.
+						o collapse and navbar-collapse. Can be used to group and hide navbar contents.
+				https://localhost:44395/Bootstrap/Navbars			
+			Modals:
+				Bootstrap modal windows are used to display dialog messages and user notifications inside your application. They are placed over the site content and can be closed by clicking on the backdrop of the modal. Only one modal window can be shown at a time.
+				To trigger a modal window, you can apply two attributes to a button. The first attribute is data-toggle=”modal”, which opens the modal window. The second attribute is data-target=”#id” where id stands for the id of the modal.
+				The modal can be a div that has a modal class. To improve accessibility for people that use screen readers you can apply the role=”dialog” attribute to the div. You need to use the modal-dialog class to properly set the width and margin of the modal properly.
+				To set the styles of the content of the modal, you need to use the model-content class. The modal content can have several parts which include:
+					• modal-header. Can be used to style the header of the modal.
+					• modal-body. Can be used to style the body of the modal.
+					• modal-footer. Can be used to style the footer of the modal.
+				https://localhost:44395/Bootstrap/Modals
+		Styling Applications with Sass:
+			There is an expectation today that websites should look good and provide an excellent user experience. This expectation has led developers to write an extensive amount of CSS. A need was born to find a method to make CSS easier to define and maintain. This is how the CSS preprocessors were born.
+			A preprocessor is a language that is compiled to another language. The goal of a preprocessor is to improve the experience of working with the underlying language.
+			A CSS preprocessor is a language that is compiled to CSS. Sass and Less are examples of CSS preprocessors. They allow you to add features to CSS, such as variables and functions which improve the maintainability of large and complex applications.
+			By adding these features, you allow CSS to be more like a real programming language and this can help you to reduce the duplication of code and provide a better organization of your styles.
+			Using Sass in your application:
+				You can add a Sass file to your application by adding a file ending with .scss extension to your project. You will then need to compile the Sass file to a CSS file.
+				To compile a Sass file, you can use several techniques, which include:
+					• Install Sass globally by using npm and then using the sass command.
+					• Configure a task runner.
+				Installing Sass:
+					npm install -g sass
+				Compiling a Sass File:
+					Example:
+						sass main.scss main.css
+			Variables:
+				Variables are one of the basic features Sass adds to CSS. Variables are a fundamental part of any programming language and now you can use them with CSS. Sass variables are often used to define colors, fonts, dimensions and any values that are repeated multiple times throughout the application. This allows you to define theme variables once and then inject them where needed.
+				Variables help you to create maintainable CSS. When you need to change the general theme of your website, you will mainly need to change the values of your variables without changing the rest of the code.
+				Using Sass Variables:
+					Example:
+						$highlights : #00FFFF;
+						.message {
+						  color: $highlights;
+						  font-size: 12px;
+						}
+						h1 {
+						  color: $highlights;
+						}
+				Sass Variables After Compilation:
+					Example:
+						.message {
+						  color: #00FFFF;
+						  font-size: 12px;
+						}
+						h1 {
+						  color: #00FFFF;
+						}
+			Nesting Styles:
+				CSS doesn’t support nested hierarchy of selectors. When working with Sass, you can define styles by using nested selectors and use a syntax that is more natural and easier to read.
+				Using Nested Selectors:
+					Example:
+						.p {
+							color: #000;
+							font-size: 16px;
+							span {
+							color: #FF0000;
+							em {
+								text-decoration: underline;
+								}
+							}
+						}
+				CSS Output After Compilation:
+					Example:
+						.p {
+						  color: #000;
+						  font-size: 16px;
+						}
+						.p span {
+						  color: #FF0000;
+						}
+						.p span em {
+						  text-decoration: underline;
+						}
+			Mixins:
+				Mixins are one of the most powerful and time-saving features of Sass. Mixins allow you to group CSS declarations and reuse them throughout your code. This feature can help you to reduce the amount of code and avoid duplication.
+				Using a Mixin:
+					Example:
+						/* Define a mixin */
+						@mixin normalized-text() {
+						  font-weight: 300;
+						  line-height: 1.2;
+						}
+						/* Use a Mixin in multiple places */
+						.description {
+						  @include normalized-text();
+						  color: red;
+						}
+						.comment {
+						  @include normalized-text();
+						  color: grey;
+						}
+				CSS Output After Compilation:
+					Example:
+						.description {
+						  font-weight: 300;
+						  line-height: 1.2;
+						  color: red;
+						}
+						.comment {
+						  font-weight: 300;
+						  line-height: 1.2;
+						  color: grey;
+						}
+				Mixins in Sass act as functions - they allow you to pass in parameters and return sets of CSS properties. This allows mixins to be more flexible.
+				Pass a Parameter to a Mixin:
+					Example:
+						/* Define a mixin */
+						@mixin normalized-text($color) {
+						  font-weight: 300;
+						  line-height: 1.2;
+						  color: $color; 
+						}
+						/* Use a Mixin in multiple places with different parameters */
+						.description {
+						  @include normalized-text(red);
+						}
+						.comment {
+						  @include normalized-text(grey);
+						}
+				CSS Output After Compilation:
+					Example:
+						.description {
+						  font-weight: 300;
+						  line-height: 1.2;
+						  color: red;
+						}
+						.comment {
+						  font-weight: 300;
+						  line-height: 1.2;
+						  color: grey;
+						}
+			Control Directives:
+				Control directives allow you to include certain styles only under specific conditions. They can be used inside mixins to include the same style with variations. Some of the control directives available in Sass are: @if, @else, @else if, @each and @for.
+				Using Control Directives:
+					Example:
+						@mixin season($season) {
+						  @if ($season == summer) {
+							color: red;
+						  }
+						  @else if ($season == autumn) {
+							color: orange;
+						  }
+						  @else if ($season == winter) {
+							color: grey;
+						  }
+						  @else {
+							color: green;
+						  }
+						}
+						.description {
+						  @include season(summer);
+						}
+				CSS Output After Compilation:
+					Example:
+						.description {
+						  color: red;
+						}
+			Functions:
+				Sass exposes a wide range of functions that allow you to perform manipulations on styles such as increase or decrease the lightness of a given color, perform mathematic calculations such as round and ceil and more.
+				Following are examples of some functions available in Sass:
+					• lighten. Increases the lightness of a color by a certain percentage. For example, lighten(#fe6700,20%) will increase the lightness of a certain orange hue by 20% percent.
+					• darken. Increases the darkness of a color by a certain percentage. For example, darken(#fe6700,20%) will increase the darkness of a certain orange hue by 20% percent.
+				Using Functions:
+					Example:
+						$main-color: #80E619;
+						.main-headline {
+						  color: darken($main-color, 20%);
+						}
+						.sub-headline {
+						  color: lighten($main-color, 20%);
+						}
+				CSS Output After Compilation
+					Example:
+						.main-headline {
+						  color: #4d8a0f;
+						}
+						.sub-headline {
+						  color: #b3f075;
+						}
+		Styling Applications with Less:
+			Less is another CSS preprocessor that shares many features with Sass while providing some of its own. Like Sass it enhances CSS with variables, mixins, functions and more. While many functionalities are shared, the syntax is usually different.
+			Using Less in your application:
+				You can add a Less file to your application by adding a file ending with .less extension to your project. You will then need to compile the Less file to a CSS file.
+				To compile a Less file, you can use several techniques, which include:
+					• Install Less globally by using npm and then using the lessc command.
+					• Configure a task runner.
+				Installing Less:
+					npm install -g less
+				Compiling a Less File:
+					Example:
+						lessc main.less main.css
+			Variables:
+				Variables allow you to store information that you want to repeat throughout your code. Less variables behave like Sass variables with a slight change of syntax. To define a new variable in Less you will use the @ sign.
+				Using Less Variables:
+					Example:
+						@highlights : #00FFFF;
+						.message {
+							color: @highlights;
+							font-size: 12px;
+						}
+						h1 {
+							color: @highlights;
+						}
+				CSS Output After Compilation:
+					Example:
+						.message {
+						  color: #00FFFF;
+						  font-size: 12px;
+						}
+						h1 {
+						  color: #00FFFF;
+						}
+			Nesting Styles:
+				Nesting is a feature of Less that allows defining styles by using nested code. The syntax of Less nested selectors is the same as in Sass.
+				Using Nested Selectors:
+					Example:
+						.p {
+						  color: #000000;
+						  font-size: 16px;
+						  span {
+							color: #FF0000;
+							em {
+							  text-decoration: underline;
+							}
+						  }
+						}
+				CSS Output After Compilation:
+					Example:
+						.p {
+						  color: #000000;
+						  font-size: 16px;
+						}
+						.p span {
+						  color: #FF0000;
+						}
+						.p span em {
+						  text-decoration: underline;
+						}
+			Mixins:
+				Mixins in Less behave and are declared differently than in Sass. Less mixins allow you to mix in values from one class into another class. This is a very important feature that can reduce the amount of code you have to write and to avoid duplication.
+				CSS Without Mixins:
+					Example:
+						.description {
+						  font-weight: 300;
+						  line-height: 1.2;
+						  color: red;
+						}
+						.comment {
+						  font-weight: 300;
+						  line-height: 1.2;
+						  padding: 20px;
+						  color: grey;
+						}
+				Using a Mixin:
+					Example:
+						/* Define a class */
+						.normalized-text {
+						  font-weight: 300;
+						  line-height: 1.2;
+						}
+						/* Use a mixin in multiple places */
+						.description {
+						  .normalized-text();
+						  color: red;
+						}
+						.comment {
+						  .normalized-text();
+						  padding: 20px;
+						  color: grey;
+						}
+			Functions:
+				Less exposes a wide range of functions that allow you to perform manipulations on styles such as increase or decrease the lightness of a given color, get the dimension of an image in a specific URL, convert one unit to another, perform mathematic calculations such as round and ceil and more. Some methods might be like the ones that exist in Sass.
+				Following are examples of some functions that available in Less:
+					• lighten. Increases the lightness of a color by a certain percentage. For example, lighten(#fe6700,20%) will increase the lightness of a certain orange hue by 20% percent.
+					• darken. Increases the darkness of a color by a certain percentage. For example, darken(#fe6700,20%) will increase the darkness of a certain orange hue by 20% percent.
+					• image-size. Retrieves the width and height of a certain image. For example, if the values of the width and the height of the image.png file are 150px, calling image-size("image.png") will return 150px 150px.
+					• convert. Converts from one unit to another. For example, convert(9s, "ms") will convert 9s to 9000ms.
+				Using Less Functions:
+					Example:
+						@main-color: #80E619;
+						.main-headline{
+						  color: darken(@main-color, 20%);
+						}
+						.sub-headline{
+						  color: lighten(@main-color, 20%);
+						}
+				CSS Output After Compilation:
+					Example:
+						.main-headline {
+						  color: #4d8a0f;
+						}
+						.sub-headline {
+						  color: #b3f075;
+						}
 	Lesson 2: Using Task Runners
 		TODO
 	Lesson 3: Responsive Design

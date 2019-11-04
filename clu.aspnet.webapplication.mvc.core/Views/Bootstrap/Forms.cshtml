@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Bootstrap Form Example";
+}
+<h2>@ViewBag.Title</h2>
+<h3>This page shows a Bootstrap designed form</h3>
+
+<form>
+    <div class="form-group">
+        <label for="firstname">First Name</label>
+        <input type="text" class="form-control" id="firstname" placeholder="First Name">
+    </div>
+    <div class="form-group">
+        <label for="lastname">Last Name</label>
+        <input type="text" class="form-control" id="lastname" placeholder="Last Name">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" placeholder="Email">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <label for="city">City</label>
+        <input type="text" class="form-control" id="city">
+    </div>
+    <div class="form-group">
+        <label for="state">State</label>
+        <select id="state" class="form-control">
+            <option selected>Choose...</option>
+            <option>NY</option>
+            <option>..</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="zip">Zip</label>
+        <input type="text" class="form-control" id="zip">
+    </div>
+    <button type="submit" class="btn btn-primary">Sign Me Up</button>
+</form>
