@@ -38,5 +38,15 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
         {
             return View();
         }
+
+        public IActionResult Grids()
+        {
+            return View();
+        }
+
+        public IActionResult FlexBoxes()
+        {
+            return View();
+        }
     }
 }

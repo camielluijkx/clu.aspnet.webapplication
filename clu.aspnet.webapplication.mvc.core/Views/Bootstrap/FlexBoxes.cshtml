@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @*<style>
+            .container {
+                display: flex;
+                justify-content: center;
+                align-content: center;
+                flex-wrap: wrap;
+            }
+
+            .item {
+                width: 200px;
+                background-color: grey;
+            }
+        </style>*@
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 800px;
+        }
+        .box {
+            width: 100px;
+        }
+        .box-4 {
+            order: -1;
+            align-self: flex-start;
+        }
+        .box-2 {
+            flex-grow: 2;
+        }
+    </style>
+</head>
+<body>
+    @*<div class="container">
+            <div class="item">01</div>
+            <div class="item">02</div>
+            <div class="item">03</div>
+            <div class="item">04</div>
+            <div class="item">05</div>
+            <div class="item">06</div>
+            <div class="item">07</div>
+            <div class="item">08</div>
+        </div>*@
+    <div class="container">
+        <div class="box box-1">01</div>
+        <div class="box box-2">02</div>
+        <div class="box box-3">03</div>
+        <div class="box box-4">04</div>
+        <div class="box box-5">05</div>
+        <div class="box box-6">06</div>
+        <div class="box box-7">07</div>
+        <div class="box box-8">08</div>
+    </div>
+</body>
+</html>

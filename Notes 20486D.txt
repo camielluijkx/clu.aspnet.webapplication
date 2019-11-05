@@ -1563,8 +1563,9 @@ Module 9: Client-Side Development
 							<div>
 								@RenderBody()
 							</div>
- 
-							<script src="~/node_modules/jquery/dist/jquery.js"></script>    <script src="~/node_modules/popper.js/dist/umd/popper.js"></script>    <script src="~/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+							<script src="~/node_modules/jquery/dist/jquery.js"></script>    
+							<script src="~/node_modules/popper.js/dist/umd/popper.js"></script>    
+							<script src="~/node_modules/bootstrap/dist/js/bootstrap.js"></script>
 						</body>
 						</html>
 		Bootstrap Components:
@@ -2236,7 +2237,115 @@ Module 9: Client-Side Development
 						});
 					Watcher has been applied to the styles folder of the application, and another watcher to the scripts folder. When Sass code inside the styles folder is added, removed or changed, the minify-sass task will be run. Meanwhile, whenever a JavaScript file inside the application’s scripts folder is added, removed or changed, the minify-js task will be run.
 	Lesson 3: Responsive Design
-		TODO
+		Responsive web design is used to make sure your application looks good on any screen and device. It is an approach that says that the design should respond to users’ behavior based on screen size, platform, and orientation.
+		The HTML5 Viewport Attribute:
+			It is possible to customize your web application’s display based on the capabilities and specifications of a web browser or a device by using adaptive rendering.
+			Mobile browsers such as Microsoft Edge use the viewport attribute to render webpages in a virtual window. This virtual window is usually wider than the application screen. The viewport attribute helps eliminate the need to reduce the size of the layout for each page. Reducing the size of the layout can distort the display of non-mobile-optimized web applications. Creating the application interface by using the viewport attribute enables users to zoom into the different areas of a webpage.
+			The viewport tag is a meta tag that helps you to control the width and height of webpages.
+			Using the viewport Tag in a View:
+				Example:
+					<!DOCTYPE html>
+					<html>
+					<head>
+						<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+						<title>Index</title>
+					</head>
+					<body>
+					</body>
+					</html>
+				The width and height properties help you to specify the width and height of the virtual viewport window in pixels. You can use the device-width keyword to enable the content to fit the default screen size of the browser.
+				The initial-scale property controls the initial scale or zoom level of a webpage. You can use other properties such as maximum-scale, minimum-scale, and user-scalable to control how the user can zoom in or out of the page.
+		CSS Media Queries:
+			To support different browsers and devices, you may sometimes need to apply different CSS styles in your application. HTML5 includes CSS media queries, which are special selectors that begin with @media. Media queries allow conditional application of CSS styles based on the device conditions or browser capabilities. You can apply media queries in CSS and HTML.
+			Using a Media Query:
+				Example:
+					@media only screen and (max-width: 500px) {
+						header{
+						  float: none;
+						}
+					  }
+			Using a Media Query in the link Element:
+				Example:
+					<link rel="stylesheet" type="text/css" href="smallscreen.css" media="only screen and (max-width: 500px)" />
+			You can use CSS media queries to apply CSS styles when the screen size is less than 500 pixels. However, you can use CSS media queries only for the screen layout, but not the print layout.
+			The following table describes properties that you can include in a media query.
+				Property				Description
+				width					The width of the targeted display area, which includes the browser window in desktop and mobile devices. In desktop computers, 
+										when you resize the browser window, the width of the browser changes. However, on most mobile browsers, you cannot resize the 
+										browser window. This implies that the width of the browser remains constant.
+				height					The height of the targeted display area, which includes the browser window in desktop and mobile devices.
+				device-width			The width of the entire screen of a device. For a desktop with a screen resolution of 1,024x768, the device-width is usually 1,024 
+										pixels.
+				device-height			The height of the entire screen of a device. For a desktop with a screen resolution of 1,024x768, the device-height is usually 768 
+										pixels.
+				orientation				The orientation of the device. If the device-width is larger than the device-height, the orientation value is set to landscape; 
+										otherwise, it is set to portrait.
+				aspect-ratio			The ratio of the width and height properties.
+				device-aspect-ratio		The ratio of the device-width and device-height properties. The following example illustrates the device-aspect-ratio for a device 
+										with a screen resolution of 1,280x720:
+											@media screen and (device-aspect-ratio: 16/9) { }
+											@media screen and (device-aspect-ratio: 1280/720) { }
+											@media screen and (device-aspect-ratio: 2560/1440) { }
+				color					The number of bits per color component of the device. If the device is not a color device, the value is zero.
+				color-index				The number of entries in the color lookup table, of the output device.
+				monochrome				The number of bits per pixel in a monochrome frame buffer. For non-monochrome devices, this value is zero.
+				resolution				The resolution of the output device or the density of the pixels. The common units for this property include dpi and dpcm.
+				scan					The scanning process of TV output devices.
+				grid					The property that detects whether the output is in the grid or bitmap format. Grid-based devices return a value of one; all other devices 
+										return a value of zero.
+		The Bootstrap Grid System:
+			Bootstrap includes a pre-built grid system that allows you to layout the content easily without writing any extra CSS code. Bootstrap allows you to divide the layout into up to 12 columns and display your content within them.
+			In under the Bootstrap grid system the most basic layout element is a container. Each Bootstrap grid system should have a container. A container is an element with one of the following classes:
+				• container. Use this class when you want to have a responsive container in which its min-width property is changed at predefined media query ranges called breakpoints. The following are the breakpoints which exist in Bootstrap:
+					o xs. Used for extra small devices (portrait phones). min-width is 0px.
+					o sm. Used for small devices (landscape phones). min-width is 576px.
+					o md. Used for medium devices (tablets). min-width is 768px.
+					o lg. Used for large devices (desktops). min-width is 992px.
+					o xl. Used for extra-large devices (large desktops). min-width is 1200px.
+				• container-fluid. Use this class when you want the grid to be spread across the full width of the viewport.
+			In the container, you can create rows. A row is an element with the row class. Each row can include columns. A column is an element with the col class.
+			The basic CSS classes that available for columns are: col-1, col-2, col-3, col-4, col-5, col-6, col-7, col-8, col-9, col-10, col-11, col-12. The number beside the col- defines how many grid columns the column will spread across.
+			It is possible to set the Bootstrap grid system to behave differently based on the device on which the application is running. For small devices, use the col-sm class, for medium devices, use the col-md class, for large devices, use the col-lg class, and for extra-large devices, use the col-xl class.
+			https://localhost:44395/Bootstrap/Grids
+			Alignment:
+				It is possible to vertically align the columns within the row in three main ways. To do so you need to add a class to the row element:
+					• align-items-start. Aligns the columns to the top.
+					• align-items-center. Aligns items to the center.
+					• align-items-end. Aligns items to the bottom.
+				Also, it is possible to align the items horizontally inside the row, using the following classes:
+					• justify-content-start. Align columns to the start of the row.
+					• justify-content-center. Align columns to the center of the row.
+					• justify-content-end. Align columns to the end of the row.
+					• justify-content-around. Spread the empty space around the columns.
+					• justify content-between. Spread the empty space between the columns.
+		Applying the Flexbox Layout:
+			CSS flexbox is a module added to the CSS and is supported by all modern browsers. It provides an efficient way to layout and align items inside a specific parent container. The Bootstrap grid system, which was introduced earlier in this lesson, is based on CSS flexbox.
+			Parent Container:
+				Parent container in context of flexbox module is an HTML element that has other HTML elements within it and has the property display: flex applied. One of the main ideas of flexbox is that the parent container can alter its children items width, height, and order to fill the available space within it in diverse ways.
+				Parent container properties are:
+					• flex-direction: row | row-reverse | column | column-reverse;
+						Defines the direction in which the container’s children flow.
+					• flex-wrap: nowrap | wrap | wrap-reverse;
+						Flexbox items will always try to fit in one row or column. You can change this behavior and allow the items to wrap to second line or column when the available space ends by using flexbox-wrap.
+					• justify-content: flex-start | flex-end | center | space-between | space-around | space-evenly;
+						Defines how the items are aligned on the main axis.
+					• align-items: flex-start | flex-end | center | baseline | stretch;
+						Defines how the items are laid on the cross axis on the baseline.
+					• align-content: flex-start | flex-end | center | space-between | space-around | stretch;
+				Similar to the justify-content but on the cross axis. Allows to align items inside a flex container when there is extra space on the cross-axis.
+			Child Items:
+				Each direct child inside the flex container can override the behavior specified by the container by using the properties described below:
+					• order: -n…0…n;
+						Allows to target individual items and change where they appear in the visual order. 
+					• flex-grow: 0…n; default 0;
+						This defines the ability for a flex item to grow if necessary. It dictates what amount of the available space inside the flex container the item should take up.
+					• flex-shrink: 0…n; default 0;
+						This defines the ability for a flex item to shrink if necessary. It determines how much the flex item will shrink relative to the rest of the flex items in the flex container.
+					• flex-basis: length | auto;
+						This defines the default size of an element before the remaining space is distributed. The flex grow and flex shrink are relative to flex basis.
+					• align-self: flex-start | flex-end | center | space-between | space-around | stretch;
+				This allows the default alignment (specified by align-items) to be overridden for individual child item.
+			https://localhost:44395/Bootstrap/FlexBoxes
 
 Module 10: Testing and Troubleshooting
 	Lesson 1: Testing MVC Applications

@@ -18,10 +18,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Bootstrap\FlexBoxes.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Bootstrap\Navbars.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Bootstrap\Modals.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Bootstrap\Grids.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Bootstrap\Navs.cshtml">
