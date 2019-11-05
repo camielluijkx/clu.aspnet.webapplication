@@ -9,6 +9,11 @@
   },
   "devDependencies": {
     "grunt": "1.0.2",
-    "grunt-sass": "2.1.0"
+    "grunt-sass": "2.1.0",
+    "gulp": "3.9.1",
+    "gulp-sass": "4.0.1",
+    "gulp-concat": "2.6.1",
+    "gulp-cssmin": "0.2.0",
+    "gulp-uglify": "3.0.1"
   }
 }

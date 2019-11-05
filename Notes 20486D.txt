@@ -1984,8 +1984,257 @@ Module 9: Client-Side Development
 						grunt.loadNpmTasks("grunt-sass");
 					};
 			Registering a Custom Task:
-				TODO
+				In addition to using existing plugins in the creation of tasks, you can also create your own tasks. Common tasks you may wish to create could involve various behaviors you desire such as adding tasks for logging or combining several tasks into one, which is also known as an alias task.
+				In order to create a task you can use the grunt.registerTask method. The basic syntax for creating a task is grunt.registerTask(*task name*, [*task description*], *task function*) with the description being optional. This allows creating a task which when it is run calls for a function.
+				Register a Custom Task:
+					Example:
+						module.exports = function(grunt) {
+							grunt.registerTask('myTask', 'Saying hello', function() {
+								grunt.log.write('Hello world...').ok();
+							});
+						};
+				Occasionally, you may wish for multiple tasks to occur at a time. In order to implement this, you will once again use the grunt.registerTask method, however this time, the syntax you will use is grunt.registerTask(*alias task name*, [*task description*], *task list*), with the description being optional, and is often omitted entirely. Tasks like this are known as alias tasks, and in Visual Studio Task Runner Explorer they appear as such. By running this task all tasks in the list are executed in order.
+				Alias Task:
+					Example:
+						module.exports = function(grunt) {
+							grunt.initConfig({
+								sass: {
+									dist: {
+										files: [{
+											expand: true,
+											cwd: 'Styles',
+											src: ['**/*.scss'],
+											dest: 'wwwroot/styles',
+											ext: '.css'
+										}]
+									}
+								}
+							});
+ 
+							grunt.loadNpmTasks("grunt-sass");
+ 
+							grunt.registerTask('myTask', 'Saying hello', function() {
+								grunt.log.write('Hello world...').ok();
+							});
+ 
+							grunt.registerTask('myMultipleTasks', ['myTask', 'sass']);
+						};
+				Binding Tasks to Visual Studio Events:
+					A powerful feature of Grunt is the ability to bind tasks to run alongside Visual Studio events. This is useful since it allows running tasks before a build occurs, allowing you to update any compiled files inside the project. Thus, you can run the application in a convenient fashion without needing to manually run tasks each time you update.
+					Alternatively, if you have tasks which you wish to run when the project is open, you can bind them to the project being opened and have the tasks run whenever you start Visual Studio.
+					To bind a task, you can right-click it in the Task Runner Explorer and select a binding to use. You can later change the order, or delete bindings, by right-clicking a task in the binding sub-window of the Task Runner Explorer.
 			https://docs.microsoft.com/en-us/aspnet/core/client-side/using-grunt?view=aspnetcore-3.0
+		Using gulp:
+			Another task runner that you can use is gulp. Unlike Grunt, a gulp task can perform several sequential operations on a single pipeline, leading to a very different development approach from Grunt.
+			Similarly to Grunt, gulp also supports only a very basic infrastructure for running tasks and additional plugins will need to be loaded in order to perform most operations. Configuration for gulp files is handled inside the tasks themselves, and since tasks run on a single pipeline, configuration often ends up being relatively simple. gulp supports a large number of plugins, which can grant gulp various different functionalities which can then be used inside of the tasks. This enables running a lean task environment where only required plugins are added.
+			gulp is intended to be used for client-side tasks, and is often used for bundling, minification, and compilation for various client-side technologies.
+			Configuring the Environment:
+				As the first step in the process, you need to add gulp inside the devDependencies section of the npm configuration file, package.json. This will load up the JavaScript files required by gulp and will allow working with it.
+				gulp Dependency:
+					Example:
+						{
+						  "version": "1.0.0",
+						  "name": "asp.net",
+						  "private": true,
+						  "devDependencies": {
+							"gulp": "3.9.1"
+						  }
+						}
+				After the dependency has been loaded, a gulpfile.js file should be created. Task configuration will be done inside the gulpfile.js file.
+				Inside gulpfile.js you should load up gulp by calling the require(‘gulp’) function. The require function enables you to request that the gulp dependency will be loaded in the context of the current file. Doing this will enable you to start writing tasks.
+				Writing a Task:
+					After setting up the environment it is possible to start creating gulp tasks. Unlike Grunt which tends to use tasks that are created in advance, and then configure them, in gulp, the configuration will usually be done as part of a created task. Therefore, every task that is run in gulp will always act as a custom task.
+					To add additional functionalities, you will need to load additional plugins. The first step is to add plugins to the devDependencies section of the package.json file. This will set npm to install them into the application. Afterwards, you will need to load them from inside the gulpfile.js file. This can be done by using the require method and providing it with the name of the plugin which you need to load.
+					Adding a gulp plugin to package.json:
+						Example:
+							{
+							  "version": "1.0.0",
+							  "name": "asp.net",
+							  "private": true,
+							  "devDependencies": {
+								"gulp": "3.9.1",
+								"gulp-sass": "4.0.1"
+							  }
+							}
+					After the gulp-sass plugin has been loaded, it will be available to use inside tasks.
+					By convention, all file configurations should be defined at the top of the gulpfile.js file, directly under the section for loading all plugins by using the require method. This is done so that you will be able to easily change them when the requirement changes. It is particularly helpful when using shared configurations across several tasks. However, this segment is entirely optional. Examples of relevant configurations could include file paths, task names, important strings and numbers and more. There isn’t any one correct structure for configurations so you should create a JavaScript object that works for your requirements.
+					gulpfile.js Configuration:
+						Example:
+							var gulp = require('gulp');
+							var sass = require('gulp-sass');
+							var paths = {    webroot: "./wwwroot/"}; paths.sass = "./Styles/*.scss";paths.compiledCss = paths.webroot + "styles/";
+						A shared path configuration is created, which sets the webroot property to hold the path to the wwwroot folder. Additionally, it is then used to create a path to where the Sass files are stored and the destination for compiled Sass files.
+						After the setup is completed, a task can be created by using the gulp.task function. This function uses the following syntax: gulp.task(*task name*, [*dependency tasks*], *task function*). The task name being the name of the task which will be created, dependency tasks is a list of other tasks which will be run as part of this task, and the task function is the code which will be run in the task. Both the dependency tasks and the task function are optional parameters. You can choose to use one or the other or both as needed.
+						Inside the gulp.task function you can add your code and use it to perform any tasks you wish. Commonly gulp functions will perform various operations by creating a memory stream, writing into it, and finally closing it turning it into a read-only stream. By using the pipe method on the stream, it will write the current stream into the stream created by the following function, allowing it to continue working from the point at which the last function finished. The pipe function receives a method as a parameter which will receive the stream from the previous method in the pipeline.
+						You will often begin gulp tasks by invoking the gulp.src method. The first parameter of this method is a regex file path or potentially a collection of regex file paths. This allows loading one or even more files as needed to perform your desired operation. You can then use the pipe function to continue processing the files.
+						At the end of the process, the gulp.dest method will frequently be called to save the stream that was previously created into files. It receives a folder into which it will write all files currently stored inside the memory stream. It is usually the last method in the pipeline, however, you can still use the pipe function to continue using the stream.
+						When loading the gulp-sass plugin, it is also possible to use the sass method. By using a stream that it receives from the pipe, the sass method compiles Sass files into CSS files and returns a stream which can be used with the pipe method to continue the process. It is also possible to attach to the on event.
+					gulp Sass Compilation:
+						Example:
+							var gulp = require('gulp');
+							var sass = require('gulp-sass');
+							var paths = {
+								webroot: "./wwwroot/"
+							};
+							paths.sass = "./Styles/*.scss";
+							paths.compiledCss = paths.webroot + "styles/";
+							gulp.task("sass", function() {
+								return gulp.src(paths.sass)
+									.pipe(sass().on('error', sass.logError)) 
+									.pipe(gulp.dest(paths.compiledCss));
+							});
+			Running Multiple Tasks:
+				By providing the gulp task function with a list of task names you can run several tasks at once. When running multiple tasks in gulp, each task will be run in parallel to the other. This means that tasks which need to run in a specific order will need to be handled specifically to run in that order. It is also possible to optionally run an additional code by adding a function after the task. This code will only execute once all other tasks have been completed. This can allow setting up chains of tasks running in order.
+				Multiple Tasks in gulp:
+					Example:
+						var gulp = require('gulp');
+						gulp.task("one", function() {
+							console.log("one");
+						});
+						gulp.task("two", function() {
+							console.log("two");
+						});
+						gulp.task("three", function() {
+							console.log("three");
+						});
+ 						gulp.task("all", ["one", "two", "three"], function() {
+							console.log("four");
+						});
+				Binding Tasks to Visual Studio Events:
+					As with Grunt, it is possible to bind gulp tasks to Visual Studio events. This can be done in the same way, by right-clicking a task name in the Task Runner Explorer window and selecting an event to which you can bind.
+			https://docs.microsoft.com/en-us/aspnet/core/client-side/bundling-and-minification?view=aspnetcore-3.0&tabs=visual-studio
+		Bundling and Minification:
+			One of the most frequent usages of task runners is to perform bundling and minification for the client side. In this topic, you will learn how you can perform bundling and minification by using gulp and the Visual Studio Task Runner Explorer.
+			A big advantage to bundling and minification is that by reducing the number of files (bundling), it is possible to ensure that less file requests are made to the server and by reducing the size of files (minification), requests to the server occur faster. Both of these help web applications become dynamic and responsive, reducing the potential of a user becoming frustrated by the application for being “slow”.
+			To perform bundling and minification, the following gulp plugins can be added:
+				• gulp-concat. Used for combining multiple files performing a bundling operation.
+				• gulp-cssmin. Minifies CSS files.
+				• gulp-uglify. Minifies JavaScript files.
+			To add these gulp plugins to a web application, you can add them to the devDependencies section of the npm configuration file, package.json.
+			Adding gulp Plugins to package.json:	
+				Example:
+					{
+					  "version": "1.0.0",
+					  "name": "asp.net",
+					  "private": true,
+					  "dependencies": {
+						"bootstrap": "4.1.3",
+						"jquery": "3.3.1",
+						"popper.js": "1.14.3"
+					  },
+					  "devDependencies": {
+						"gulp": "3.9.1",
+						"gulp-sass": "4.0.1",
+						"gulp-concat": "2.6.1",
+						"gulp-cssmin": "0.2.0",
+						"gulp-uglify": "3.0.1"
+					  }
+					}
+				By using these plugins, you will be able to perform bundling and minification. It is crucial to note that the logic for minifying CSS and JavaScript files is different, necessitating separate minification plugins. However, since gulp-concat only puts files together and renames them it is possibly to use it to bundle both.
+			An Example of CSS File Minification:
+				Example:
+					var gulp = require('gulp');
+					var concat = require("gulp-concat");
+					var cssmin = require("gulp-cssmin");
+					var paths = {
+						webroot: "./wwwroot/",
+						nodeModules: "./node_modules/"
+					};
+					paths.bootstrapCss = paths.nodeModules + "bootstrap/dist/css/bootstrap.css";
+					paths.vendorCssFileName = "vendor.min.css";
+					paths.destinationCssFolder = paths.webroot + "styles/";
+					gulp.task("minify-vendor-css", function() {
+						return gulp.src(paths.bootstrapCss)
+							.pipe(concat(paths.vendorCssFileName))
+							.pipe(cssmin())
+							.pipe(gulp.dest(paths.destinationCssFolder));
+					});
+				The bootstrap.css file is read from the node_modules folder and saved as vendor.min.css by calling the concat function. Then the CSS content inside it is minified by calling the cssmin function. Finally, the file is written into the styles folder of the wwwroot folder. At this point, the file can easily be linked to from a layout or a view. A major advantage of this approach is that if new CSS libraries are added, they can easily be added to the gulpfile.js without affecting the client.
+			Sass Preprocessing:
+				Example:
+					var gulp = require('gulp');
+					var concat = require("gulp-concat");
+					var cssmin = require("gulp-cssmin");
+					var sass = require('gulp-sass');
+					var paths = {
+						webroot: "./wwwroot/",
+						nodeModules: "./node_modules/"
+					};
+					paths.sassFiles = "./Styles/*.scss";
+					paths.compiledCssFileName = "style.min.css";
+					paths.destinationCssFolder = paths.webroot + "styles/";
+					gulp.task("minify-sass", function() {
+						return gulp.src(paths.sassFiles)
+							.pipe(sass().on('error', sass.logError))
+							.pipe(concat(paths.compiledCssFileName))
+							.pipe(cssmin())
+							.pipe(gulp.dest(paths.destinationCssFolder));
+					});
+				All .scss files inside of the application styles folder are read. Next, all of the .scss files are compiled into regular CSS files. Then, the CSS files are combined to a single file named style.min.css. Afterwards, the combined CSS file is minified. Finally, the file is written into the styles folder of the wwwroot folder. At this point, you can link this file to the layout or a view and it will be fully usable.
+			JavaScript Bundling and Minification:
+				Example:
+					var gulp = require('gulp');
+					var concat = require("gulp-concat");
+					var uglify = require("gulp-uglify");
+					var paths = {
+						webroot: "./wwwroot/",
+						nodeModules: "./node_modules/"
+					};
+					paths.bootstrapjs = paths.nodeModules + "bootstrap/dist/js/bootstrap.js";
+					paths.jqueryjs = paths.nodeModules + "jquery/dist/jquery.js";
+					paths.vendorJsFiles = [paths.bootstrapjs, paths.jqueryjs];
+					paths.vendorJsFileName = "vendor.min.js";
+					paths.destinationJsFolder = paths.webroot + "scripts/";
+					gulp.task("minify-vendor-js", function() {
+						return gulp.src(paths.vendorJsFiles)
+							.pipe(concat(paths.vendorJsFileName))
+							.pipe(uglify())
+							.pipe(gulp.dest(paths.destinationJsFolder));
+					});
+				This task begins by reading both bootstrap.js and jquery.js by using an array of file paths. The task then merges both files under the file name vendor.min.js, and then it minifies the resulting file by calling the uglify function. Finally, the file is written into scripts/vendor.min.js. In the future, should the need arise to add more JavaScript files, they can be added into the gulpfile.js without needing to update the layout or a view.
+			Bundling and Minifying JavaScript Files:
+				Example:
+					var gulp = require('gulp');
+					var concat = require("gulp-concat");
+					var uglify = require("gulp-uglify");
+					var paths = {
+						webroot: "./wwwroot/",
+						nodeModules: "./node_modules/"
+					};
+					paths.jsFiles = "./Scripts/*.js";
+					paths.minifiedJsFileName = "scripts.min.js";
+					paths.destinationJsFolder = paths.webroot + "scripts/";
+					gulp.task("minify-js", function() {
+						return gulp.src(paths.jsFiles)
+							.pipe(concat(paths.minifiedJsFileName))
+							.pipe(uglify())
+							.pipe(gulp.dest(paths.destinationJsFolder));
+					});
+				Task that reads all files in the Scripts directory of the application, combines them into a file called scripts.min.js, minifies it and finally saves it in wwwroot inside the scripts folder, which is easily linked to from the layout or a view.
+			Integrating with Build:
+				It is a good idea for JavaScript and CSS files to be bundled and minified whenever a new build is running. This will enable using the latest versions of JavaScript and CSS files, providing a hassle-free environment and allowing complete focus on the coding aspect, while not having to deal with manually running tasks. To achieve this, you can create a singular task assigned to running all the separate subtasks.
+				Multiple Tasks:
+					Example:
+						gulp.task("all-css", ["minify-vendor-css", "minify-sass"]);
+						gulp.task("all-js", ["minify-vendor-js", "minify-js"]);
+						gulp.task("minify-all", ["all-js", "all-css"], function () {
+							console.log("All tasks completed!");
+						});
+					The first performs both CSS bundling and minification tasks and the second does the same for JavaScript. Meanwhile, the third task calls both and when all subtasks are done, it prints: All Tasks Completed to the task runner output.
+					By binding the final task inside the task runner to build start, you can ensure that whenever the application is run, the latest version of files will be served and available.
+			Watcher Tasks:
+				An additional tool at your disposal is watcher tasks. Watcher tasks are tasks that are usually run when the project is loaded and continue running until it is closed. The purpose of watcher tasks is to watch for any changes occurring in files and if a change occurs, to run the appropriate task. For example, this can allow making real-time changes in the .scss and .js files and have the appropriate compilation, bundling, and minification occurs immediately. This can help reduce load during the build process and to allow testing client-side file changes without recompiling server-side code.
+				A watcher is configured by using the gulp.watch() method. The first parameter that will be supplied to the watch is a file or directory regex or a list of such. The second parameter is an array of tasks which will be run by the watcher.
+				Watchers are commonly bound to the project.open event of the Task Runner Explorer, allowing them to run in the background and perform their operations as the developer engages in their day to day work.
+				gulp Watcher Tasks:
+					Example:
+						gulp.task("sass-watcher", function() {
+							gulp.watch(paths.sassFiles, ["minify-sass"]);
+						});
+						gulp.task("js-watcher", function() {
+							gulp.watch(paths.jsFiles, ["minify-js"]);
+						});
+					Watcher has been applied to the styles folder of the application, and another watcher to the scripts folder. When Sass code inside the styles folder is added, removed or changed, the minify-sass task will be run. Meanwhile, whenever a JavaScript file inside the application’s scripts folder is added, removed or changed, the minify-js task will be run.
 	Lesson 3: Responsive Design
 		TODO
 
