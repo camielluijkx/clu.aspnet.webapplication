@@ -2349,7 +2349,50 @@ Module 9: Client-Side Development
 
 Module 10: Testing and Troubleshooting
 	Lesson 1: Testing MVC Applications
-		TODO
+		A unit test is a procedure that instantiates a component that you have written, calls one aspect of the functionalities of the component, and checks that the component responds correctly according to the design. In object-oriented programming, unit tests usually instantiate a class and call one of its methods. In an ASP.NET Core MVC web application, unit tests can instantiate model classes or controllers, and call their methods and actions.
+		Why Perform Unit Tests?
+			There are several types of tests you can use to identify bugs in your application, which include:
+				• Unit tests. Unit tests check small aspects of functionality. A unit test may verify the return type of a single method, or the method is returning the expected results. By defining many unit tests for your project, you can ensure they cover all functional aspects of your web application.
+				• Integration tests. Integration tests check how two or more components work together. You can use these tests to check how two or more classes interact with each other. You can also use integration tests to check how the entire web application, including the database and external web services, works to deliver content.
+				• Acceptance tests: Acceptance tests focus on a functional or technical requirement that must work for the stakeholders to accept the application. Similar to integration tests, acceptance tests usually test multiple components working together.
+			Unit tests are important because they can be defined early in development. Integration and acceptance tests are usually run later, when several components are approaching completion.
+			What Is a Unit Test?
+				A unit test is a procedure that verifies a specific aspect of functionality. Multiple unit tests can be performed for a single class and even for a single method in a class.
+				A single unit test usually consists of code that runs in three phases:
+					1. Arrange. In this phase, the test creates an instance of the class that it will test. It also assigns any required properties and creates any required objects to complete the test. Only properties and objects that are essential to the test are created.
+					2. Act. In this phase, the test runs the functionality that it must check. Usually, in the Act phase, the test calls a single procedure and stores the result in a variable.
+					3. Assert. In this phase, the test checks the result against the expected result. If the result matches what was expected, the test passes. Otherwise, the test fails.
+			How Do Unit Test Help Diagnose Bugs?
+				Because unit tests check a small and specific aspect of code, it is easy to diagnose the problem when the tests fail. Unit tests usually work with a single class and isolate the class from other classes wherever possible. If other classes are essential, the smallest number of classes are created in the Arrange phase. This approach enables you to fix issues rapidly because the number of potential sources of a bug is small.
+				Unit tests should check the code that you write and not any infrastructure that the production system will rely on. Using this approach, you can distinguish bugs that arise from code, which must be fixed by altering code, from the bugs that arise from infrastructure failures, which must be fixed by changing hardware, reconfiguring web servers, reconfiguring connection strings, or making other configuration changes.
+				By using dependency injection throughout the code instead of relying on explicit dependencies, the reliance on other classes and data sources can be bypassed, and it becomes possible to inject fake dependencies, allowing full testing of the class, without being hindered by external classes. Since the tested class expects interfaces, you can create fake dependent classes and implement various methods as needed with the expected results. This enables complete testing for a class, without reliance on other classes.
+			Automated Unit Testing:
+				It is important to understand that unit tests, after they are defined, can be rerun quickly and easily throughout the rest of the project life cycle. In fact, you can set up Visual Studio to rerun tests automatically whenever the related code changes. You can also manually initiate tests any time.
+		Principles of Test-Driven Development:
+			To spot potential bugs and improve the quality of the final application, you can use unit tests in any development methodology, including waterfall projects, iterative projects, and agile projects. Any project can benefit from unit testing, regardless of the development methodology used in the project. However, a specific development methodology, called test-driven development (TDD), places unit testing at the center of working practices. TDD is often described as a separate development methodology. Some authors consider it to be a core principle of the extreme programming methodology.
+			Write the Test, Pass the Test, Refactor:
+				In TDD, developers repeat the following short cycle to implement a functional requirement:
+					1. Write the Test. The developer starts by creating and coding the unit test. This step requires a full understanding of the functional requirement, which can be obtained from use cases or user stories. Because the developer has not written any code in the application, the test fails.
+					2. Pass the Test. The developer writes some quick and simple code in the application so that it passes the test. During the first iteration, this code is frequently inelegant and may include false assumptions such as hardcoded values.
+					3. Refactor. The developer cleans up the application code, removes duplicate code, removes hardcoded values, improves readability, and makes other technical improvements. The developer reruns the test to ensure that refactoring has not caused a failure.
+				The cycle is then repeated. In each iteration, the developer adds a small new element of the final functionality with a corresponding test.
+				It is important that the code in your tests is treated as production code. It should be well thought out and easy to read so that other developers can understand the test and quickly diagnose any test failures.
+				Test-Driven Development Principles:
+					TDD is different from traditional approaches to application development. To use TDD effectively, you must understand its fundamental principles:
+						• Write tests before code. In the TDD development cycle, you write the test before writing any code in the application. This means the test must fail the first time it is run. You can understand the test as a specification for the functionality you are building. By writing the test first, you ensure that you begin with a thorough understanding of the problem you are trying to solve.
+						• Move in small steps. By breaking a large application down into small elements of functionality, you can improve developer productivity. You can do this by giving a developer a small problem to solve in each iteration. The developer can solve the simple problem quickly and understand all the possible circumstances in which their code runs.
+						• Only write enough code to pass the test. In each iteration, do not be tempted to add extra code that is not related to the test. For example, if you know that users will call an action with other parameters than the ones in the test, do not write code to handle these parameters. Instead, during the next iteration, write a second test for those parameters. Then write and refactor that code.
+					Developers can refer to tests as examples of how to use a class or method. This can increase developer productivity because developers can view the code that demonstrates the method or class.
+		Writing Loosely Coupled MVC Components:
+			A loosely coupled application is one in which each component requires few or no details of the other components of the system. In object-oriented programming, two classes can be described as loosely coupled if one class can call methods on the other class without any code that is specific to the other class. When system components are loosely coupled in this manner, it is easy to replace a class with another implementation of the same functionality. Loosely coupled components are essential for thorough unit testing because classes that deal with real data, such as data from a database, can easily be replaced with classes that deal with test data. When dependency injection is used inside an application, the application becomes more loosely coupled, since classes expect interfaces rather than classes.
+			Using Loose Coupling in Tests:
+				A loosely coupled application is easy to test because you can make tests simpler by replacing a fully functional instance of a class with a simplified instance that is specifically designed for the test. Replacing classes in tests in this manner can only be done when components are loosely coupled. Replacement instances used for unit tests are known as test doubles or fakes. A test double or fake includes just enough code and properties to pass the relevant test and prove the functionality.
+			Other Benefits of Loose Coupling:
+				Loose coupling has other benefits besides testing. Loose coupling makes it easier to replace simple components with more sophisticated ones. If the components are loosely coupled, you can perform this replacement without modifying any code outside of the averaging classes.
+			Using Interfaces for Loose Coupling:
+				In object-oriented programming, an interface defines a set of properties and methods. Any class that implements that interface must implement all the properties and methods it defines as a minimum. This creates loose coupling because you need not specify a class in code. Instead, you can specify any implementation of a particular interface.
+			Loose Coupling in an MVC Web Application:
+				TODO
 	Lesson 2: Implementing an Exception Handling Strategy
 		TODO
 	Lesson 3: Logging MVC Applications
