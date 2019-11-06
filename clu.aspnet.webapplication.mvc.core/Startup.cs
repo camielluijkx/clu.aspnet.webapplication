@@ -1584,7 +1584,7 @@ namespace clu.aspnet.webapplication.mvc.core
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-        }
+        } 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -1593,7 +1593,7 @@ namespace clu.aspnet.webapplication.mvc.core
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
+            else //if (env.IsStaging() || env.IsProduction() || env.IsEnvironment("ExternalProduction"))
             {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
@@ -1603,11 +1603,23 @@ namespace clu.aspnet.webapplication.mvc.core
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseStatusCodePages();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+        }
+
+        public void ConfigureExternalProduction(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseMvcWithDefaultRoute();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Welcome to external production");
             });
         }
     }

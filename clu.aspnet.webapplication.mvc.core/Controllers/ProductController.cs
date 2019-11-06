@@ -1,6 +1,8 @@
-﻿using clu.aspnet.webapplication.mvc.core.DataAccess;
+﻿using clu.aspnet.webapplication.mvc.core.Attributes;
+using clu.aspnet.webapplication.mvc.core.DataAccess;
 using clu.aspnet.webapplication.mvc.core.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -57,6 +59,17 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
             var products = _productRepository.Products.ToList();
 
             return View(products);
+        }
+
+        [MyExceptionFilter]
+        public IActionResult Index(Product product)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new Exception();
+            }
+
+            return View(product);
         }
     }
 }
