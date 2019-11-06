@@ -2507,7 +2507,54 @@ Module 10: Testing and Troubleshooting
 				You can also configure a special filter called exception filter. You can create an exception filter by creating a class that inherits from the ExceptionFilterAttribute class. This filter can then be applied as an attribute to specific actions and controllers, which allows for handling specific exception cases.
 				The class that implements the exception filter class should override the OnException method inside it. You can then use the ExceptionContext parameter to retrieve or set the current exception, you can update the Result property, potentially changing the view or the response context, and you can also set the ExceptionHandled property to stop the propagation of the exception (If it is left as false, the exception will keep propagating).
 	Lesson 3: Logging MVC Applications
-		TODO
+		Logging Exceptions:
+			Writing Error Logging Code:
+				When adding logs to your application, you need to first decide where you would like to store the logs. There are many potential options you can consider for your application, and no single solution is the right one because each solution has its pros and cons. Popular logging methods include writing log files with various details about the application, sending logging data to cloud-based services for ease of storage and analysis, storing logging data in databases, and sending e-mails about exceptions.
+				By storing logs on files, you ensure that the logs are persistently written, and most reliably maintained. However, care must be taken to balance the logs to maintain a coherent way of tracking the flow of data and exceptions because logging too much can result in large, hard-to-use files that take up valuable space.
+				By storing logs on cloud-based services such as Microsoft Azure, you can ensure easy access and powerful research tools for developers. However, cloud-based services rely on constant internet access.
+				By storing logs on a database, you can store and divide the logs in a way that can make them easy to peruse However, this requires a steady connection to the database and appropriate database administration. Also, these logs may not be easily accessible to the developers on a daily basis.
+				By logging to email, you can ensure that developers are informed very quickly and can handle the problem almost as soon as it occurs. However, it can also easily result in repeated emails for repeated issues, an excess of emails being sent, losses over network connections, and a difficult-to-manage email inbox.
+			Where to Write Error Logging Code:
+				When you decide where to write code that logs errors, you should consider that errors might arise in almost any part of your application. You should choose an approach that enables you to write error logging code once that will run for any exception anywhere in your application.
+				A far more effective approach is to log by using middleware. By logging exceptions by using middleware, you can ensure that problematic code is properly logged and traced. This allows for a singular point of failure to handle all errors in the application.
+			Using Third-Party Logging Tools:
+				Because exception logging is a very common functional requirement for web applications, there are many third-party solutions that you can choose if you do not want to write your own logging code. Many of these are available within Visual Studio from the NuGet package manager.
+		Logging in ASP.NET Core:
+			In ASP.NET Core, there is a robust built-in logging library. Rather than working with a specific form of logging, using the logging library, you can setup multiple different logging providers, including built-in providers and various supported third-party logging providers. This allows you to implement the logging that is best for your application and update your logging mechanism without making any changes to the rest of your code.
+			Configuring Logging Providers:
+				The first step for setting up your logging is by setting up the providers you wish to use. This is done inside the CreateWebHostBuilder method of the Program.cs file.
+				To add logging, you will need to add a call to the ConfigureLogging method as part of the CreateDefaultBuilder pipeline. The ConfigureLogging method exposes two parameters, a parameter of the WebHostBuilderContext type, which can be used to retrieve the IHostingEnvironment, and an ILoggingBuilder parameter, which is used to set up the logger providers and configurations.
+				In the ConfigureLogging method, you will need to add the logging provider, which will enable logging by using the specific provider. You can log to more than one provider at the same time. ASP.NET Core has several built-in providers, which include:
+					• Console. Logs the message to the application's console window.
+					• Debug. Logs the message to the application's debug window.
+					• EventSource. Uses event tracing API to store the event, behavior differs between operating systems, and it may not work on all platforms.
+					• EventLog. Logs the message to the windows event log. Is exclusive to Windows.
+					• TraceSource. Creates a trace source that can be listened to with a variety of trace listeners.
+					• AzureAppServices. Creates logs that integrate with the Azure platform.
+				The providers can be added by calling the add*Provider Name*() method. After you call this method, the provider is set up for logging throughout the application.
+			Calling Logging Method:
+				After the logging is set up, you can add logs to individual components by injecting a logger into the constructor for the component. The logger that you inject should be of the ILogger<*className*> type where the class name is used to create an identifier for the file from which the logger is called. This identifier contains the fully qualified namespace for the class and makes it easy for developers to find out which log entry was created from where.
+				While it is possible to give the ILogger any class, it could result in logs becoming confusing to use. It is recommended to always create a logger for the current class.
+			Log Levels:
+				By setting a log severity, only logs that match the severity or of a higher severity will be displayed.
+				The log levels and their severity values are as follows:
+					• Trace (0). These should be used when trying to debug specific things and are often used to track very large amounts of data. By default, trace logs are never displayed and should not be used outside of a development environment.
+					• Debug (1). Logs of this level are frequently used for development environments and keep track of large amounts of data. Logs of this level should not be logged outside of development environments.
+					• Information (2). Logs of this level should be used at important points throughout the application to ensure the application is running correctly but should avoid getting to a point where they affect system performance. Information logs are frequently, but not always. enabled in production environments.
+					• Warning (3). Logs of this level should be used whenever unexpected flows occur. Exceptions that are handled or flows with missing data will often log a warning. These logs should always appear in a development environment, which allows you to find problematic flows.
+					• Error (4). Logs of this level should occur whenever exceptions cannot be handled. These should be cases in which a flow has broken down but did not result in application wide issues. These logs should always be kept.
+					• Critical (5). Logs of this level should be used to signify application wide failures. Failures such as an invalid database connection and a failure on the web server should be tracked with critical logs.
+				To call logs of different levels, you can use the Log*level* method.
+			Log Event ID:
+				An additional measure that can enable tracking specific errors is using log event ID, which is an optional parameter that you can add to as part of a call to a log method in order to track specific event cases. Commonly, these event IDs are declared as constants and used to further distinguish the events.
+				By supplying an integer as the first parameter to the logging method, you can assign that event to use the specified event ID. This can help find specific events later when trying to find issues.
+				A best practice is to store event IDs as enums or constants. Doing so allows you to quickly switch the ID if required. You should not provide hard coded IDs as it is difficult to maintain and understand the significance behind it.
+			Logging Exceptions:
+				Another useful parameter that can be accepted by the various logging method is exceptions. A log can be used to directly display exceptions. This is useful for handling exceptions that occur in try/catch blocks because later you will be able to see the exception details in the log. This can be very useful for finding issues that occur in production. The parameter for the exception should be the first parameter if event ID is omitted, or It will be the second parameter if event ID is used.
+			Configure Logging:
+				You can also utilize the appsettings.json file to set various details for your logging. It is most commonly used to set log levels. This can easily allow you to set a different log level in different environments. To load the configuration for logging, you will need to call the AddConfiguration method on the ILoggingBuilder parameter and supply it with a configuration by using the GetSection method on the Configuration property of the WebHostBuilderContext parameter. After this is done, the logging configuration will be loaded.
+			Using Third-Party Logging Providers:
+				In a modern application, there are innumerable ways to store logs, whether in cloud servers, databases, or other. It would be impossible to cover all possible storage methods in ASP.NET Core, and you may occasionally want to use one of many third-party logging providers.
 
 Module 11: Managing Security
 	Lesson 1: Authentication in ASP.NET Core

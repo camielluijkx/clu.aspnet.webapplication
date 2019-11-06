@@ -1,5 +1,6 @@
 ﻿using clu.aspnet.webapplication.mvc.core.Attributes;
 using clu.aspnet.webapplication.mvc.core.DataAccess;
+using clu.aspnet.webapplication.mvc.core.Logging;
 using clu.aspnet.webapplication.mvc.core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using System;
+using Microsoft.Extensions.Logging;
 using System.IO;
 
 namespace clu.aspnet.webapplication.mvc.core
@@ -1361,7 +1362,7 @@ namespace clu.aspnet.webapplication.mvc.core
                 options.Filters.Add(typeof(LogActionFilter)); // by type
             });
 
-            services.AddSingleton<ILogger, Logger>();
+            services.AddSingleton<IMyCustomLogger, MyCustomLogger>();
 
             //https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-2.2
         }
@@ -1587,8 +1588,12 @@ namespace clu.aspnet.webapplication.mvc.core
         } 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile("Logs/myapp-{Date}.txt");
+
+            logger.LogInformation("Adding an entry to the logger.");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

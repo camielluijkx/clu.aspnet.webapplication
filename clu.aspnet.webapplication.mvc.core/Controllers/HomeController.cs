@@ -3,15 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 using clu.aspnet.webapplication.mvc.core.Models;
 using clu.aspnet.webapplication.mvc.core.Services;
 using System;
+using Microsoft.Extensions.Logging;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace clu.aspnet.webapplication.mvc.core.Controllers
 {
     public class HomeController : Controller
     {
+        const int CALL_INDEX = 1000;
+        const int INVALID_DIVISION = 9006;
+
         private IMyService _myService;
 
         private IRandomService _randomService;
         private IRandomWrapper _randomWrapper;
+
+        private ILogger _logger;
 
         #region Example #14
 
@@ -258,9 +265,33 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
 
         #endregion
 
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
         public IActionResult Index()
         {
+            _logger.LogInformation(CALL_INDEX, "Adding an entry to the logger.");
+
             return View();
+        }
+
+        public IActionResult Division()
+        {
+            try
+            {
+                int x = 3;
+                x -= 3;
+
+                int result = 30 / x;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(INVALID_DIVISION, ex, "An error occurred while dividing!");
+            }
+
+            return Content("Result from controller");
         }
 
         public IActionResult About()

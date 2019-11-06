@@ -192,19 +192,6 @@ namespace clu.aspnet.webapplication.mvc.core.Services
         }
     }
 
-    public interface ILogger
-    {
-        void LogInformation(string message);
-    }
-
-    public class Logger : ILogger
-    {
-        public void LogInformation(string message)
-        {
-            Console.WriteLine(message);
-        }
-    }
-
     public interface IFormatNumber
     {
         string GetFormattedNumber(int number);

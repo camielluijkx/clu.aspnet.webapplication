@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using clu.aspnet.webapplication.mvc.core.Logging;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -48,15 +49,51 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
+        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        //    WebHost.CreateDefaultBuilder(args)
+
+        //    .ConfigureLogging((hostingContext, logging) =>
+        //    {
+        //        if (hostingContext.HostingEnvironment.IsDevelopment())
+        //        {
+        //            logging.AddConsole(); // add logging to output window
+        //        }
+        //    })
+        //    .UseStartup<Startup>();
+
+        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        //    WebHost.CreateDefaultBuilder(args)
+
+        //    .ConfigureAppConfiguration((hostingContext, config) =>
+        //    {
+        //        var env = hostingContext.HostingEnvironment;
+        //        config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+        //    })
+        //    .ConfigureLogging((hostingContext, logging) =>
+        //    {
+        //        logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+        //        if (hostingContext.HostingEnvironment.IsDevelopment())
+        //        {
+        //            logging.AddConsole();
+        //        }
+        //        else
+        //        {
+        //            ILoggerProvider provider = new MyCustomProvider();
+        //            logging.AddProvider(provider);
+        //        }
+        //    })
+        //    .UseStartup<Startup>();
+
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-
+            .ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                var env = hostingContext.HostingEnvironment;
+                config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            })
             .ConfigureLogging((hostingContext, logging) =>
             {
-                if (hostingContext.HostingEnvironment.IsDevelopment())
-                {
-                    logging.AddConsole(); // add logging to output window
-                }
+                logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
             })
             .UseStartup<Startup>();
     }

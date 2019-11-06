@@ -1,7 +1,6 @@
-﻿using clu.aspnet.webapplication.mvc.core.Services;
-using Microsoft.AspNetCore.Hosting;
+﻿using clu.aspnet.webapplication.mvc.core.Logging;
+//using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
 
 namespace clu.aspnet.webapplication.mvc.core.Attributes
 {
@@ -14,9 +13,9 @@ namespace clu.aspnet.webapplication.mvc.core.Attributes
         //    Console.WriteLine($"Hosting application {environment.ApplicationName}.");
         //}
 
-        private ILogger _logger;
+        private IMyCustomLogger _logger;
 
-        public LogActionFilter(ILogger logger)
+        public LogActionFilter(IMyCustomLogger logger)
         {
             logger.LogInformation("log some information");
         }
