@@ -1,6 +1,8 @@
-﻿using clu.aspnet.webapplication.mvc.core.Models;
+﻿using clu.aspnet.webapplication.mvc.core.DataAccess;
+using clu.aspnet.webapplication.mvc.core.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace clu.aspnet.webapplication.mvc.core.Controllers
 {
@@ -30,8 +32,8 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
 
         #region Example #60
 
-        [Route("Product/Index")]
-        public IActionResult Index()
+        [Route("Product/Index60")]
+        public IActionResult Index60()
         {
             Product p1 = new Product() { Name = "Product1" };
             Product p2 = new Product() { Name = "Product2" };
@@ -42,5 +44,19 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
         }
 
         #endregion
+
+        IProductRepository _productRepository;
+
+        public ProductController(IProductRepository productRepository)
+        {
+            _productRepository = productRepository;
+        }
+
+        public IActionResult Index()
+        {
+            var products = _productRepository.Products.ToList();
+
+            return View(products);
+        }
     }
 }
