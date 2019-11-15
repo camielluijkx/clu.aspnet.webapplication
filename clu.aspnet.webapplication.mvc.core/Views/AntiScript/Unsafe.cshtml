@@ -1,0 +1,10 @@
+﻿@{
+    var script = "xss()";
+}
+
+<script type="text/javascript">
+    function xss() {
+        alert("XSS");
+    }
+    document.write(@script);
+</script>

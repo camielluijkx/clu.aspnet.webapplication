@@ -42,6 +42,9 @@ Package Manager Console (PMC)
 Cascading Style Sheets (CSS)
 Content Delivery Network (CDN)
 Node Package Manager (npm)
+Cross-Site Scripting (XSS)
+Cross-Site Request Forgery (CSRF or XSRF)
+Cross-Origin Resource Sharing (CORS)
 
 
 [Summary 20486D]
@@ -2707,7 +2710,126 @@ Module 11: Managing Security
 				Finally, you can combine multiple different authorization methods, by adding multiple Authorize attributes. Whenever more then a single Authorize attribute is present on a controller or action, it will only be accessible if all of the authorization requirements are fulfilled.
 			Whenever an authenticated user attempts to access a resource that they do not have permissions to access, the ASP.NET Core MVC application will redirect the request to "Account\AccessDenied". You should add a controller view and method to handle this path, and update the users that they do not meet the criteria to view the page. If you do not do this, users will encounter a browser error. 
 	Lesson 3: Defending from Attacks
-		TODO
+		Cross-Site Scripting:
+			Cross-site scripting commonly known as XSS, is a security exploit by which a malicious user (commonly referred to as attacker) utilizes the input on a website to insert malicious scripts, such as JavaScript code, with the intention of altering the default behavior for a website. When these scripts are run, they can be used to steal private information such as session tokens or cookies and alter the behavior of pages, potentially redirecting users to malicious websites.
+			XSS attacks are only such when it affects a browser other than the browser in which they were performed. It is completely impossible to prevent a user from sabotaging the browser which he is using, as most browsers give knowledgeable users full control over the HTML and JavaScript. If the user can affect a different browsing session, even if it only affects the same credentials, it would be considered an XSS attack. 
+			As a general rule of thumb, you will need to be careful in the following areas whenever handling any data that was input from the user in order to avoid XSS attacks: 
+				• HTML inputs. Never display any untrusted data which may come from another source. This can include data sent from another session, data influenced by headers, or even data loaded from databases. 
+				• HTML elements. Putting untrusted data into an HTML element can cause scripts to be run, resulting in malicious activities. This form is particularly easy to abused, as it's very easy to write a script inside of an element. 
+				• HTML attributes. A clever attacker can utilize a standard attribute structure to end an existing element and add a script or can abuse one of the on- events of HTML elements to call a function. 
+				• JavaScript. Untrusted data added or inserted in your JavaScript could result in undesirable function calls or undesired code execution. 
+				• Query string. A further vulnerability point could be the query string. In an unsecure environment, data parsed from inside the query string could result in script executions.
+			You can avoid these issues by ensuring you use appropriate encoding on untrusted input. Encoding ensures that various symbols commonly used in HTML and JavaScript, such as '<', or '\' are replaced with string keys which are globally recognized by browsers and cannot be used to execute code. All encoded characters follow a specific format, for example HTML encoding begins with '&' and ends with ';', while JavaScript encoding utilizes a "\\u*key code*" format. This ensures that browsers will be able to identify that these elements are encoded and render them appropriately. 
+			Furthermore, HTML itself requires encoded characters to display them. This is due to it being impossible to use several characters due to being used as part of the HTML markup.
+			https://dev.w3.org/html5/html-author/charref
+			HTML Encoding in Razor Pages:
+				By far the simplest case to handle, by default, the @ directive when used in the HTML context of a view, will always encode strings by default. This means that you do not need to worry much about using external inputs within Razor. Therefore, the HTML context is secure by default in regards to XSS. It is however crucial to note that this is specifically for HTML and does not affect JavaScript tags within the HTML. 
+				It is possible to allow non-encoded HTML to be used within a Razor page, but you will need to make a dedicated effort by using the HtmlString class which is not encoded and as such is prone to XSS attacks. It is advised to not allow non-encoded HTML.
+			JavaScript Encoding in Razor pages:
+				Unlike the HTML context of Razor pages, using a directive within JavaScript tags is not automatically encoded. This means that you need to be extra careful when trying to inject unknown data into a JavaScript function. 
+				You can get around this issue by injecting the JavaScriptEncoder class. The JavaScriptEncoder class is a class designed to safely perform encoding on JavaScript objects, preventing malicious code from being able to execute functions. It is accessible by importing the System.Text.Encoding.Web namespace. It provides the Encode function which encodes JavaScript, ensuring that the desired text will be displayed safely, while not allowing for undesired functions to be invoked.
+			Injecting Encoders:
+				Occasionally, you may wish to work with encoding on the controller. You can do this by injecting HtmlEncoder, which is used for encoding for HTML content such as element content or attributes, and JavaScriptEncoder, which is used for injecting encoded elements into JavaScript code. This can allow you to pre-encode information from unknown sources and not have to encode it on the Razor page itself. 
+				Razor pages utilize HtmlEncoder by default. Therefore, while it will always prevent invalid HTML, it can cause errors or security exploits while using the @ directive in JavaScript. 
+			Encoding URL Parameters:
+				Occasionally, you might have a situation where you build a URL while using a query string that includes unknown input. As with all other things, this can potentially have changed URLs or problematic query strings, which can potentially change your URL path or modify values of controls bound to them and create undesirable additional controls that benefit attackers. As such, you should always ensure you encode query strings while creating them in the controller.
+		Cross-Site Request Forgery:
+			Cross-site request forgery (CSRF or XSRF) is a specific type of attack which utilizes users being logged in on one site by adding calls to APIs on that site from another site. This form of attack can be particularly dangerous, as it can be used to perform operations using the logged in user without requiring any consent from the user. 
+			In order to perform this kind of attack, the malicious website will have a call to an API used by the victim site and will use the user's authentication cookie to perform it. When the malicious site calls the API on the victim site, all cookies for that domain will be sent alongside the request. Thus, potentially allowing any action that can be performed by the user, including deleting or changing data, deleting the user, or any variety of other malicious options dependent on the API.
+			An XSRF attack does not even require the user to click any buttons. The malicious website can create a hidden form within the HTML and submit it by using JavaScript, without requiring any input from the user. 
+			XSRF attacks are not influenced by utilizing a more secure connection using HTTPS, since the form can just send the request by using HTTPS and it can also be used to target any possible method. 
+			If your website API provides any GET methods which are capable of changing data, malicious users can target your site on websites which allow user images by providing a vulnerable URL to your website causing problems with any of your users which load any of these image links. It is therefore a best practice for a GET method to never change data. 
+			ASP.NET Core MVC utilizes a form of anti-forgery validation method in which when a form is created by the controller as part of a view, it receives an additional hidden input with the name __RequestVerificationToken. This name is generated every single time the view is created and thus provides a unique key by which to identify the specific instance which posted the form. When XSRF protection is set up, all XSRF protected actions will validate that a correct token is provided or an error will occur instead. This guarantees that requests arrive only from within the application. 
+			Protecting Controllers from XSRF Attacks:
+				The first step towards protecting yourself from XSRF attacks is by protecting your controller APIs. This can be done by adding the ValidateAntiForgeryToken attribute to a controller or action. By doing this, the controller or action will require that a valid token will be present on the request. This helps to ensure that the action can only be accessed from within a valid ASP.NET Core MVC page.
+				You may sometimes find yourself in need of marking multiple requests across a controller, while requiring some requests to not require anti-forgery, such as various GET based actions. There are several tools you can use to help the process become more convenient and comfortable for the user. 
+				The first is the AutoValidateAntiforgeryToken attribute. It behaves similarly to the ValidateAntiForgeryToken attribute; however, it will automatically ignore actions which are called with the methods: GET, HEAD, OPTIONS, and TRACE, which are designed for data retrieval. This allows you to quickly and easily add anti-forgery to all methods which can change data, without affecting methods for retrieving data. 
+				Finally, if you wish to specifically make an action accessible in a controller which requires anti-forgery tokens you can use the IgnoreAntiforgeryToken attribute to remove it for a specific action. This will let you make certain actions available in scenarios where they are usually blocked. 
+			Using Anti-Forgery Tokens on Views:
+				To support anti-forgery tokens inside your views, allowing you to interact with actions which require them, you will need to ensure that your forms support anti-forgery tokens. The simplest way to implement this is by ensuring tag helpers are loaded for the view. The forms will also need to possess the method attribute with the values: post, put, or delete. Forms with the get method will not receive a token by default. 
+				When tag helpers are loaded into a view, all forms will also generate an input element with a type of hidden and the name __RequestVerificationToken. This input will also bear a uniquely generated value which will be sent alongside the form and be used to identify that the request came from a known form. This makes it very difficult for another website to replicate and makes the action more secure against XSRF attack.
+				It is always possible to specifically disable Form tag helpers to prevent the form from utilizing anti-forgery tokens. However, it is not recommended since it means you choose not to utilize the protection offered by the anti-forgery mechanism. 
+				Should you find yourself needing to use JavaScript to call your methods, you can create a form and either submit it via JavaScript or you can find the hidden element with the name __RequestVerificationToken and use it to create your request. 
+				If you need a to add a secure call to a get method, such as to prevent hostile websites from getting data from your API or if you wish to not utilize the form tag helper, you can manually add a directive call to @Html.AntiForgeryToken()to create the request token. This can allow an alternative option and help you create secure get requests. 
+		Sql Injection:
+			SQL injection shares a similarity to XSS in that both attacks use parameters to add logic for performing operations. However, whereas XSS targets other clients in their attacks, potentially affecting other users, SQL injection directly targets the database itself. Similar to XSS, SQL injection occurs when a malicious user calls for APIs or changes inputs. But unlike code designed to run scripts, SQL injection instead manipulates input strings and utilizes them to change how SQL queries work. SQL injection could be caused by users providing malicious control input or even directly modifying query strings and server requests on their browsers.
+			How to Defend Against SQL Injection:
+				Utilize Entity Framework:
+					The simplest approach would be to avoid using SQL commands directly in your code. When using Entity Framework and directly working with entity objects, you are not vulnerable to SQL injections. Since Entity Framework does not use an SQL syntax to work with, any attempts to use SQL injection will be stopped by the Entity Framework and at worst will result in the malicious user receiving error messages. 
+				Utilize Parameterized Queries:
+					As part of the SQL command, you can choose to not directly add parameters into your query, but instead add named parameters by using the @*name* placeholder, where the name is the relevant name for your application. This allows you to add the parameters by calling the AddWithValue(*name*, *value*) method on the SqlCommand object's Parameters property. The name property will need to be the same as the placeholder, while the value is the value which you wish to poll the database. This will not result in any SQL being executed, and at worse, the command will fail if the value cannot be applied. 
+				Create Stored Procedures:
+					Another good option would be to create stored procedures to handle various tasks for you. When you call a stored procedure, you are able to call parameters by name. This will prevent unpredictable SQL being run on your server and ensure that only expected code is run. However, creating stored procedures will require additional work to create and maintain separately from your application. 
+				Use the Lowest Required Database Permissions for the Application:
+					You can always configure the application connection string to use the lowest required access permissions to your database. This is useful when an SQL injection attack does end up occurring, since it can help to limit potential damage to the database by malicious operations. It is a good idea to utilize this among additional means, but should not be exclusively relied on, as it will usually not help protect against attempts to steal data. 
+				Sanitize Parameters:
+					Finally, as the least recommended option, you can sanitize parameters either by parsing or by using them as part of the routing. If the parameters are not string type you can parse them yourself or you can rely on ASP.NET Core MVC Routing to provide parameters of the correct types. Alternatively, you can use regular expressions and whitelisting to disallow specific strings from appearing. 
+		Cross-Origin Requests:
+			Modern browsers utilize a special restriction, known as same-origin policy, which is designed to prevent websites of different origins accessing resources on another website. This helps prevent malicious websites from being able to call APIs on other websites and helps protect both end users, as well as the application itself. However, you may occasionally find a need to have different web applications communicate with each other, despite having a different origin. To allow this, you can enable Cross-Origin Resource Sharing (CORS). 
+			CORS allows servers to determine that they allow some or all of these normally blocked access attempts by allowing the developer to set conditions under which the application will accept requests from another origin. The behavior for CORS is a W3 standard, and thus standard across all major browsers and as such does not suffer from compatibility issues. It is important to note however that when utilizing CORS you do not accidentally open yourself up to various attacks. 
+			Same-Origin:
+				CORS needs to be enabled whenever the request origin is changed. The request origin is determined by matching up the following segments of the URL:
+					• Schema. The protocol declaration at the beginning of the URL, such as http:// and https://.
+					• Host. The host is comprised of both domains and subdomains and encompasses the section between the schema and the port.
+					• Port. The port is an optional part of the URL, appearing immediately after the host when it is present. If the port is not specified the default values for the protocol will be used, such as 80 for http, and 443 for https. When a port is present it will be denoted by :*port number*. 
+				Any parts appearing past the schema, host, and port will not affect the origin, but all three must be identical for it to count as being the same origin. If you have two applications which need to communicate on two separate origins, you will need to implement CORS. 
+			How CORS Works:
+				CORS relies on a specific HTTP Header being utilized as part of the request and the response to confirm to the browser that a request is intended to be CORS. As part of the request, the Origin header needs to appear. This header is considered a "forbidden" header and is specifically set by the browser and cannot be changed manually, through JavaScript, or other means. This prevents users from being able to switch the Origin values and calling services from unapproved websites. 
+				If the browser supports CORS, such as Microsoft Edge, the Origin header will be added by default. CORS cannot be used in browsers which do not add Origin to the request. 
+				CORS Request Header:
+					Example:
+						GET http://www.contoso.com/api/getEmployees HTTP/1.1
+						Referer: https://www.adventure-works.com
+						Accept: */*
+						Accept-Language: en-US
+						Origin: https://www.adventure-works.com
+						Accept-Encoding: gzip, deflate
+						User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134
+						Host: https://www.adventure-works.com
+				When the server receives a CORS request, it will validate that the request is from a legitimate source. If the request came from a legitimate source with a valid Origin header, the server will add the header Access-Control-Allow-Origin with a value equal to the original request Origin. The browser will then ensure that there is a match between both values, and if no match is found, the browser will disallow the request, even if the server returns a valid response.
+				CORS Response Header:
+					Example:
+						HTTP/1.1 200 OK
+						Cache-Control: no-cache
+						Pragma: no-cache
+						Content-Type: text/plain; charset=utf-8
+						Access-Control-Allow-Origin: https://www.adventure-works.com
+						Date: Mon, 31 Dec 2018 23:59:59 GMT
+						Content-Length: 12
+			Registering CORS Services:
+				There are two ways in which you can use CORS in your ASP.NET Core MVC application, either through a single middleware or through attributes in ASP.NET Core MVC controllers. Regardless of which option is right for your application, you will need to add a call to the AddCors() method on the IServiceCollection parameter of the ConfigureServices method. This ensures that the appropriate services are loaded for enabling CORS. 
+			Using CORS in Middleware:
+				The first approach to using CORS in your application is by adding a dedicated middleware to handle CORS requests on a global application level. By taking this approach, you will need to customize which requests you allow and which you deny. This is vital, because if you do not limit access to your application from external applications while using CORS, you open your application for misuse from malicious websites. 
+				In order to add CORS as a middleware you will need to add a call to the UseCors middleware. The UseCors middleware can be called with the AddCors(*cors policy builder*) to create a policy on which CORS will rely. This policy builder supports various methods with which to customize your policy. One of the most basic yet effective among them is the WithOrigins(*origin array*) method. It accepts an array of possible origins present as strings as covered earlier. When a request is made from an allowed origin it will be allowed to continue. However, if the origin does not match any of the options, the server will block the request and the browser will display an error. 
+				Note that origins should not end in a trailing '/'. If they do, they will not be parsed correctly. 
+				An alternative option is also present by instead defining a CORS policy in the AddCors method. This can be done by invoking it as AddCors(*cors options action*). This method accepts a CorsOption object which can be used to create multiple CORS policies by invoking the AddPolicy(*policy name*, *cors policy builder*) method. This will create a named CORS policy which can later be used in the application, such as within the middleware. To call it from the CORS middleware, use the method call UseCors(*policy name*) which will receive the policy name declared earlier. 
+				It is important that the call to the UseCors middleware is made before any resources which may depend on CORS are called. If the call to UseCors appears after UseMvc, any ASP.NET Core MVC logic will ignore CORS.
+			CORS in MVC Controllers and Actions:
+				As an additional option in utilizing CORS is the ability to control CORS on a per action or controller level by utilizing the EnableCors(*cors policy*) attribute on the action or controller. It utilizes CORS policies which are created as part of the service registration and as such you can have multiple policies in effect for different areas within your application. 
+				In the event you wish to disallow CORS on a specific action, you can use the DisableCors attribute on a specific action inside a controller implementing EnableCors. This will prevent CORS from being used on the specific action.
+			Additional CORS Policy Options:
+				As part of CorsPolicyBuilder you can use a wide variety of optional methods to configure which servers have permissions to access the application. You can use multiple methods in the same policy to create more specific policies and as a result provide a safer solution. 
+				Several of the methods available to you include:
+					• WithOrigins(*origins*). Expects an array of origins. All origins specified will be able to perform CORS operations. 
+					• AllowAnyOrigin(). Allows all origins to access via CORS. 
+					• AllowAnyMethod(). Allows using all HTTP methods. Note that without this setting, some types of request methods such as OPTIONS may fail. 
+					• WithHeaders(*headers*). Expects a list of accepted header values. At least one must be present in the request. 
+		Secure Sockets Layer:
+			HTTP is not a secure protocol. Data transferred through HTTP is not encrypted and can be intercepted and changed by entities residing as part of the pipeline. These entities can include, but are not limited, to ISPs, various temporary internet providers such as hotels, or even malicious attackers throughout the internet. 
+			While utilizing HTTP these entities can change data passing through the sites, whether to inject their own content instead of existing content, purposefully alter or steal data, or even redirect users to web sites completely under their control. 
+			This presents a serious danger to both the user and the application and you can work to help reduce these effects by using the more secure HTTPS protocol. The HTTPS protocol utilizes the Secure Sockets Layer (SSL) protocol on top of an HTTP infrastructure to encrypt data sent between a client and a server. This is done by utilizing approved security certificates to provide hashing, which is then used to encrypt and decrypt the data that is sent. 
+			The security certificates comprise of both a private and public key. When the initial connection is made the client and the server both agree on a security certificate which is approved by a certificate authority (CA) which is trusted by both the client and the server. There are multiple security authorities in charge of issuing certificates and certificates are usually released for individual websites, often with details specifically involving those sites. This is done to prevent communication being open for malicious attacks. The client will be able to access a public key for the site which can be used for performing the encoding on the information, while only the server has access to the private decryption key. 
+			If the client and the server do not have any matching certificates, communication will not occur, as a secure connection cannot be established.
+			How to Enforce HTTPS in ASP.NET Core MVC:
+				In ASP.NET Core MVC, you can fairly easily ensure that your users utilize HTTPS while using your application. This can be done by adding the UseHttpsRedirection() middleware inside your application. By adding a call to it on the IApplicationBuilder object within the Configure method, the server will be configured to redirect any requests that reach the server's HTTP port to HTTPS. This ensures that users inside your application are using HTTPS for communication and not HTTP. 
+				It is important to note that the call to the UseHttpsRedirection middleware must appear before any middleware which can provide the user with any html files, resources, or actions. This includes, but is not limited to, UseMvc and UseStaticFiles. If they are called before UseHttpsRedirection, these resources will be accessible to normal HTTP traffic.
+			Setting up the Development Certificate:
+				During development and while testing deployment, you may find that you do not always have an available certificate from a trusted source. Obtaining a certificate is an expensive process requiring you to select a certificate authority and buy a license to use a certificate. This is a required part of a product when it is released, but it is not usually feasible for testing purposes, which may occur years before the application is released to customers. 
+				In order to enable testing your application on deployments, the .NET Core SDK which is used for running ASP.NET Core application adds a special certificate, the "ASP.NET Core HTTPS development certificate" on the server on which it is installed. You can then add the certificate to the trusted certificate list for the machine by using the .NET CLI. You will learn more about the deployment process and the .NET CLI in Module 14, “Hosting and Deployment”. 
+				The command for adding the development certificate within the .NET CLI is: dotnet dev-certs https --trust. When you type it on a server with the Microsoft .NET Core SDK installed, it will be added to the trusted certificates and that machine will be able to access development builds on a browser. 
+				Installing ASP.NET Core HTTPS Development Certificate:
+					Example:
+						dotnet dev-certs https --trust
 
 Module 12: Performance and Communication
 	Lesson 1: Implementing a Caching Strategy

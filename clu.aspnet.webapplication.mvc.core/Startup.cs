@@ -1638,6 +1638,21 @@ namespace clu.aspnet.webapplication.mvc.core
 
                 options.AddPolicy("AtLeast21", policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
             });
+
+            services.AddCors(option =>
+            {
+                option.AddPolicy("FromContoso", builder =>
+                {
+                    builder.WithOrigins("https://www.contoso.com", "http://www.contoso.com");
+                });
+
+                option.AddPolicy("CustomCORS", builder =>
+                {
+                    builder.WithOrigins("https://www.contoso.com")
+                        .AllowAnyMethod()
+                        .WithHeaders("my-header");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -1667,6 +1682,21 @@ namespace clu.aspnet.webapplication.mvc.core
             app.UseCookiePolicy();
 
             app.UseStatusCodePages();
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("https://www.contoso.com");
+
+                /*
+                
+                If any cross-origin requests occur from "https://www.contoso.com" the server will serve them the same as if they came from within the website. Requests from any other site will not be accepted and result in an error. 
+                
+                */
+            });
+
+            app.UseHttpsRedirection();
+
+            app.UseCors("FromContoso");
 
             app.UseMvc(routes =>
             {

@@ -1,0 +1,12 @@
+﻿@using System.Text.Encodings.Web;
+@inject JavaScriptEncoder encoder;
+
+@{
+    var script = "xss()";
+}
+<script type="text/javascript">
+    function xss() {
+        alert("XSS");
+    }
+    document.write("@encoder.Encode(@script)");
+</script>

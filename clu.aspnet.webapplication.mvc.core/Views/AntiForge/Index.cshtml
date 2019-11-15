@@ -1,0 +1,8 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<form asp-action="Index" method="post">
+    <input name="userName" type="text" />
+    <button type="submit">Done</button>
+</form>
+
+@*Form is created to perform a post method to the Index action. Since tag helpers are enabled, it will be generated with an anti-forgery token.*@ 
