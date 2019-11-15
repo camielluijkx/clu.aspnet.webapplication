@@ -1,0 +1,8 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<cache>
+    @for (int i = 0; i < DateTime.Now.Second; i++)
+    {
+        <div>Number of seconds</div>
+    }
+</cache>

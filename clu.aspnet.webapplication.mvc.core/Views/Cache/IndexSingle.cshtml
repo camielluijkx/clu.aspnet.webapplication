@@ -1,0 +1,51 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model clu.aspnet.webapplication.mvc.core.Models.Product
+
+@*<cache>
+    @for (int i = 0; i < DateTime.Now.Second; i++)
+    {
+        <div>Number of seconds</div>
+    }
+</cache>*@
+
+<cache enabled="@ViewBag.IsStoreOpen">
+    Today's product is:
+    @Model.Name
+</cache>
+
+<cache expires-on="@new DateTime(2025, 12, 31, 23, 59, 59)">
+    <div>
+        @DateTime.Now.ToString("dd/MM/yyyy hh:mm")
+    </div>
+</cache>
+
+<cache expires-after="TimeSpan.FromSeconds(60)">
+    <div>
+        @DateTime.Now.ToString("dd/MM/yyyy hh:mm")
+    </div>
+</cache>
+
+<cache expires-sliding="TimeSpan.FromSeconds(5)">
+    <div>
+        @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss")
+    </div>
+</cache>
+
+<cache vary-by="@Model.Id">
+    <div>
+        @Model.Name
+    </div>
+    <div>
+        @Model.BasePrice
+    </div>
+</cache>
+
+<cache vary-by="@Model.Id" priority="Microsoft.Extensions.Caching.Memory.CacheItemPriority.Low">
+    <div>
+        @Model.Name
+    </div>
+    <div>
+        @Model.BasePrice
+    </div>
+</cache>

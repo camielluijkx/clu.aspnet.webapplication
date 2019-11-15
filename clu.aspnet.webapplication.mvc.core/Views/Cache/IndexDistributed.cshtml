@@ -1,0 +1,18 @@
+﻿<distributed-cache name="defaultCache">
+    @for (int i = 0; i < DateTime.Now.Second; i++)
+    {
+        <div>Number of seconds</div>
+    }
+</distributed-cache>
+
+<distributed-cache expires-on="@new DateTime(2025, 12, 31, 23, 59, 59)" name="expiresOnCache">
+    <div>
+        @DateTime.Now.ToString("dd/MM/yyyy hh:mm")
+    </div>
+</distributed-cache>
+
+<distributed-cache expires-sliding="TimeSpan.FromSeconds(5)" name="slidingExpirationCache">
+    <div>
+        @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss")
+    </div>
+</distributed-cache>

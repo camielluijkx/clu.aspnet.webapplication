@@ -52,6 +52,12 @@
     <Content Update="Views\Bootstrap\Alerts.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Cache\IndexMultiple.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Cache\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\First\Some.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

@@ -1,0 +1,14 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model IEnumerable<clu.aspnet.webapplication.mvc.core.Models.Product>
+
+<cache vary-by-query="MaxPrice, MinPrice">
+    <div>
+        @foreach (var item in Model)
+        {
+            <div>
+                @string.Format("{0}: {1}", item.Name, item.BasePrice)
+            </div>
+        }
+    </div>
+</cache>

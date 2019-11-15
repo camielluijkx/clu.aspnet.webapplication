@@ -2833,10 +2833,76 @@ Module 11: Managing Security
 
 Module 12: Performance and Communication
 	Lesson 1: Implementing a Caching Strategy
-		TODO
+		Caching allows you to store commonly repeated requests, preventing the need to perform the same logic repeatedly. By using caching, you can reuse data that has already been loaded and present it to the user. This provides the user with a fast response time and reduces system resources used in conducting the logic for the action. 
+		Why Use Caching?
+			Caching involves storing information in the memory of a web server, this information can include but isn't limited to rendered pages, the results of calculations, and retrieving information from a database. If the content that is rendered does not change much, you can choose to store it in the server memory or on distributed caching servers. When a user performs a request to content that is cached, the server will send the cached content instead of repeating costly operations, allowing the server to reply in a more time-sensitive way. 
+			There are many advantages of using caching, which include: 
+				• Reduces the need to repeatedly retrieve the same information from the database. 
+				• Reduces the need to reprocess data, if a user repeats the same request multiple times.
+				• Helps improve the performance of a web application, by reducing the load on servers.
+				• Helps increase the number of users who can access the server farm simultaneously.
+			However, you should consider several important details before implementing caching. If you perform caching for content that frequently changes, you will quickly end up in situations where users are receiving irrelevant content. When performing the caching, the data is stored in the web server and used instead of the most recent data existing. This can be highly useful for things like maintaining a shopping cart for the user or for rendering collections of strings which are calculated the first time but remain consistent. However, data that changes regularly, such as various real-time data such as product inventories and areas where the content changes between visits. 
+			Caching can also be handled on environments running across multiple servers. When working with multiple hosting servers, you will need to either work with a sticky session, which means that the same server handles all requests from the same client, or use a distributed cache, which can handle caching for multiple servers in a separate dedicated server. Otherwise, it will result in multiple servers handling separate requests with each server creating its own cache, which results in a waste of memory. 
+			Servers have a limited amount of free memory they can allocate towards caching at any given moment in time. This means that sometimes the server will need to clear out older cache entries on its own. To assist the server in handling these issues, you can set both the caching priority and the caching lifetime. By setting a specific lifetime, you can ensure that cached data doesn't remain for too long, particularly in systems where the cached data refreshes infrequently. By setting caching priority, you can determine that if there are memory issues, lower priority cached data will be deleted first, whereas higher priority cached data will remain unless there is no lower priority cached data. 
+			Caching lifetime can include customization options such as:
+				• Setting cache expiry time in absolute units of time.
+				• Setting a date at which the cache will be cleared.
+				• Setting a period of time for deletion since the cache is last accessed.
+				• Setting if the expiration is sliding expiration, and the timer is reset whenever the cached resource is accessed.
+			Caching priority can be set to Low, Normal, High, or NeverRemove to determine priority for removal whenever memory is cleaned up. 
+			Cache Tag Helper:
+				One the easiest ways to cache in an ASP.NET Core MVC application is by using the cache tag helper. The cache tag helper is used to envelop the ASP.NET Core MVC code which is expected to yield repeated results. By adding this tag helper, the code inside will be rendered on the first request by the user, followed by persisting the code rendered from the first call on future calls while the rendered data remains in the cache. 
+				By default, the cache tag helper persists for 20 minutes before expiry.
+				Additionally, the cache tag helper supports a variety of additional attributes that can be used to further customize the caching logic to fit with the requirements. 
+				By using the enabled attribute, you can enable and disable caching for specific segments of code.
+				You can also use a variety of attributes to specify expiration behavior for the cached data, which include: 
+					• expires-on: Accepts a DateTime object which determines until when the caching will remain. 
+					• expires-after: Accepts a TimeSpan object which determines the amount of time to keep the cached data since the original request was made. If a new request is made the caching time will not be changed. 
+					• expires-sliding: Accepts a TimeSpan object which determines the amount of time to keep the cached data since the previous request was made. 
+				An additional attribute that can be used to further customize when caching happens is the vary by attribute. This allows you to maintain separate caches for different properties and even use vary by on its own to set up your own logic. This allows you, for instance, to vary the cache by various model or ViewBag properties. 
+				Several common options for vary-by are as follows: 
+					• vary-by-query: Accepts single or multiple values separated by commas, which are key in the query strings. The caching will be based on the values of the specified query string keys and a separate cache will be used for every different value. 
+					• vary-by-cookie: Accepts single or multiple values separated by commas, which are cookie names. The caching will be based on the values of the specified cookies and a separate cache will be used for every different value. 
+					• vary-by-route: Accepts single or multiple values separated by commas, which are route data parameter names. The caching will be based on the values of the route data parameter names and a separate cache will be used for every different value. 
+					• vary-by-user: Accepts the strings true and false. The caching will be based the currently logged in user and include non-authenticated users. Logging out or logging in will clear the cache. 
+					• vary-by-header: Accepts single or multiple values separated by commas, which are field names in the request header. The caching will be based on the values of the specified request headers and a separate cache will be used for every different value. 
+					• vary-by: Allows setting custom string value to be used for caching. Whenever the value changes a separate cache will be used. By concatenating strings, you can create a condition as specific as required. 
+				Another crucial attribute for caching is priority. By setting this attribute you can determine when the cache should be cleared. The valid values for this attribute are the enum values of the CacheItemPriority enum, from the Microsoft.Extensions.Caching.Memory namespace, with Low being the first to be cleared and NeverRemove being the lowest priority to clear due to memory constraints. By default, Normal will be used. 
+				Despite being named NeverRemove, if the memory issues become severe enough, items tagged as NeverRemove can be removed.
+		The Data Cache:
+			Caching in ASP.NET Core MVC isn't limited to views. Caching can be of great help inside other components such as controllers. This can be useful to retain frequently repeating data and can be used to greatly improve performance, removing repeated calculations, and attempts to access the database. Unlike the cache tag helper, data cache can be useful in multiple pages, leading both to have their own advantages and disadvantages. When creating a web application, it is a good idea to think of the best form of caching for each individual case. 
+			One of the simplest means of server-side caching is by using the IMemoryCache service. This service allows you to create a cache for any type and later retrieve it if it is available. 
+			The first step for configuring the data cache is adding the IMemoryCache service inside of the ConfigureServices method in the Startup class. This can be done by calling the AddMemoryCache on the IServiceCollection parameter. Once this is done, the IMemoryCache can be injected throughout the components of your application. 
+			To store an item in the cache, you can use the Set method of the IMemoryCache parameter. This method operates on a key and value pair, with the first parameter being a key with the object type, and the second parameter being a value of the object type. This allows any key or value to be set in the cache. 
+			To retrieve an item from the cache, you can use the TryGetValue method of the IMemoryCache parameter. It receives a parameter of the object type which is the key and a second output parameter of the object type, which is the variable that will receive the value from within the cache. This method returns true if the data is cached, or false if it is not.
+			Additional methods for using caching include the GetOrCreate and GetOrCreateAsync methods. These methods will check the key for you and if the cache item with the matching key does not exist, perform the logic for retrieving the data. This can help further simplify the code. GetOrCreateAsync should be used if the caching logic is reliant on tasks. 
+			Sometimes the default caching settings isn't useful to you and you want to customize it further. To do this, you can provide the Set method an additional third parameter of the type MemoryCacheEntryOptions. The MemoryCacheEntryOptions allows you to set useful parameters such as: 
+				• AbsoluteExpiration. The absolute date in which the cache entry expires. 
+				• PostEvictionCallBacks. A callback function that will be called when the cache entry is removed. 
+				• Priority. The priority of the cache entry. 
+				• SlidingExpiration. An offset after which the cache is cleared. This is reset every time the cache is accessed.
+		Distributed Cache:
+			A major issue with regular caching is that it is reliant on a specific web server. In a sticky server scenario, this means that you will need to keep working with the same server, even if the server becomes busy and non-responsive. In a non-sticky server scenario, any attempts to use caching are ineffective, possibly resulting in the same data getting cached across multiple servers. 
+			A distributed cache is instead held in a centralized area and is not affected by individual web servers. Therefore, the cache will persist even when servers are taken down. Additionally, data stored on a distributed cache is used for handling requests from multiple users with the same cache. This can greatly reduce the amount of cached data, leading to less storage needed and offering more comprehensive solutions. 
+			It is important to note that unlike other caching options, distributed caching saves and reads the data as a byte[]. Therefore, you will often need to convert data types to use distributed caching correctly. 
+			Configuring a Distributed Cache:
+				A distributed cache is used through the IDistributedCache interface. However, IDistributedCache can be implemented by multiple different providers. As a general rule of thumb, you will provide the actual cache implementation itself in the ConfigureServices method by calling for the appropriate method. 
+				A distributed cache can be applied in many different ways, such as: 
+					• SQL Server cache, added by calling AddDistributedSqlServerCache. This will connect to a cache on a specially configured SQL Server. It requires a connection string, schema name, and table name in its setup. 
+					• Redis distributed cache, added by calling AddDistributedRedisCache. This will connect to a Redis data store, Redis being an open source in-memory data store. It requires configuration and Instance name in its setup.
+				Working with IDistributedCache:
+					Once the distributed cache has been configured, you are able to inject the IDistributedCache throughout your application components. The IDistibutedCache interface exposes several useful methods for interacting with the cache. Most commonly, the Set and Get method will be used. There is also an option to use asynchronous variants by calling SetAsync and GetAsync. 
+					The Get method receives a key of type string as a parameter and returns a value of type byte[] if the key is found. If it is not found, null will be returned instead. It is important to remember you will often need to convert the data returned from byte[] to another data type used in the application. 
+					The Set method receives a key of type string, a value to be stored of type byte[] and an optional object of type DistributedCacheEntryOptions, which allows setting expiration time for the cache based on sliding expiration, absolute expiration and absolute expiration relative to the current time.
+				Working with Distributed Cache Tag Helper:
+					An additional way to utilize distributed cache is by using the distributed-cache tag helper. This tag helper is nearly identical to the normal cache tag helper, with a few exceptions. 
+					The main change is that it requires a name attribute. The name attribute is shared between all instances of the same name throughout the application and even across multiple separate clients. This means that if two separate users access the same cache on separate browsers, they will receive the same result. This can help boost performance by a large margin for pages which change on a predictable schedule. 
+					If the distributed-cache tag helper is used without setting up a distributed cache, the system will use a fallback, and it will behave like a normal cache tag helper. 
 	Lesson 2: Managing State
+		State meanwhile allows achieving a state of consistency between different requests. By utilizing various forms of state management, you can transform the normally stateless web experience into one that is custom tailored to individual clients, with different users enjoying a separate and relevant experience in the same application. 
 		TODO
 	Lesson 3: Two-Way Communication
+		SignalR is a framework that allows the abstraction of several different communication protocols into an easy to use API, which allows you to easily create a single set of tools on the server and client to facilitate two-way communications. This allows you to focus on the logic you wish to implement while allowing you to not have to cater to specific browsers.
 		TODO
 
 Module 13: Implementing Web APIs
