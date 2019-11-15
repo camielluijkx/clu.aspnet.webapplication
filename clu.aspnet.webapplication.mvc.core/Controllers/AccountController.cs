@@ -184,5 +184,12 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
 
             return View();
         }
+
+        [Authorize(Policy = "RequireEmail")]
+        [Authorize(Roles = "Administrator")]
+        public IActionResult DoSomething()
+        {
+            return View();
+        }
     }
 }

@@ -2,6 +2,7 @@
 using clu.aspnet.webapplication.mvc.core.DataAccess;
 using clu.aspnet.webapplication.mvc.core.Logging;
 using clu.aspnet.webapplication.mvc.core.Models;
+using clu.aspnet.webapplication.mvc.core.Policies;
 using clu.aspnet.webapplication.mvc.core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Security.Claims;
 
 namespace clu.aspnet.webapplication.mvc.core
 {
@@ -1589,7 +1591,8 @@ namespace clu.aspnet.webapplication.mvc.core
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddDbContext<AuthenticationContext>(options => options.UseSqlite("Data Source=user.db"));
+            services.AddDbContext<AuthenticationContext>(options => 
+                options.UseSqlite("Data Source=user.db"));
 
             //services.AddDefaultIdentity<WebsiteUser>(options =>
             //{
@@ -1629,6 +1632,12 @@ namespace clu.aspnet.webapplication.mvc.core
                 options.SlidingExpiration = false;
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireEmail", policy => policy.RequireClaim(ClaimTypes.Email));
+
+                options.AddPolicy("AtLeast21", policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

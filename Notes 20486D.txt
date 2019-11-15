@@ -2694,7 +2694,18 @@ Module 11: Managing Security
 				To create a new claim, you can use the Claim class. The simplest constructor, Claim(*claim type*, *claim value*), receives a claim type, which is a string denoting the key for the claim and a value which is the value for the claim. You can also utilize the ClaimTypes enum as the first parameter to provide a large variety of common claims. 
 				After you have created a claim, you can use the AddClaimAsync(*user*, *claim*) method on the UserManager to add the claim to a specific user. The user being of the same type as the one used by the UserManager and the claim being the newly created Claim object.
 			Creating a Claim Policy:
-				
+				To authorize for claims, you will need to create a simple authorization policy in your application. An authorization policy is a ruleset which is validated whenever the policy is invoked.
+				In order to create a policy, you will need to add a call to the AddAuthorization(*authorization options action*) method on the IServiceCollection parameter in the Startup class. The authorization options action accepts a single AuthorizationOptions parameter, which allows you to call the AddPolicy(*policy name*, *policy action*) method to add a new policy. 
+				The policy name provided to AddPolicy determines how you will refer to it when calling it from the Authorize attribute, while the policy action is the code that will be executed whenever the policy is validated. It will receive an AuthorizationPolicyBuilder parameter which is used to set up requirements for the policy. You can add claim requirements for a policy by using the RequireClaim(*claim name*, *valid values*) property of the AuthorizationPolicyBuilder object. The claim name is the name chosen for the claim itself, as defined by creating a claim, while the values are an optional array of values to require when validating the claim. If it is empty, only the presence of the claim will be checked.
+			Using Claims-Based Authorization:
+				After you set up the authorization logic, you can then use the Authorize attribute to enforce your claim requirement. By providing a Policy parameter to the attribute, you can supply it with a policy name and all calls to the method or controller which are decorated by the attribute will require the claim to be made.
+				In addition to the previous methods, you can also create your own dynamic policies. These are considerably more complex to create, but in exchange offer you the option to create any policy you require. Custom policies can receive parameters to validate against, but in exchange need to be configured from scratch.
+			Custom Policy-Based Authorization:
+				In addition to the previous methods, you can also create your own dynamic policies. These are considerably more complex to create, but in exchange offer you the option to create any policy you require. Custom policies can receive parameters to validate against, but in exchange need to be configured from scratch. 
+				https://docs.microsoft.com/en-us/aspnet/core/security/authorization/policies?view=aspnetcore-3.0
+			Using Multiple Authorization Methods:
+				Finally, you can combine multiple different authorization methods, by adding multiple Authorize attributes. Whenever more then a single Authorize attribute is present on a controller or action, it will only be accessible if all of the authorization requirements are fulfilled.
+			Whenever an authenticated user attempts to access a resource that they do not have permissions to access, the ASP.NET Core MVC application will redirect the request to "Account\AccessDenied". You should add a controller view and method to handle this path, and update the users that they do not meet the criteria to view the page. If you do not do this, users will encounter a browser error. 
 	Lesson 3: Defending from Attacks
 		TODO
 
