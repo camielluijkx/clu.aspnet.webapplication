@@ -1,6 +1,7 @@
 ﻿using clu.aspnet.webapplication.mvc.core.Attributes;
 using clu.aspnet.webapplication.mvc.core.DataAccess;
 using clu.aspnet.webapplication.mvc.core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,9 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
 {
     public class ProductController : Controller
     {
+        private IProductRepository _productRepository;  
+        private IProductShop _productShop;
+
         #region Example #57
 
         [Route("Product/Index57")]
@@ -47,11 +51,16 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
 
         #endregion
 
-        IProductRepository _productRepository;
-
         public ProductController(IProductRepository productRepository)
         {
             _productRepository = productRepository;
+            _productShop = new ProductShop();
+        }
+
+        public ProductController(IProductRepository productRepository, IProductShop productShop)
+        {
+            _productRepository = productRepository;
+            _productShop = productShop;
         }
 
         public IActionResult Index()
@@ -70,6 +79,28 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
             }
 
             return View(product);
+        }
+
+        public IActionResult GetAllProducts()
+        {
+            var allProducts = _productShop.GetAllProducts();
+
+            return View(allProducts);
+        }
+
+        public IActionResult GetProductById(int productId)
+        {
+            var product = _productShop.GetProduct(productId);
+
+            return View(product);
+        }
+
+        [Authorize]
+        public IActionResult BuyProduct(int productId)
+        {
+            _productShop.PurchaseProduct(productId);
+
+            return View();
         }
     }
 }

@@ -6,6 +6,7 @@ using clu.aspnet.webapplication.mvc.core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -1590,28 +1591,34 @@ namespace clu.aspnet.webapplication.mvc.core
 
             services.AddDbContext<AuthenticationContext>(options => options.UseSqlite("Data Source=user.db"));
 
-            services.AddDefaultIdentity<WebsiteUser>(options =>
-            {
-                // configure user settings
-                options.User.RequireUniqueEmail = true;
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -._@+";
+            //services.AddDefaultIdentity<WebsiteUser>(options =>
+            //{
+            //    // configure user settings
+            //    options.User.RequireUniqueEmail = true;
+            //    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -._@+";
 
-                // configure lockout settings
-                options.Lockout.AllowedForNewUsers = true;
-                options.Lockout.MaxFailedAccessAttempts = 3;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+            //    // configure lockout settings
+            //    options.Lockout.AllowedForNewUsers = true;
+            //    options.Lockout.MaxFailedAccessAttempts = 3;
+            //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
 
-                // configure password settings
-                options.Password.RequiredLength = 10;
-                options.Password.RequiredUniqueChars = 3;
-                options.Password.RequireDigit = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireLowercase = false;
+            //    // configure password settings
+            //    options.Password.RequiredLength = 10;
+            //    options.Password.RequiredUniqueChars = 3;
+            //    options.Password.RequireDigit = true;
+            //    options.Password.RequireNonAlphanumeric = true;
+            //    options.Password.RequireUppercase = true;
+            //    options.Password.RequireLowercase = false;
 
-                // configure signin settings
-                options.SignIn.RequireConfirmedEmail = true;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
+            //    // configure signin settings
+            //    options.SignIn.RequireConfirmedEmail = true;
+            //    options.SignIn.RequireConfirmedPhoneNumber = false;
+
+            //}).AddEntityFrameworkStores<AuthenticationContext>();
+
+            services.AddIdentity<WebsiteUser, IdentityRole>(options => {
+
+                // ...
 
             }).AddEntityFrameworkStores<AuthenticationContext>();
 
@@ -1668,6 +1675,24 @@ namespace clu.aspnet.webapplication.mvc.core
             {
                 await context.Response.WriteAsync("Welcome to external production");
             });
+        }
+
+        public async void CreateRoles(RoleManager<IdentityRole> roleManager)
+        {
+            string[] roleNames = { "Administrator", "Manager", "User" };
+
+            foreach (var roleName in roleNames)
+            {
+                bool roleExists = await roleManager.RoleExistsAsync(roleName);
+
+                if (!roleExists)
+                {
+                    IdentityRole role = new IdentityRole();
+                    role.Name = roleName;
+
+                    await roleManager.CreateAsync(role);
+                }
+            }
         }
     }
 }

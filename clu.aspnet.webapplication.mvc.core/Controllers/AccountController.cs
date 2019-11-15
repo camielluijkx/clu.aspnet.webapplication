@@ -1,7 +1,9 @@
 ﻿using clu.aspnet.webapplication.mvc.core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace clu.aspnet.webapplication.mvc.core.Controllers
@@ -103,6 +105,79 @@ namespace clu.aspnet.webapplication.mvc.core.Controllers
 
                 if (result.Succeeded)
                 {
+                    return await Login(model);
+                }
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterWithRole(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                WebsiteUser user = new WebsiteUser
+                {
+                    UserHandle = model.UserHandle,
+                    UserName = model.Username,
+                    Email = model.Email
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    var addedUser = await _userManager.FindByNameAsync(model.Username);
+
+                    await _userManager.AddToRoleAsync(addedUser, "Administrator");
+                    await _userManager.AddToRoleAsync(addedUser, "User");
+
+                    return await Login(model);
+                }
+            }
+
+            return View();
+        }
+
+        [Authorize(Roles = "Administrator, Manager")]
+        public async Task<IActionResult> DeleteUser(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user != null)
+            {
+                await _userManager.DeleteAsync(user);
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterWithClaim(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                WebsiteUser user = new WebsiteUser
+                {
+                    UserHandle = model.UserHandle,
+                    UserName = model.Username,
+                    Email = model.Email
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    var addedUser = await _userManager.FindByNameAsync(model.Username);
+
+                    if (!string.IsNullOrWhiteSpace(model.Email))
+                    {
+                        Claim claim = new Claim(ClaimTypes.Email, model.Email);
+
+                        await _userManager.AddClaimAsync(addedUser, claim);
+                    }
+
                     return await Login(model);
                 }
             }
