@@ -1,0 +1,16 @@
+﻿@model clu.aspnet.webapplication.mvc.core.Models.LoginViewModel
+
+<h2>Login</h2>
+<div>
+    <form method="post" asp-action="Login">
+        <div>
+            <label asp-for="Username">Username</label>
+            <input asp-for="Username" />
+        </div>
+        <div>
+            <label asp-for="Password">Password</label>
+            <input asp-for="Password" />
+        </div>
+        <input type="submit" value="Login" />
+    </form>
+</div>

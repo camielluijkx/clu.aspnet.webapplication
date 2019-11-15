@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clu.aspnet.webapplication.mvc.core", "clu.aspnet.webapplication.mvc.core\clu.aspnet.webapplication.mvc.core.csproj", "{4EB2186A-9C9F-4CE9-943B-9253EC0DE1A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clu.aspnet.webapplication.mvc.core.unittests", "clu.aspnet.webapplication.mvc.core.unittests\clu.aspnet.webapplication.mvc.core.unittests.csproj", "{81B721AE-03B8-4D9B-885F-B49B414F6EB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clu.aspnet.webapplication.mvc.core.unittests", "clu.aspnet.webapplication.mvc.core.unittests\clu.aspnet.webapplication.mvc.core.unittests.csproj", "{81B721AE-03B8-4D9B-885F-B49B414F6EB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

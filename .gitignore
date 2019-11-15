@@ -7,3 +7,4 @@ bin
 /clu.aspnet.webapplication.mvc.core/package-lock.json
 *.user
 /clu.aspnet.webapplication.mvc.core/Logs/*.txt
+*.db

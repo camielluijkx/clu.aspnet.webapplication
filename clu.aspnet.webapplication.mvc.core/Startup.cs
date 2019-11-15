@@ -1,6 +1,7 @@
 ﻿using clu.aspnet.webapplication.mvc.core.Attributes;
 using clu.aspnet.webapplication.mvc.core.DataAccess;
 using clu.aspnet.webapplication.mvc.core.Logging;
+using clu.aspnet.webapplication.mvc.core.Models;
 using clu.aspnet.webapplication.mvc.core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using System;
 using System.IO;
 
 namespace clu.aspnet.webapplication.mvc.core
@@ -1585,14 +1587,54 @@ namespace clu.aspnet.webapplication.mvc.core
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-        } 
+
+            services.AddDbContext<AuthenticationContext>(options => options.UseSqlite("Data Source=user.db"));
+
+            services.AddDefaultIdentity<WebsiteUser>(options =>
+            {
+                // configure user settings
+                options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -._@+";
+
+                // configure lockout settings
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+
+                // configure password settings
+                options.Password.RequiredLength = 10;
+                options.Password.RequiredUniqueChars = 3;
+                options.Password.RequireDigit = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = false;
+
+                // configure signin settings
+                options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+
+            }).AddEntityFrameworkStores<AuthenticationContext>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = "AuthenticationCookie";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.SlidingExpiration = false;
+            });
+
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger, ILoggerFactory loggerFactory, AuthenticationContext authContext)
         {
             loggerFactory.AddFile("Logs/myapp-{Date}.txt");
 
             logger.LogInformation("Adding an entry to the logger.");
+
+            authContext.Database.EnsureDeleted();
+            authContext.Database.EnsureCreated();
+
+            app.UseAuthentication();
 
             if (env.IsDevelopment())
             {
