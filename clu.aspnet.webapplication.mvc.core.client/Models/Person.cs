@@ -1,4 +1,4 @@
-﻿namespace clu.aspnet.webapplication.mvc.core.api.Models
+﻿namespace clu.aspnet.webapplication.mvc.core.client.Models
 {
     public class Person
     {

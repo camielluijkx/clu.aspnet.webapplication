@@ -21,9 +21,9 @@ namespace clu.aspnet.webapplication.mvc.core.api
         {
             services.AddMvc(options =>
             {
-                options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+                //options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
             })
-            .AddXmlSerializerFormatters()
+            //.AddXmlSerializerFormatters()
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

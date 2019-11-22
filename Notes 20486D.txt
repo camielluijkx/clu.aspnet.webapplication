@@ -3274,8 +3274,36 @@ Module 13: Implementing Web APIs
 			Specifying the Return Format:
 				You can use the ProducesAttribute attribute to force a particular format of the response from an action. 
 	Lesson 3: Calling a Web API
-		TODO	
-			
+		Calling Web APIs by Using jQuery Code:
+			When HTTP was built in the early 1990s, it was made for a very specific kind of client: web browsers running HTML. Before the creation of JavaScript in 1995, HTML was using two of the three HTTP methods in HTTP 1.0: GET and POST. GET requests are usually invoked by entering a URI in the address bar or in kinds of hypertext references such as img and script tags. 
+			Another way to start HTTP requests from a browser is by using HTML forms. HTML forms are HTML elements that create a form-like UI in the HTML document that lets the user insert and submit data to the server. HTML forms contain sub-elements, called input elements, and each represents a piece of data both in the UI and in the resulting HTTP message. 
+			The most flexible mechanism to start HTTP from a browser environment is by using JavaScript. Using JavaScript provides two main capabilities that are lacking in other browser-based techniques: 
+				• Complete control over the HTTP requests (including HTTP method, headers, and body).
+				• Asynchronous JavaScript and XML (AJAX). Using AJAX, you can send requests from the client after the browser completes loading the HTML. Based on the result of the calls, you can use JavaScript to update parts of the HTML page. 
+			Calling Web API Get Method by Using jQuery:
+				It is possible to use the ajax function to call other methods in a Web API controller, such as a Post method. In the following example, you will first see a Web API controller that has a Post method and then you will see how to call the Post method by using the jQuery ajax function. 
+				You can use the JSON.stringify method in the data parameter of the ajax function to serialize the JavaScript object into a JSON object, which will be sent to the Web API method. 
+			Calling Web APIs by using Server-Side Code:
+				ASP.NET Core provides a client-side API for consuming Web APIs. The main class for this API is System.Net.Http.HttpClient. This provides basic functionality for sending requests and receiving responses. 
+				HttpClient keeps a consistent API with ASP.NET Core web API by using HttpRequestMessage and HttpResponseMessage for handling HTTP messages. The HttpClient API is a task-based asynchronous API providing a simple model for consuming HTTP asynchronously. 
+				In order to consume ASP.NET Core Web API methods, the HttpClient class provides several methods, which include: 
+					• GetAsync. Sends a GET request to a specified URI. 
+					• PostAsync. Sends a POST request to a specified URI. 
+					• PutAsync. Sends a PUT request to a specified URI. 
+					• DeleteAsync. Sends a DELETE request to a specified URI. 
+				To create HttpClient instances, you can use the IHttpClientFactory service. To register the IHttpClientFactory service you can call the AddHttpClient method inside of the ConfigureServices method. 
+				After the IHttpClientFactory service is registered, dependency injection can be used to inject it. Once injected, you can use the CreateClient method to get an instance of type HttpClient. 
+			Calling Web API Get Method by Using HttpClient:
+				-
+		Working with Complex Objects:
+			When working with complex objects, a more useful approach is to obtain a deserialized object based on the entity body. In the following example, you will first see a Web API controller that has a Get method that returns an instance of type Person. Then you will see how to call the Get method by using the GetAsync method of the HttpClient class and use the ReadAsAsync method to deserialize the response to an instance of type Person. 
+			Passing Complex Objects to a Web API:
+				It is also possible for a client to pass a complex object to a Web API. In order to do this, the object that needs to be sent must be serialized. The HttpClient class provides several methods to serialize the object, which include: 
+					• PostAsJsonAsync. Sends a POST request to a specified URI with the given value serialized as JSON. 
+					• PostAsXmlAsync. Sends a POST request to a specified URI with the given value serialized as XML. 
+					• PutAsJsonAsync. Sends a PUT request to a specified URI with the given value serialized as JSON. 
+					• PutAsXmlAsync. Sends a PUT request to a specified URI with the given value serialized as XML.
+
 Module 14: Hosting and Deployment
 	Lesson 1: On-Premises Hosting and Deployment
 		TODO

@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clu.aspnet.webapplication.m
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clu.aspnet.webapplication.mvc.core.api", "clu.aspnet.webapplication.mvc.core.api\clu.aspnet.webapplication.mvc.core.api.csproj", "{F172BCF4-5CBB-4856-A48D-A2CFFA6EEFA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clu.aspnet.webapplication.mvc.core.client", "clu.aspnet.webapplication.mvc.core.client\clu.aspnet.webapplication.mvc.core.client.csproj", "{BDDF97F4-12E7-4E64-A655-3580BFF98A74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{F172BCF4-5CBB-4856-A48D-A2CFFA6EEFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F172BCF4-5CBB-4856-A48D-A2CFFA6EEFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F172BCF4-5CBB-4856-A48D-A2CFFA6EEFA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDDF97F4-12E7-4E64-A655-3580BFF98A74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDDF97F4-12E7-4E64-A655-3580BFF98A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDDF97F4-12E7-4E64-A655-3580BFF98A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDDF97F4-12E7-4E64-A655-3580BFF98A74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

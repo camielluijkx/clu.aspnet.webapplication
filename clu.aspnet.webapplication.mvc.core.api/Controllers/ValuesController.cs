@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using clu.aspnet.webapplication.mvc.core.api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace clu.aspnet.webapplication.mvc.core.api.Controllers
@@ -32,6 +33,19 @@ namespace clu.aspnet.webapplication.mvc.core.api.Controllers
             https://localhost:44337/api/values/key2
 
             */
+        }
+
+        [HttpPost]
+        public IActionResult Post(Entry entry)
+        {
+            if (_items.ContainsKey(entry.Key) == true)
+            {
+                return BadRequest();
+            }
+
+            _items.Add(entry.Key, entry.Value);
+
+            return CreatedAtAction(nameof(Get), new { id = entry.Key }, entry);
         }
 
         /*

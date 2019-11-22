@@ -9,13 +9,19 @@ namespace clu.aspnet.webapplication.mvc.core.api.Controllers
     public class PersonController : ControllerBase
     {
         [HttpGet]
-        [Produces("application/xml")]
-        public IEnumerable<Person> Get()
+        public Person GetBuyId()
+        {
+            return new Person() { Id = 1, Name = "Mike" };
+        }
+
+        [HttpGet]
+        //[Produces("application/xml")]
+        public IEnumerable<Person> GetAll()
         {
             List<Person> people = new List<Person>
             {
-                new Person() { ID = 1, Name = "Bob" },
-                new Person() { ID = 2, Name = "Mike" }
+                new Person { Id = 1, Name = "Bob" },
+                new Person { Id = 2, Name = "Mike" }
             };
 
             return people;
