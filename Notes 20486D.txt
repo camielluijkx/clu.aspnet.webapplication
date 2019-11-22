@@ -3201,10 +3201,81 @@ Module 13: Implementing Web APIs
 				• They reduce the processing power needed to create complex request messages for data retrieval. 
 				• They enhance the performance of the application by reducing the amount of data exchange between client and server.
 	Lesson 2: Developing a Web API
-		TODO
+		Using Routes and Controllers:
+			Web API uses controllers and actions to handle requests. A controller is a class that derives from the ControllerBase base class. By convention, controllers are named with the Controller suffix. Controllers contain methods, known as actions, which process the requests and return the results.
+			Defining Routes:
+				Web API uses routing rules to map HTTP requests to the Web API controllers and actions by using HTTP verbs and the request URL. You can configure routes by using convention-based routing and you can configure routes by using attributes. 
+				Although it is possible to configure routes of Web API by using convention-based routing, the recommendation is to prefer configuring the routes of Web API by using attributes. 
+		RESTful Services:
+			REST uses URLs and HTTP verbs to uniquely identify the entity that it operates on and the action that it performs. REST helps retrieve business information from the server. However, in addition to data retrieval, business applications perform more tasks such as creating, updating, and deleting information on the database. Web API and REST facilitate handling such additional tasks. They use the HTTP method to identify the operation that the application needs to perform. 
+			The following table provides information on some HTTP methods that Web API and REST use:
+				HTTP Verb			Description
+				GET					Use this method with the following URL to obtain a list of all customers.
+									/api/customers
+				GET					Use this method with the following URL to obtain a customer by using the ID detail.
+									/api/customers/id
+				GET					Use this method with the following URL to obtain customers by using the category detail.
+									/api/customers?country=country
+				POST				Use this method with the following URL to create a customer record.
+									/api/customers
+				PUT					Use this method with the following URL to update a customer record.
+									/api/customers/id
+				DELETE				Use this method with the following URL to delete a customer record.
+									/api/customers/id
+			Web API allows developers to use a strong typed model for developers to manipulate HTTP requests. The following code shows how to use the POST, PUT, and DELETE methods for the create, update, and delete requests to handle the creation, retrieval, updating, and deletion (CRUD) of the customer records.
+		Action Methods and HTTP Verbs:
+			When a client requests a Web API, first the controller is chosen. The next step is choosing the method that will handle the request. The method selection can be done based on the request that the HTTP method has used and on the request-URI. 
+			The HttpGet, HttpPut, HttpPost, and HttpDelete Attributes:
+				You can use the HttpGet, HttpPut, HttpPost, or HttpDelete attributes in your controller action to specify that a function is mapped to a specific HTTP verb. The following table describes how the HTTP attributes map to the HTTP verbs:
+					Attribute			HTTP Verb
+					HttpGet				GET
+					HttpPut				PUT
+					HttpPost			POST
+					HttpDelete			DELETE
+			If you want to have multiple methods that are mapped to the same HTTP verb, you can specify a template parameter to the Http[verb] attribute.
+			The AcceptVerbs Attribute:
+				The use of the AcceptVerbs attribute allows you to specify multiple HTTP verbs to the same actions in the controller.
+			The ActionName attribute:
+				In addition to the controller placeholder in routes, ASP.NET Core Web API also has a special placeholder for action. 
+				You can use the ActionName attribute to specify the action name to be used in the routing.
+		Binding Parameters to Request Message:
+			After locating the controller and action method, mapping data from the HTTP request to method parameters should be done. In ASP.NET Core Web API, this process is known as parameter-binding. 
+			HTTP messages data can be passed in the following ways:
+				• The message-URI. In HTTP, the absolute path and query are used to pass simple values that help identify the resource and influence the representation. 
+				• The Entity-body. In some HTTP messages, the message body passes data. 
+			By default, ASP.NET Core Web API differentiates simple and complex types. Simple types are mapped from the URI and complex types are mapped from the entity-body of the request.
+			You can use the template parameter of the HttpGet, HttpPut, HttpPost, and HttpDelete attributes to map the route and the parameters of the action.
+			Binding Source Attributes:
+				A parameter’s value of an action can be found in several locations. The location can be defined in the binding source attributes. There are several binding source attributes which include: 
+					• FromBody. Determines that the parameter is bound by using the request body. 
+					• FromQuery. Determines that the parameter is bound by using the request query string. 
+					• FromRoute. Determines that the parameter is bound by using route-data from the request. 
+					• FromForm. Determines that the parameter is bound by using form-data in the request body. 
+					• FromHeader. Determines that the parameter is bound by using the request headers. 
+			Using the ApiController Attribute:
+				It is possible to annotate a controller with the ApiController attribute. Annotating a controller with the ApiController attribute indicates that the controller serves HTTP API requests. It is used to target conventions on the controller.
+				In case you have a controller which is not annotated with the ApiController attribute, the binding source attributes should be defined explicitly. In a controller which is annotated with the ApiController attribute, there are inference rules which determine the data sources of the action parameters.
+		Control the HTTP Response:
+			Action methods can return both simple and complex types that are serialized to a data return format based on the content negotiation. Although ASP.NET Core Web API can handle the content negotiation and serialization, it is sometimes required to handle other aspects of the HTTP response message (for example, returning a status code other than 200). 
+			When an action method returns an object, ASP.NET Core Web API automatically serializes the object and returns it. The status code of the response in this case is 200 (OK) in case no exception was thrown. In case there is an unhandled exception in the action method, a 5xx error is returned.
+			Return IActionResult:
+				An action method can return an object that implements the IActionResult interface. This gives the flexibility to return a status code that is different from 200. For example, to return a 404 Not Found status code you can return a NotFoundResult object by using the NotFound method. If the status code of the response is 200, you can use an Ok method to return the content.
+			Return ActionResult<T>:
+				In addition to returning an IActionResult, a Web API controller action can return ActionResult<T>. Returning ActionResult<T> enables you to return a specific type or an object which inherits from ActionResult.
+		Data Return Formats:
+			When a client makes a request to a Web API controller, the controller action often returns some data. Web API can return this data in different formats, including JSON and XML. Both JSON and XML are text formats that represent information as strings. 
+			When a client makes a request, the client can specify the data format for the response. If the data format is not specified, Web API formats data as JSON by default.
+			Output Formatters:
+				Web API uses an output formatter to format or serialize the information that a Web API REST service returns. Web API usually uses the default formatter to return a data in JSON format from an action. However, you can alternatively use other output formatters. To use an output formatter, you need to configure ASP.NET Core MVC to support it. You can use pre-defined output formatters such as an XML output formatter. You can also use custom output formatters to format the responses.
+			Return Data in XML Format:
+				XML output formatters are located in the Microsoft.AspNetCore.Mvc.Formatters.Xml package. Therefore, in case you would like your action to return data in the XML format, install the Microsoft.AspNetCore.Mvc.Formatters.Xml package. 
+				To use an XML output formatter, you can add the formatter to an MvcOptions object and pass it as a parameter to the AddMvc method inside the ConfigurationServices method of the Startup class. 
+				Alternately, you can add the XML serializer formatters to MVC by using the AddXmlSerializerFormatters method.
+			Specifying the Return Format:
+				You can use the ProducesAttribute attribute to force a particular format of the response from an action. 
 	Lesson 3: Calling a Web API
-		TODO
-
+		TODO	
+			
 Module 14: Hosting and Deployment
 	Lesson 1: On-Premises Hosting and Deployment
 		TODO

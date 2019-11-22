@@ -1632,7 +1632,7 @@ namespace clu.aspnet.webapplication.mvc.core
 
             services.AddMvc()
                 //.AddSessionStateTempDataProvider()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<AuthenticationContext>(options => 
                 options.UseSqlite("Data Source=user.db"));
