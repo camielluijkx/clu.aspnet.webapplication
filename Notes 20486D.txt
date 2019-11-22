@@ -45,6 +45,12 @@ Node Package Manager (npm)
 Cross-Site Scripting (XSS)
 Cross-Site Request Forgery (CSRF or XSRF)
 Cross-Origin Resource Sharing (CORS)
+World WIde Web (WWW)
+Remote Procedure Calls (RPC)
+Remote Method Invocation (RMI)
+Uniform Resource Identifier (URI)
+Multipurpose Internet Mail Extensions (MIME)
+Simple Object Access Protocol (SOAP)
 
 
 [Summary 20486D]
@@ -3053,7 +3059,147 @@ Module 12: Performance and Communication
 
 Module 13: Implementing Web APIs
 	Lesson 1: Introducing Web APIs
-		TODO
+		HTTP is a communication protocol that was created by Tim Berners-Lee and his team while working on the WorldWideWeb (later renamed to World Wide Web) project. Originally designed to transfer hypertext-based resources across computer networks, HTTP is an application layer protocol that acts as the primary protocol for many applications including the World Wide Web. 
+		Web API is a full-featured framework for developing HTTP-based services. Using Web API gives developers reliable methods for creating, testing, and deploying HTTP-based services.
+		HTTP Services:
+			HTTP is a first-class application protocol that was built to power the World Wide Web. To support such a challenge, HTTP was built to allow applications to scale, taking into consideration concepts such as caching and stateless architecture. Today, HTTP is supported by many different devices and platforms reaching most computer systems available today. 
+			HTTP also offers simplicity, by using text messages and following the request-response messaging pattern. HTTP differs from most application layer protocols because it was not designed as a Remote Procedure Calls (RPC) mechanism or a Remote Method Invocation (RMI) mechanism. Instead, HTTP provides semantics for retrieving and changing resources that can be accessed directly by using an address. 
+			HTTP is used to develop both websites and services. Services developed by using HTTP are generally known as HTTP-based services. 
+			Using URI:
+				Uniform Resource Identifier (URI) is an addressing standard that is used by many protocols. HTTP uses URI as part of its resource-based approach to identify resources over the network. 
+				HTTP URIs follow this structure:
+					"http://" host [ ":" port ] [ absolute path [ "?" query ]] 
+					• http://. This prefix is standard to HTTP requests and defines the HTTP URI schema to be used. 
+					• Host. The host component of the URI identifies a computer by an IP address or a registered name. 
+					• Port (optional). The port defines a specific port to be addressed. If not present, a default port will be used. Different schemas can define different default ports. The default port for HTTP is 80. 
+					• Absolute path (optional). The path provides additional data that together with the query describes a resource. The path can have a hierarchical structure similar to a directory structure, separated by the slash sign (/). 
+					• Query (optional). The query provides additional nonhierarchical data that together with the path describes a resource.
+				Different URIs can be used to describe different resources. 
+				When accessing each URI, a different set of data, also known as a representation, will be retrieved. 
+			Using Verbs:
+				HTTP defines a set of methods or verbs that add an action-like semantics to requests. Verbs are a central mechanism in HTTP and it is one of the mechanisms that make HTTP the powerful protocol it is. The following list shows the widely used verbs that are defined in HTTP: 
+					• GET. Used to retrieve a representation of a resource. Requests intended to retrieve data based on the request URI. 
+					• POST. Used to create, update, and by some protocols, retrieve entities from the server. Requests intended to send an entity to the server. The actual operation that is performed by the request is determined by the server. The server should return information about the outcome of the operation in the result. 
+					• PUT. Used to create and update resources. Requests intended to store the entity sent in the request URI, completely overriding any existing entity in that URI. 
+					• DELETE. Used to delete resources. Requests intended to delete the entity identified by the request URI. 
+				Introduction to REST:
+					Representational State Transfer (REST) describes an architectural style that takes advantage of the resource-based nature of HTTP. It was first used in 2000 by Roy Fielding, one of the authors of the HTTP, URI, and HTML specifications. Fielding described, in his doctoral dissertation, an architectural style that uses some elements of HTTP and the World Wide Web for creating scalable and extendable applications. 
+					Today, REST is used to add important capabilities to a service. Services that use the REST architectural style are also known as RESTful services. RESTful services use the different HTTP verbs to allow the user to manipulate the resources and create a full API based on resources. 
+			Media Types:
+				HTTP was originally designed to transfer hypertext. Hypertext is a nonlinear format that contains references to other resources, some of which are other hypertext resources. However, some resources contain other formats such as image files and videos, which required HTTP to support the transfer of different types of message formats. To support different formats, HTTP uses Multipurpose Internet Mail Extensions (MIME) types, also known as media types. 
+				In HTTP, media types are declared by using headers as part of a process that is known as content negotiation. When a client sends a request, it can send a list of requested media types, and in order of preference, it can accept them in the response. The server should try to fulfill the request for content as specified by the client. Content negotiation enables servers and clients to set the expectation of what content they should expect during their HTTP transaction.
+		HTTP Messages:
+			HTTP is a simple request-response protocol. All HTTP messages contain the following elements: 
+				• Start-line
+				• Headers 
+				• An empty line
+				• Body (optional)
+			Request Messages:
+				Request messages are sent by the client to the server. Request messages have a specific structure based on the general structure of the HTTP messages.
+				Example:
+					GET http://localhost:4392/travelers/1 HTTP/1.1
+					Accept: text/html, application/xhtml+xml, */*
+					Accept-Language: en-US,en;q=0.7,he;q=0.3
+					User-Agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)
+					Accept-Encoding: gzip, deflate
+					Host: localhost:4392
+					DNT: 1
+					Connection: Keep-Alive
+				The first and the most distinct difference between the request and response messages is the structure of the start-line, called request-lines. 
+				Request-line:
+					This HTTP request messages start-line has a typical request-line with the following space-delimited parts: 
+						• HTTP method. This HTTP request message uses the GET method, which indicates that the client is trying to retrieve a resource. 
+						• Request URI. This part represents the URI to which the message is being sent. 
+						• HTTP version. This part indicates that the message uses HTTP version 1.1. 
+				Headers:
+					This request message also has several headers that provide metadata for the request. Although headers exist in both response and request messages, some headers are used exclusively by one of them. For example, the Accept header is used in requests to communicate the kinds of responses the clients would prefer to receive. This header is a part of a process known as content negotiation. 
+				Body:
+					The request message has no body. This is typical of requests that use the GET method.
+			Response Messages:
+				Response messages also have a specific structure based on the general structure of HTTP messages. 
+				Example:
+					HTTP/1.1 200 OK
+					Server: ASP.NET Development Server/11.0.0.0
+					Date: Tue, 13 Nov 2012 18:05:11 GMT
+					X-AspNet-Version: 4.0.30319
+					Cache-Control: no-cache
+					Pragma: no-cache
+					Expires: -1
+					Content-Type: application/json; charset=utf-8
+					Content-Length: 188
+					Connection: Close
+{"TravelerId":1,"TravelerUserIdentity":"aaabbbccc","FirstName":"FirstName1","LastName":"LastName1","MobilePhone":"555-555-5555","HomeAddress":"One microsoft road","Passport":"AB123456789"}
+				Status Line:
+					HTTP response start-lines are called status-lines. This HTTP response message has a typical status-line with the following space-delimited parts: 
+						• HTTP version. This part indicates that the message uses HTTP version 1.1. 
+						• Status-Code. Status-codes help define the result of the request. This message returns a status-code of 200, which indicates a successful operation. Status codes will be covered in the next topic, “Status Codes”. 
+						• Reason-Phrase. A reason-phrase is a short text that describes the status code, providing a human-readable version of the status code. 
+				Headers:
+					Like the request message, the response message also has headers. Some headers are unique for HTTP responses. For example, the Server header provides technical information about the server software being used. The Cache-Control and Pragma headers describe how caching mechanisms should treat the message. 
+					Other headers, such as the Content-Type and Content-Length, provide metadata for the message body and are used in both requests and responses that have a body. 
+				Body:
+					A response message returns a representation of a resource in JavaScript Object Notation (JSON). The JSON, in this case, contains information about a specific traveler in a travel management system. The format of the representation is communicated by using the Content-Type header describing the media type.
+		Status Codes:
+			Status-codes are three-digit integers returned as a part of response messages status-lines. Status codes describe the result of the effort of the server to satisfy the request. The next section of the status line after the status code is the reason-phrase, a human-readable textual description of the status-code. 
+			Status codes are divided into five classes or categories. The first digit of the status code indicates the class of the status: 
+				Class					Usage																		Examples
+				1xx – Informational		Codes that return informational response about the state of the				• 101 Switching Protocols
+										connection.
+				2xx – Successful		Codes that indicate the request was successfully received and accepted		• 200 OK
+										by the server.																• 201 Created
+				3xx – Redirection       Codes that indicate that additional action should be taken by the client	• 301 Moved Permanently
+										(usually in respect to different network addresses) in order to achieve		• 302 Found
+										the result that you want.													• 303 See Other
+				4xx – Client Error		Codes that indicate an error that is caused by the client’s request.		• 400 Bad Request
+										This might be caused by a wrong address, bad message format, or any kind	• 401 Unauthorized 
+										of invalid data passed in the client’s request.								• 404 Not Found
+				5xx – Server Error		Codes that indicate an error that was caused by the server while it tried	• 500 Internal Server
+										to process a seemingly valid request.										• 505 HTTP Version Not Supported
+		Introduction to Web API:
+			HTTP has been around ever since the World Wide Web was created in the early 1990s, but its adoption as an application protocol for developing services took time. In the early years of the web, SOAP was considered the application protocol of choice by most developers. SOAP provided a robust platform for developing RPC-style services. 
+			With the appearance of internet-scale applications and the growing popularity of web 2.0, it became clear that SOAP was not fit for such challenges and HTTP received more and more attention. 
+			HTTP in the .NET Framework and the .NET Core:
+				For the better part of the first decade of its existence, the .NET Framework did not have a first-class framework for building HTTP services. At first, ASP.NET provided a platform for creating HTML-based web-pages and ASP.NET web services, and later-on Windows Communication Foundation (WCF) provided SOAP-based platforms. For these reasons, HTTP never received the attention it deserved. 
+				When WCF first came out in .NET 3.0, it was a SOAP-only framework. As the world started to use HTTP as the application-layer protocol for developing services, Microsoft started to make investments in extending WCF for supporting simple HTTP scenarios. By the next release of the .NET Framework (.NET 3.5), WCF had new capabilities. These included a new kind of binding called WebHttpBinding and the new attributes for mapping methods to HTTP requests. 
+				In 2009, Microsoft released the WCF REST Starter Kit. This added the new WebServiceHost class for hosting HTTP-based services, and also new capabilities like help pages and Atom support. When the .NET Framework version 4 was released most of the capabilities of the WCF REST Starter Kit were already rolled into WCF. This includes support for IIS hosting in addition to new Visual Studio templates available through the Visual Studio Extensions Manager. But even then, WCF was still missing support for many HTTP scenarios. 
+				The need for a comprehensive solution for developing HTTP services in the .NET Framework justified creating a new framework. Therefore, in October 2010, Microsoft announced the WCF Web API, which introduces a new model and additional capabilities for developing HTTP-based services. These capabilities included: 
+					• Better support for content negotiation and media types.
+					• APIs to control every aspect of the HTTP messages.
+					• Testability.
+					• Integration with other relevant frameworks like Entity Framework and Unity.
+				The WCF Web API team released six preview versions until in February 2012, the ware united with the ASP.NET team, forming the ASP.NET Web API. 
+				In June 2016, Microsoft released the first version of .NET Core and ASP.NET Core. ASP.NET Core Web API is the framework for developing HTTP services in .NET Core. 
+		What is a Web API?
+			Web API is a framework that enables you to build REST-enabled APIs. REST-enabled APIs help external systems use the business logic implemented in your application to increase the reusability of the application logic. Web API facilitates two-way communication between the client system and the server through tasks such as: 
+				• Instructing an application to perform a specific task
+				• Reading data values
+				• Updating data values
+			Web API enables developers to obtain business information by using REST, without creating complicated XML requests such as Simple Object Access Protocol (SOAP). Web APIs use URLs in requests, thereby eliminating the need for complicated requests. 
+			Web API uses such URLs in requests and obtains results in the JSON format by default. 
+				Example:
+					[
+					  {
+						"Id": 1,
+						"Name": "Tomato soup",
+						"Category": "Groceries",
+						"Price": 1.0
+					  },
+					  {
+						"Id": 2,
+						"Name": "Yo-yo",
+						"Category": "Toys",
+						"Price": 3.75
+					  },
+					  {
+						"Id": 3,
+						"Name": "Hammer",
+						"Category": "Hardware",
+						"Price": 16.99
+					  }
+					]
+			REST and Web API enable all kinds of different applications, including mobile device applications, to interact with services. In particular, REST and Web API provide the following benefits for mobile applications: 
+				• They reduce the processing power needed to create complex request messages for data retrieval. 
+				• They enhance the performance of the application by reducing the amount of data exchange between client and server.
 	Lesson 2: Developing a Web API
 		TODO
 	Lesson 3: Calling a Web API
