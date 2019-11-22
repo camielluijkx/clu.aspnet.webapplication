@@ -1624,7 +1624,11 @@ namespace clu.aspnet.webapplication.mvc.core
                 options.IdleTimeout = TimeSpan.FromSeconds(20);
             });
 
-            services.AddSignalR();
+            services.AddSignalR(hubOptions =>
+            {
+                hubOptions.HandshakeTimeout = TimeSpan.FromSeconds(30);
+                hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(50);
+            }).AddMessagePackProtocol();
 
             services.AddMvc()
                 //.AddSessionStateTempDataProvider()

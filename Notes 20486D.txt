@@ -3024,6 +3024,32 @@ Module 12: Performance and Communication
 				Call Hub Methods from Client:
 					Finally, to call methods on the hub, you will use the invoke(*methodName*, *param1*, *param2*…) method on the connection object. The method name is a string which must match a method that has been defined on the hub, while the remaining parameters should match the parameters of the method on the hub. Doing this will call the method which is defined on the hub.
 				It is important to note, SignalR connections which do not use WebSockets will require sticky servers to be defined. Since, by default, WebSockets create a socket with a specific server, you do not need any special logic to handle this case. 
+		Additional SignalR Settings:
+			Sometimes you need to call methods on specific clients.
+			This can be managed by using the Context property of the hub class. The Context property is of the HubCallerContext type and can be used to identify the user that made the call. Additionally, by overriding the OnConnectedAsync and OnDisconnectedAsync methods on the hub, you can perform initial and final operations on clients, allowing you to add or remove from groups or remove clients from being displayed. 
+			Another useful property of the hub is the Groups property. This property is of the IGroupManager type and exposes the AddToGroupAsync and RemoveFromGroupAsync methods. Both methods receive a connection ID and a group to which the connection will be added to or removed from respectively. The connection ID can be found by using the ConnectionId property on the Context property. Note that if a client disconnects, the connection ID will be removed from all groups automatically. 
+			The Groups property is exclusively used to add to and remove from Groups and nothing else. If you need a list of people inside a group or a list of groups you will need to manage it yourself.
+			Serializing with MessagePack:
+				By default, SignalR serializes message by using JSON. JSON, being a common message format, is easily serialized through different clients and is a widely recognized format. However, JSON is a text-based format and therefore less efficient at containing data than binary formats. While the performance change is negligible in small quantities of data, the size can add up in larger quantities and across many requests. 
+				The MessagePack serialization format allows you to improve performance by sending smaller more compact data. As an additional benefit to security, it is much harder to read by looking at network traffic, as it requires the data to be converted from a MessagePack format, whereas JSON is immediately readable. 
+				Using MessagePack requires a few extra steps to set up:
+					1. Install the Microsoft.AspNetCore.SignalR.Protocols.MessagePack Nuget package. This will load the required server-side package to use MessagePack. 
+					2. In the ConfigureServices method of the Startup class, in the call to AddSignalR on the IServiceCollection object, pipe a call to AddMessagePackProtocol. This will cause the hub to serialize and deserialize in the MessagePack format. 
+					3. Add a dependency for @aspnet/signalr-protocol-msgpack in the package.json file. This will retrieve the signalr-protocol-msgpack library, as well as msgpack5, which is a dependency for signalr-protocol-msgpack. 
+					4. Add references to msgpack5.js and then to signalr-protocol-msgpack.js in the HTML files. The order of these two files is very important. 
+					5. In the JavaScript file, as part of the HubConnectionBuilder pipe, add a call to withHubProtocol(new signalR.protocols.msgpack.MessagePackHubProtocol)) before the call to build. This will set up the connection to use message pack on the client. 
+				Configuring the SignalR Connection:
+					Sometimes there are additional requirements in running SignalR. For instance, you may not wish to maintain connections which are unused for some time or you may wish instead to keep up the connection as long as possible. Additionally, you may wish to remove support for specific transport protocols to improve performance or fulfill particular needs. 
+					This can be done by using an overload of the AddSignalR method of the ConfigureServices class. The overload accepts an action, which gets an instance of the HubOptions class. In this class, you can set various configuration properties that will affect all SignalR connections on the application. 
+					Common configurations include:
+						• HandshakeTimeout. This is the duration during which the client must send a message after the initial handshake or the connection will be closed. 
+						• KeepAliveInterval. This is the duration during which the server will send a ping to the client to keep it alive. This is useful in a system where maintaining connections are important, but a long period could occur with no messages. 
+						• SupportedProtocols. A collection which contains the protocols to be supported. Changing this collection can allow removing support for specific protocols. 
+						• EnableDetailedErrors. A Boolean value which indicates if detailed error messages should be sent. By default, its value is false. Turning this to true will cause detailed exceptions to be sent. This could potentially present a security exploit. 
+				Additionally, it is also possible to set up configurations on the client side. It is possible to add an additional options parameter to the withUrl method, allowing you to set up additional configurations. 
+				Common configuration options include: 
+					• transport. Allows setting which transport types are used by the client. The client will not use any ones that are omitted and they are separated by a bitwise or operator. 
+					• serverTimeoutInMilliseconds. Sets a period of time which the client will wait for a reply from the server, before closing the connection. 
 
 Module 13: Implementing Web APIs
 	Lesson 1: Introducing Web APIs

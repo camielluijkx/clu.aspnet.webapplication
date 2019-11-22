@@ -7,7 +7,13 @@
     Message: <input type="text" class="message" />
 </div>
 <div>
+
     <input type="button" class="all" value="Send To All" />
+
+    <input type="button" class="join" value="Join Chatroom" />
+    <input type="button" class="leave" value="Leave Chatroom" />
+    <input type="button" class="message" value="Message Chatroom" />
+
 </div>
 <div class="chatLog">
 
@@ -15,4 +21,8 @@
 
 <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
 <script src="~/node_modules/@@aspnet/signalr/dist/browser/signalr.min.js"></script>
+
+<script src="~/node_modules/msgpack5/dist/msgpack5.js"></script>
+<script src="~/node_modules/@@aspnet/signalr-protocol-msgpack/dist/browser/signalr-protocol-msgpack.js"></script>
+
 <script src="~/js/chat-events.js"></script>
