@@ -140,7 +140,6 @@
 
   <ItemGroup>
     <Folder Include="Logs\" />
-    <Folder Include="wwwroot\Styles\" />
   </ItemGroup>
 
   <ItemGroup>

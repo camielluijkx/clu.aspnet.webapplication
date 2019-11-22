@@ -1,9 +1,12 @@
 ﻿using clu.aspnet.webapplication.mvc.core.Attributes;
 using clu.aspnet.webapplication.mvc.core.DataAccess;
+using clu.aspnet.webapplication.mvc.core.Hubs;
 using clu.aspnet.webapplication.mvc.core.Logging;
+using clu.aspnet.webapplication.mvc.core.Middleware;
 using clu.aspnet.webapplication.mvc.core.Models;
 using clu.aspnet.webapplication.mvc.core.Policies;
 using clu.aspnet.webapplication.mvc.core.Services;
+using clu.aspnet.webapplication.mvc.core.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -1604,6 +1607,9 @@ namespace clu.aspnet.webapplication.mvc.core
             services.AddSingleton<IProductShop, ProductShop>();
             services.AddSingleton<IProductService, ProductService>();
 
+            services.AddSingleton<ISquareManager, SquareManager>();
+            services.AddSingleton<IChatManager, ChatManager>();
+
             services.AddDistributedMemoryCache();
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -1617,6 +1623,8 @@ namespace clu.aspnet.webapplication.mvc.core
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(20);
             });
+
+            services.AddSignalR();
 
             services.AddMvc()
                 //.AddSessionStateTempDataProvider()
@@ -1710,7 +1718,17 @@ namespace clu.aspnet.webapplication.mvc.core
             app.UseAuthentication();
 
             app.UseHttpsRedirection();
+
+            app.UseNodeModules(env.ContentRootPath);
+
             app.UseStaticFiles();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chathub");
+                routes.MapHub<SquaresHub>("/squareshub");
+            });
+
             app.UseCookiePolicy();
 
             app.UseStatusCodePages();
