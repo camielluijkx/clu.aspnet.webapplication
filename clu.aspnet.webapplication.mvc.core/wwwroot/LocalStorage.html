@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <script>
+
+        var storage_key = "num_of_visits";
+        var numberOfVisitsString = localStorage.getItem(storage_key);
+        var numberOfVisits = 1;
+
+        if (numberOfVisitsString)
+        {
+            numberOfVisits = parseInt(numberOfVisitsString) + 1;
+        }
+
+        alert("This page has been visited " + numberOfVisits + " times");
+
+        if (numberOfVisits >= 5)
+        {
+            localStorage.removeItem(storage_key);
+        }
+        else
+        {
+            localStorage.setItem(storage_key, numberOfVisits);
+        }
+
+    </script>
+
+</body>
+</html>

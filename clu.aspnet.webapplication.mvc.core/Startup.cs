@@ -1579,11 +1579,32 @@ namespace clu.aspnet.webapplication.mvc.core
 
         #endregion
 
+        #region Example #92
+
+        public void Configure92(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.Use(async (context, next) =>
+            {
+                context.Items["Query"] = verifyQueryString(context.Request);
+
+                await next.Invoke();
+            });
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync(context.Items["Query"].ToString());
+            });
+        }
+
+        #endregion
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IProductShop, ProductShop>();
             services.AddSingleton<IProductService, ProductService>();
+
+            services.AddDistributedMemoryCache();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -1592,7 +1613,14 @@ namespace clu.aspnet.webapplication.mvc.core
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(20);
+            });
+
+            services.AddMvc()
+                //.AddSessionStateTempDataProvider()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<AuthenticationContext>(options => 
                 options.UseSqlite("Data Source=user.db"));
@@ -1668,8 +1696,6 @@ namespace clu.aspnet.webapplication.mvc.core
             authContext.Database.EnsureDeleted();
             authContext.Database.EnsureCreated();
 
-            app.UseAuthentication();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -1679,6 +1705,9 @@ namespace clu.aspnet.webapplication.mvc.core
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseSession();
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -1734,6 +1763,18 @@ namespace clu.aspnet.webapplication.mvc.core
 
                     await roleManager.CreateAsync(role);
                 }
+            }
+        }
+
+        private string verifyQueryString(HttpRequest request)
+        {
+            if (request.QueryString.HasValue)
+            {
+                return string.Format("The Query String is: {0}", request.QueryString.Value);
+            }
+            else
+            {
+                return "No Query String!";
             }
         }
     }

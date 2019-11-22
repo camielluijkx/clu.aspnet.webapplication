@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <script>
+
+        var storage_key = "num_of_visits";
+        var numberOfVisitsString = sessionStorage.getItem(storage_key);
+        var numberOfVisits = 1;
+
+        if (numberOfVisitsString)
+        {
+            numberOfVisits = parseInt(numberOfVisitsString) + 1;
+        }
+
+        alert("This page has been visited " + numberOfVisits + " times");
+
+        sessionStorage.setItem(storage_key, numberOfVisits);
+
+    </script>
+
+</body>
+</html>

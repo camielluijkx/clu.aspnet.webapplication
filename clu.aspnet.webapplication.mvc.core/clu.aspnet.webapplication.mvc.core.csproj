@@ -143,4 +143,8 @@
     <Folder Include="wwwroot\Styles\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\LocalStorage.html" />
+  </ItemGroup>
+
 </Project>
