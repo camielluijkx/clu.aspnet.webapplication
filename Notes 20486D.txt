@@ -1,10 +1,3 @@
-[Miscellaneous]
-
-Course is not focussing on DotNetCore development.
-
-Focus on de similarities between ASP.NET MVC and ASP.NET Core MVC.
-
-
 [Abbreviations]
 
 Internet Information Services (IIS)
@@ -51,6 +44,10 @@ Remote Method Invocation (RMI)
 Uniform Resource Identifier (URI)
 Multipurpose Internet Mail Extensions (MIME)
 Simple Object Access Protocol (SOAP)
+Open Web Interface (OWIN)
+Distributed Denial-of-Service (DDOS)
+Framework-Dependent Deployment (FDD)
+Self-Contained Deployment (SCD)
 
 
 [Summary 20486D]
@@ -2033,7 +2030,7 @@ Module 9: Client-Side Development
 					A powerful feature of Grunt is the ability to bind tasks to run alongside Visual Studio events. This is useful since it allows running tasks before a build occurs, allowing you to update any compiled files inside the project. Thus, you can run the application in a convenient fashion without needing to manually run tasks each time you update.
 					Alternatively, if you have tasks which you wish to run when the project is open, you can bind them to the project being opened and have the tasks run whenever you start Visual Studio.
 					To bind a task, you can right-click it in the Task Runner Explorer and select a binding to use. You can later change the order, or delete bindings, by right-clicking a task in the binding sub-window of the Task Runner Explorer.
-			https://docs.microsoft.com/en-us/aspnet/core/client-side/using-grunt?view=aspnetcore-3.0
+			https://docs.microsoft.com/en-us/aspnet/core/client-side/using-grunt
 		Using gulp:
 			Another task runner that you can use is gulp. Unlike Grunt, a gulp task can perform several sequential operations on a single pipeline, leading to a very different development approach from Grunt.
 			Similarly to Grunt, gulp also supports only a very basic infrastructure for running tasks and additional plugins will need to be loaded in order to perform most operations. Configuration for gulp files is handled inside the tasks themselves, and since tasks run on a single pipeline, configuration often ends up being relatively simple. gulp supports a large number of plugins, which can grant gulp various different functionalities which can then be used inside of the tasks. This enables running a lean task environment where only required plugins are added.
@@ -2112,7 +2109,7 @@ Module 9: Client-Side Development
 						});
 				Binding Tasks to Visual Studio Events:
 					As with Grunt, it is possible to bind gulp tasks to Visual Studio events. This can be done in the same way, by right-clicking a task name in the Task Runner Explorer window and selecting an event to which you can bind.
-			https://docs.microsoft.com/en-us/aspnet/core/client-side/bundling-and-minification?view=aspnetcore-3.0&tabs=visual-studio
+			https://docs.microsoft.com/en-us/aspnet/core/client-side/bundling-and-minification
 		Bundling and Minification:
 			One of the most frequent usages of task runners is to perform bundling and minification for the client side. In this topic, you will learn how you can perform bundling and minification by using gulp and the Visual Studio Task Runner Explorer.
 			A big advantage to bundling and minification is that by reducing the number of files (bundling), it is possible to ensure that less file requests are made to the server and by reducing the size of files (minification), requests to the server occur faster. Both of these help web applications become dynamic and responsive, reducing the potential of a user becoming frustrated by the application for being “slow”.
@@ -2423,7 +2420,7 @@ Module 10: Testing and Troubleshooting
 				Once you write a test, you can run it by right-clicking a test class, and then selecting the Run Test(s) option in the context menu. Alternatively, you can open the test explorer from the test menu inside the windows sub options. From the test runner explorer, you can then choose specific test classes or methods and run them as needed. There are also options to run all tests, or run tests while in debug mode, allowing you to observe specific failures and handle them accordingly.
 			Live Unit Testing:
 				When developing an ASP.NET Core application, it is possible to run Live Unit Testing. This allows you to run unit tests as you code, ensuring the integrity of your code without having to constantly run tests manually.
-				https://docs.microsoft.com/en-us/visualstudio/test/live-unit-testing?view=vs-2019
+				https://docs.microsoft.com/en-us/visualstudio/test/live-unit-testing
 		Using Mocking Frameworks:
 			When you write a unit test, you must, during the Arrange phase, create test data on which the test will run. By using a test double or mock object to supply test data, you can test your code in isolation from other classes and from the infrastructure elements such as databases and network connections on which the application will rely. You can create test doubles by manually coding their instantiation, setting their properties, and populating collections. Such test doubles are known as manual mock objects.
 			Alternatively, instead of creating mock objects manually with your own code, you can use a mocking framework to automate this work. A mocking framework automatically creates a mock object by using the interfaces that you specify. In the case of IoC containers, there are many mocking frameworks that can be used in testing MVC web applications. You can find many mocking frameworks by using the NuGet package manager.
@@ -2495,7 +2492,7 @@ Module 10: Testing and Troubleshooting
 						Example:
 							set ASPNETCORE_ENVIRONMENT=Production
 							dotnet run
-			https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-3.0
+			https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments
 		Configuring Error Handling:
 			In a development environment, you will often want detailed information about errors. This can allow you to extrapolate important information about what went wrong and how. By adding the UseDeveloperExceptionPage middleware to the pipeline inside the Configure method, all exceptions that occur in middleware after the UseDeveloperExceptionPage middleware will be redirected by default to a page that has detailed information about the exception. Inside the page, you can switch between various tabs to see important information such as the stack trace of the exception, the query string data, the cookies data, and the headers sent as part of the request. This can all be extremely helpful while debugging the application and for reproducing known errors because the relevant information for the exception is present and easily accessible.
 			Custom Exception Handler Page:
@@ -2711,7 +2708,7 @@ Module 11: Managing Security
 				In addition to the previous methods, you can also create your own dynamic policies. These are considerably more complex to create, but in exchange offer you the option to create any policy you require. Custom policies can receive parameters to validate against, but in exchange need to be configured from scratch.
 			Custom Policy-Based Authorization:
 				In addition to the previous methods, you can also create your own dynamic policies. These are considerably more complex to create, but in exchange offer you the option to create any policy you require. Custom policies can receive parameters to validate against, but in exchange need to be configured from scratch. 
-				https://docs.microsoft.com/en-us/aspnet/core/security/authorization/policies?view=aspnetcore-3.0
+				https://docs.microsoft.com/en-us/aspnet/core/security/authorization/policies
 			Using Multiple Authorization Methods:
 				Finally, you can combine multiple different authorization methods, by adding multiple Authorize attributes. Whenever more then a single Authorize attribute is present on a controller or action, it will only be accessible if all of the authorization requirements are fulfilled.
 			Whenever an authenticated user attempts to access a resource that they do not have permissions to access, the ASP.NET Core MVC application will redirect the request to "Account\AccessDenied". You should add a controller view and method to handle this path, and update the users that they do not meet the criteria to view the page. If you do not do this, users will encounter a browser error. 
@@ -3306,7 +3303,141 @@ Module 13: Implementing Web APIs
 
 Module 14: Hosting and Deployment
 	Lesson 1: On-Premises Hosting and Deployment
-		TODO
+		Web Servers:
+			ASP.NET core applications run on a process-based server implementation, which listens to requests from clients, and uses them to create an HTTPContext object. This object is then injected into the middleware, and you can use it to control the flow of your application.
+			ASP.NET Core provides three server implementations:
+				• Kestrel (Cross Platform), which is the default server implementation.
+				• HTTP.sys (Windows) server implementation, which is based on the Kernel Driver and HTTP Server API
+				• Custom server implementation, which is based on Open Web Interface (OWIN).
+			A reverse proxy server retrieves resources on behalf of a client from one or more servers. These resources are then returned to the client as if they originated from the web server itself.
+			The benefits of reverse proxy include operating multiple different application servers on a single server, providing a firewall, limiting the exposure of application components, supporting load balancing architecture, and helping reduce distributed denial-of-service (DDOS) attacks.
+			Kestrel:
+				Kestrel is the default server implementation for ASP.NET Core, and it can be used with or without a reverse server proxy. Since Kestrel is designed to work cross-platform, it runs on its own process, allowing the use of technologies such as IIS, NGINX, or Apache. Those technologies cannot be used without Kestrel in ASP.NET Core.
+				Kestrel supports features such as HTTPS, WebSockets, and performance improvements while running on NGINX on Unix platforms. It is cross-platform and can be used across many different operating systems. It is a lightweight web server designed for efficiency and quick performance but does not support many features such as windows authentication, port sharing, direct file transmissions, and response caching.
+				To set up Kestrel, all you need to do is to call WebHost.CreateDefaultBuilder(*arguments*) in the CreateWebHostBuilder method of the Program.cs file. By default, all new ASP.NET Core applications are created with this configured, and the CreateDefaultBuilder method will call the UseKestrel() method behind the scenes.
+				You can also further customize the Kestrel options by manually calling the UseKestrel(*Action<KestrelOptions>*) method as part of the CreateDefaultBuilder pipeline. You can configure many settings here. By using the Limits property of the Kestrel Options object, you can set a variety of connection limits such as:
+					• MaxConcurrentConnections. Used to set how many connections the server can handle at a time.
+					• MaxConcurrentUpgradedConnections. Used to set the number of upgraded connections, such as those used in WebSockets.
+					• MaxRequestBodySize. Limits the size of the body in requests, set in number of bytes.
+					• KeepAliveTimeout. Sets the timeout for connections.
+				https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel
+			HTTP.sys:
+				HTTP.sys is an alternative to Kestrel if ASP.NET Core is running on Windows. HTTP.sys supports Windows 7 or later and Windows Server 2008 R2 or later. It is a complete and robust web server implementation, which, unlike Kestrel, does not require external hosting solutions. However, it is not a lightweight solution.
+				HTTP.sys supports Windows Authentication, running multiple applications on the same port, HTTPS, Direct transfer of files, caching responses, and WebSockets. However, you can run HTTP.sys only in a Windows environment, and it does not support reverse proxy. It is also a heavy implementation, intended to handle all facets of a web server, and HTTP.sys does not work in conjunction with IIS or IIS Express.
+				In order to setup HTTP.sys, you will need to perform the following steps:
+					1. After calling the CreateDefaultBuilder(*arguments*) method in the application builder, you will need to pipe in a call to the UseHttpSys() as part of the builder. This will set up HTTP.sys with a basic configuration.
+					2. Add a new debug environment profile that does not use IIS or IIS Express, such as project in the project properties debug menu or in the launchsettings.json file. This was covered in Module 10, "Testing and Troubleshooting".
+					3. Select the new environment in the debug menu and start the application.
+					4. Go to "http://localhost:5000". By default, the application will be hosted on port 5000.
+				You can configure additional parameters by using an Action that returns an HttpSysOptions object. This object allows you to configure several options that can affect the behavior of the server:
+					• Authentication. Exposes various sub-properties that can affect the application authentication, such as the Schemas property to set the application authentication schema.
+					• MaxConnections. Sets the maximum number of concurrent connections.
+					• MaxRequestBodySize. Sets the limit for the size of the body on requests.
+					• UrlPrefixes. Allows you to override the default URL.
+				https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/httpsys
+			Open Web Interface for .Net (OWIN):
+				OWIN is an open-source interface designed to operate between ASP.NET web servers and web applications. It was made with the intent to decouple the client and server architecture and allow for the development of simple modules.
+				OWIN is designed around ASP.NET rather than ASP.NET Core. Servers that run OWIN architecture will use ASP.NET. However, it is possible to create client applications, which interface with OWIN, in ASP.NET Core.
+			ASP.NET Core Module:
+				ASP.NET Core Module is an IIS module that enables you to set up a reverse proxy configuration for IIS applications. Being an IIS based module, it is incompatible with HTTP.sys, and you should use Kestrel instead. ASP.NET Core module runs by plugging into the IIS pipeline and redirecting requests to the appropriate backend application.
+				The ASP.NET Core module is responsible for managing the IIS process and runs in a separate process. When the initial connection occurs, the ASP.NET Core Module will start the kestrel application, and it will also restart it the application has crashed.
+				Forwarding occurs in the ASP.NET Core Module when the client communicates with the IIS server that hosts the ASP.NET Core Module. The ASP.NET Core Module will then create an internal HTTP connection (It will use HTTP even when the connection with the client is HTTPS), to the ASP.NET Core application that runs on a Kestrel server. It will access the ASP.NET Core application by using an environment variable that is configured in the IIS startup. Kestrel will then handle the request in the normal flow before returning the response to the IIS server, which will forward it to the original client.
+				The ASP.NET Core module is an IIS-based solution, which requires an IIS Server. If you work on a multiplatform or non-Windows environment, you can use Apache or NGINX instead. You can use either solution as reverse proxies when using a Kestrel server-based application.
+			Running the server:
+				In Visual Studio, you can do this by using the Debug menu. From this menu, select an environment profile and then start the application. This will run the application in either IIS Express, ASP.NET Core Module, or through the windows console. 
+				In Visual Studio Code, you can use the Omnisharp extension to run the application by using the CoreCLR debugger, which is an open source Microsoft .NET execution engine which is a part of .NET Core. This allows it to work cross-platform.
+				At times, you might not be able to run the application from an IDE. In such situations, you can use the various .NET CLI commands to run the application. You can run .NET CLI commands from various command line consoles such as Windows Command Prompt, Windows PowerShell, and Linux Terminal. You can usually add these commands to the system PATH by installing Visual Studio, but you can also add the commands by installing the .NET Core SDK, which is required for running .NET Applications. When not working on a development server, it is usually better to use the .NET Core SDK.
+				To run a server by using .NET CLI commands, you will need to browse to the project folder where the .csproj file is located. To run the commands, enter the cd command inside the command line console followed by the path to the folder that contains the .csproj file. The cd command exists in most common command line consoles.
+				To host a server, use the dotnet run command. This will run the build process, and then run the project in the current folder. This will allow you to run your project even without access to Visual Studio. This solution works across different operating systems. It can also be used alongside projects in Visual Studio Code, which allows you to bypass the need to install related extensions. Note that calling dotnet run will use any cached NuGet packages if they are available and will only download any which are missing.
+				While working on a production environment, it is best to use dotnet run because the faster setup is conducive to rapid testing. However, for production environments, it is best to use dotnet publish. This can allow you to publish once, create the necessary DLL files and ensure the latest relevant NuGet packages are used. Also, it is the recommended solution for hosting on production servers.
+				As an alternative option to navigating to the project file, you can choose to provide the dotnet run command a full file path to run from. This will remove the need to browse to the project folder.
+		Hosting ASP.NET Core Application:
+			The basic steps of hosting an application are as follows:
+				1. Publish the application. In this step, you will create a basic application. It will contain the DLLs and the resource files required to run your application, all inside a single folder, ready for deployment.
+				2. Set up a process manager. In this step, you will need to choose a dedicated process runner for your application, such as IIS or NGINX. This will keep the application up and handle application crashes and automatic startup.
+				3. Set up a reverse proxy configuration and load balancing. This is an optional step you can perform if you want the benefits of using a reverse proxy, which include protection from various security attacks (such as DDOS) and load balancing to support multiple servers.
+			Publishing the Application:
+				The first step in hosting an ASP.NET Core MVC Application is to publish the application. This will create a compiled copy of the application, alongside all required resource files such as JavaScript and HTML files, and store them in a single folder for ease of use. Publishing ensures that vital system files are not easily readable, while also being lighter than development files.
+				An important decision to make while publishing an application is to choose between a framework-dependent deployment (FDD), or a self-contained deployment (SCD).
+				If you use FDD, the deployment will not contain any .NET Core specific files because the files installed on the host will be used instead. You also do not have to specify a target operating system. This creates a smaller package, while also using the same .NET Core application installation as other applications on the server. However, using FDD requires the host to have the .NET Core version used by your application or a newer version, and if the .NET Core libraries are changed significantly enough in a future version, the application may start working in an unexpected manner.
+				If you use SCD, the deployment will contain a specific version of .NET Core, which is selected by you and will be packaged alongside your application. This ensures that you will not need to install it on the hosting server and your application will keep working even if the host updates its versions of .NET Core. However, because .NET Core is included as part of your package, you will need to select target platforms in advance, each additional platform increasing the installation size. This can particularly be troublesome on servers that run multiple .NET Core-based installations because a lot of space and memory in those servers might be taken up by multiple .NET Core installations that are running simultaneously.
+				Note that any third-party files used by your application will also be present in both FDD and SCD deployments.
+				By default, a new project in a Visual Studio environment will be set with Debug configurations. However, builds that are intended for production environments will usually use Release configurations.
+				In order to set up the project for a publishing build in Visual Studio, in Solution Explorer, right-click the project, and then select the properties from the context menu. To update settings related to builds and publishing, click the Build tab. To publish for a production build, select Release from the Configuration drop-down list. This will ensure your project is set up for the release environment. Then go to the Output section of the Build properties. Inside the Output path box, set an output path of your choice or use the default one. This will determine where the compiled DLL files will be stored for the project. Note that it will add the version of the .NET Framework as a part of your path in the following format: "*your path*\*.NET Core version*\". Remember the final path because you will be using it later.
+				After this is done, browse to the project in your command line console of choice and call the dotnet publish command, just like you would call the dotnet run command. Rather than immediately running the application, it will get the latest version of all used NuGet packages and create a publish directory by using the directory you set in the Output path inside the publish folder. The resulting directory contains the compiled version of your application, and you can copy it to additional locations such as production servers.
+				To test your published build, you can call the dotnet command. The dotnet command accepts a path to a DLL file that contains a .NET Core application. It will then host the application in the command line console the command is called from. Remember that calling the dotnet CLI will require you to install the .NET Core SDK.
+				https://docs.microsoft.com/en-us/dotnet/core/deploying/deploy-with-cli
+			Setting up a Process Manager:
+				While you are technically able to keep the application running by using the dotnet command, the resulting server will be very basic and limited, and the application lifespan will need to be managed manually. This means that if the application crashes or the machine hosting it encounters a temporary issue, you will need to manually manage the process. This is obviously not a desirable circumstance.
+				To resolve these issues, you can use one of many dedicated process managers. These are programs such as IIS, NGINX, Apache, or Windows Services, all of which are designed to run applications and ensure they are kept running. Many of these are specifically designed to host web applications, but some such as Windows Services, are more generic options. In this module, you will learn about the basics of the most popular options.
+			IIS:
+				Internet Information Services (IIS) is a server architecture developed by Microsoft for handling requests. It is a popular option for maintaining web server processes, and natively supports many Windows-related technologies such as Windows Authentication. It is only supported in Windows Servers, and as such, you should validate your business requirements before using it to host your application.
+				IIS is highly flexible and manageable, allowing for features to be enabled and disabled as required. This can prevent issues caused because of applications running multiple unrequired features, leading to wasted resources.
+			NGINX:
+				NGINX is a process manager that is primarily used on Linux servers. It is a popular web server that can act as a standard server, as well as a reverse proxy server. In addition, it can act as a general usage TCP/UDP server. While you can run it on Windows servers, it is not optimized for it, and will generally underperform.
+				NGINX works by utilizing a single master process and multiple worker processes. The master process mostly handles the NGINX configurations and ensures that the configurations are used, as well as ensures that worker processes are maintained. In turn, the worker processes handle the actual processing of the various communication requests. The number of workers is dependent on the configuration file.
+				https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx
+			Apache:
+				Apache is an open-source HTTP Server designed to operate effectively across multiple operating systems. It is designed to be flexible, highly compliant with technologies, and offers great extensibility through third-party modules because of it being an open-source tool. It is also constantly evolving, with new technologies being added on a frequent basis. Its main strength is the flexibility of use across different platforms.
+				The Apache HTTP server is configured by using various text files. These configurations further specify its behavior, enabling or disabling features as needed, including the behavior of third-party libraries that are in use.
+				https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-apache
+					Apache can be a good server solution when multiple servers on different operating systems are required, such as when multiple clients require their own servers. In addition, Apache is the easiest solution when trying to support deployments across multiple different servers.
+			Windows Services:
+				A less common solution for a process manager is to host your application on a Windows Service. Unlike the previous options, Windows Service is not designed as a dedicated HTTP Server and therefore lacks many of the features common in other options. However, all installations of the Windows operating system include Windows Services as a core feature and as such, it can be used on any Windows installation.
+				When installing an ASP.NET Core application on a Windows Service, you can manage it through the Windows Services, enabling a relatively simple setup.
+				https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service
+				Windows Service hosting can be a reasonable choice if there is a requirement for minimum external requirements because it can work without additional applications. However, it is far less configurable than other options and requires Windows. Use this option when targeting Windows and IIS is not a viable option.
+			Setting up a Reverse Proxy:
+				An optional step in deployment is setting up your web server to use a reverse proxy. By using a reverse proxy, you can ensure a more secure and better load-balanced application at the cost of a more difficult setup process, higher latency due to an additional step in the navigation, and possible security issues with forwarding cookies between applications on the reverse proxy.
+				It is important to remember that using a reverse proxy will require you to use Kestrel and host using IIS, NGINX, or Apache. If you cannot fulfill these conditions, then you will be unable to gain the benefits of a reverse proxy.
+			Load Balancing:
+				Often, modern applications are designed to be scalable, leading to a requirement for load balancing. A load balancer is a system designed to direct incoming HTTP traffic between multiple servers. It will prefer sending new requests to servers with a lesser load at the time, allowing to optimize the user experience by providing a connection to available servers, while avoiding creating connections with busy ones.
+				If you use a reverse proxy, you might use one server to handle both load balancing and act as the reverse proxy. However, it is possible to keep these two systems separate, in which case, the load balancer will have to be between the application and the proxy server.
+				https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer
+		Deploying to IIS:
+			Requirements in an ASP.NET Core Application:
+				The first step in the set-up process occurs from within the ASP.NET Core application, and it is very likely that your application is already set up to handle the deployment. As part of the call to WebHost.CreateDefaultBuilder() the UseIISIntegration() method is invoked, enabling Kestrel to integrate with IIS. If you prefer to build the IWebHostBuilder manually, you will need to call the UseIISIntegration() method to support IIS.
+			Another important step is to ensure that the web.config file is present in the published application. The web.config file is an important configuration file that is used by the IIS. These configurations determine the behaviors in working with the web application. Among other things, it tells the IIS to not serve some of the files present in the application root, causing potential security issues. It is important to ensure that the file is present in the published application root and to use the default name of web.config. If the file is renamed, the system will ignore it.
+			Setting up IIS to Host ASP.NET Core Applications:
+				You will need to ensure your designated host is able to run IIS to perform the deployment. In order to host, you will need to ensure IIS is installed on the designated computer.
+			Creating the Web Site in IIS:
+				1. Create a destination folder to host your ASP.NET Core MVC application. This folder will be used by IIS and will hold the physical files for your application.
+				2. Ensure that a logs folder is present. If it is not present, create one. This will ensure logs from the stdout will be added to the Logs folder. Alternatively, different configurations can be set from the web.config file.
+				3. Open the IIS Manager, and in the connection segment on the left, open the server node by clicking the arrow next to it.
+				4. Under the server node, right-click the Sites node, and then select Add Website….
+				5. In the Add Website window, set the Site name to the name you wish to choose and set the Physical path to the folder you created in the first step. You can also set the bindings to use either HTTP or HTTPS as needed, set an IP address from the addresses available to the server and the port. By default, HTTP uses port 80, and HTTPS uses port 443. If you know what host name the application will be served under, you can provide it now, if not you can change the host name later. After filling out your requirements, click OK.
+				6. At this point, if a default web site or another web site is already set up on your chosen port, you will get a notification message that only one site is supported for a single port. You can choose to either accept (you will only be able to run one site at once) or click No and change the port.
+				7. If you want the application to run in a process managed by ASP.NET Core instead of through IIS, you must also complete the following optional steps. This can help preserve the usage of specific versions of ASP.NET Core Runtime:
+					a. In the connection type, under the server node, select Application Pools.
+					b. Right-click the application you added and click the Basic Settings… option from the menu.
+					c. From the .NET CLR version drop-down list, select No Managed Code, and then click OK.
+			Deploying the Application:
+				A relatively simple way of doing this, which can be particularly useful in one-time deployments, is to copy the results of dotnet publish into the folder for the application. After this is done, you should stop and start the application in IIS, and then browse to it to verify the changes.
+				Alternatively, if you need to facilitate regular deployments, you might wish instead to use publish profiles in Visual Studio to automate the deployment process. These enable you to store various publishing properties, such as destination and automate several steps.
+				https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/visual-studio-publish-profiles
+		File Providers:
+			In an ASP.NET Core MVC application, you can easily access any file or directory within the project structure by using file providers. This allows you to focus on the project structure itself, and not deal with the headaches of project structures, which may change as part of the build and publish process. In fact, both the UseStaticFiles() middleware and the Razor engine use the built-in File providers to locate resources, pages, and views.
+			In general, the primary interface you will use while working with files is IFileProvider. It provides methods for reading files and directories.
+			There are three separate implementations for IFileProvider available in ASP.NET Core applications:
+				• PhysicalFileProvider. Used to access files within the file system scoped to a specific root directory. This will be used for reading various non-compiled files such as XML, Text, and even HTML files.
+				• ManifestEmbeddedFileProvider. Used for accessing files embedded within the project assemblies. This can allow access to files that are normally embedded to the compiled assemblies of your ASP.NET Core application.
+				• CompositeFileProvider. Used for combining multiple other providers. This can allow you to use a single provider that can handle both compiled and non-compiled files.
+			PhysicalFileProvider:
+				You can use the most commonly used file provider, PhysicalFileProvider, to read physical operating files such as XML configurations, log text files, JSON based resources, and media files.
+				PhysicalFileProvider uses the System.IO.File library for file management. However, it limits the file scope to a base directory and any children files and directories inside it. This makes it a safe option because it cannot access files from outside the project. Therefore, it cannot be used maliciously to cause harm to other applications. PhysicalFileProvider uses a directory path in its constructor to set the base directory, limiting access to subdirectories.
+				A convenient alternate option to instantiating a PhysicalFileProvider manually is to use the IHostingEnvironment service. The IHostingEnvironment service exposes the ContentRootFileProvider property. This is a pre-instantiated PhysicalFileProvider originating in the application root. By using this, you can safely use a PhysicalFileProvider, which is already configured to use the root of the application.
+				After obtaining a PhysicalFileProvider, you can then use the GetFileInfo(*filePath*) method to get an IFileInfo object, which is used for interacting with files. The file path parameter supplied to GetFileInfo should direct to the file you wish to read.
+				In order to read the actual file, you will need to use the CreateReadStream() function on the IFileInfo object. This will create a memory stream designed to hold the content of the file as it is read. It is advised to encapsulate this step in a using statement, as the stream implements IDisposable and creates a connection to the file.
+				After the stream is established, you will need to use it to instantiate a new StreamReader(*stream*) object, which is used for performing the actual reading. It requires the previously created stream as a parameter.
+				Finally, you can use the various functionalities of the StreamReader to read the file. For example, ReadToEnd() will read all segments of the stream, which have not yet been read.
+			ManifestEmbeddedFileProvider:
+				Another useful option for a file provider, particularly when security is a big concern, is using ManifestEmbeddedFileProvider. Compared to PhysicalFileProvider, this file provider offers an option to use files specifically embedded into the application DLL. This can act as an additional layer of security, allowing you to add sensitive files inside the application and use them internally or expose specific segments as needed.
+				The first part of this process is to set up the project configuration to support manifest embedded files. By right-clicking the project and selecting Edit *Project file*, you can edit the project configuration. Under the PropertyGroup element, you will need to add a new GenerateEmbeddedFilesManifest element. Inside the element, set the value to true to support embedding files into the manifest.
+				You will then need to find the ItemGroup element. Inside it, you can add EmbeddedResource tags to specify files that will be embedded inside the application. Each EmbeddedResource must contain the Include attribute, and the value provided for the attribute needs to be a valid file path. You can either use the wildcard * in your paths, or you can provide specific file paths, so you could use the string '*.txt' to embed all text files in the root directory, or you can provide a specific file.
+				Once this is done, you can create a new ManifestEmbeddedFileProvider(*assembly*) to receive a file provider. To get the root of the current assembly, you can use System.Reflection.Assembly.GetEntryAssembly() as the assembly parameter, which will be used by the ManifestEmbeddedFileProvider to act as a file provider for embedded files. This will allow you runtime access to files that are not actually present as physical files.
+			CompositeFileProvider:
+				Occasionally, you may end up in situations where you need both external resources (such as configuration files) and embedded files (files with sensitive data). In such a case, rather than separately maintaining multiple separate file providers inside your application, you can instead use the CompositeFileProvider to unify several different providers.
+				In order to set up CompositeFileProvider, you will need to first set up at least one of the providers it will use. As such, it is recommended to set up CompositeFileProvider as a service in the ConfigureServices method. To do this, create a new CompositeFileProvider and provide it with an array of file providers. Note that because IHostingEnvironment is not injected into the ConfigureServices method, you will need to add a constructor to the Startup class and add it as a property. Once the composite provider has been instantiated, use services.AddSingleton<IFileProvider>(compositeProvider) to add it as a service.
 	Lesson 2: Deployment to Microsoft Azure
 		TODO
 	Lesson 3: Microsoft Azure Fundamentals

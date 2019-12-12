@@ -3,6 +3,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
 using System.IO;
 
 namespace clu.aspnet.webapplication.mvc.core
@@ -84,17 +85,35 @@ namespace clu.aspnet.webapplication.mvc.core
         //    })
         //    .UseStartup<Startup>();
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration((hostingContext, config) =>
-            {
-                var env = hostingContext.HostingEnvironment;
-                config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            })
-            .ConfigureLogging((hostingContext, logging) =>
-            {
-                logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-            })
-            .UseStartup<Startup>();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            var webHost = WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                })
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                })
+                .UseKestrel(options =>
+                {
+                    options.Limits.MaxConcurrentConnections = 100;
+                    options.Limits.MaxConcurrentUpgradedConnections = 50;
+                    options.Limits.MaxRequestBodySize = 2 * 1024 * 1024;
+                    options.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(3);
+                })
+                //.UseHttpSys(options =>
+                //{
+                //    options.Authentication.Schemes = Microsoft.AspNetCore.Server.HttpSys.AuthenticationSchemes.None;
+                //    options.MaxConnections = 50;
+                //    options.MaxRequestBodySize = 2 * 1024 * 1024;
+                //    options.UrlPrefixes.Add("http://localhost:5250");
+                //})
+                .UseStartup<Startup>();
+
+            return webHost;
+        }
     }
 }

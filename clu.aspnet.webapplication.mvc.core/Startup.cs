@@ -19,6 +19,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace clu.aspnet.webapplication.mvc.core
