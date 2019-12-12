@@ -48,6 +48,9 @@ Open Web Interface (OWIN)
 Distributed Denial-of-Service (DDOS)
 Framework-Dependent Deployment (FDD)
 Self-Contained Deployment (SCD)
+Infrastructure as a service (IaaS)
+Platform as a service (PaaS)
+Software as a service (SaaS)
 
 
 [Summary 20486D]
@@ -3439,6 +3442,126 @@ Module 14: Hosting and Deployment
 				Occasionally, you may end up in situations where you need both external resources (such as configuration files) and embedded files (files with sensitive data). In such a case, rather than separately maintaining multiple separate file providers inside your application, you can instead use the CompositeFileProvider to unify several different providers.
 				In order to set up CompositeFileProvider, you will need to first set up at least one of the providers it will use. As such, it is recommended to set up CompositeFileProvider as a service in the ConfigureServices method. To do this, create a new CompositeFileProvider and provide it with an array of file providers. Note that because IHostingEnvironment is not injected into the ConfigureServices method, you will need to add a constructor to the Startup class and add it as a property. Once the composite provider has been instantiated, use services.AddSingleton<IFileProvider>(compositeProvider) to add it as a service.
 	Lesson 2: Deployment to Microsoft Azure
-		TODO
+		Microsoft Azure is a cloud service provided by Microsoft for organizations to build and manage solutions easily. This service has multiple hardware and software abstraction levels, which include:
+			• Infrastructure as a service (IaaS). Virtualization of physical infrastructure components, which means virtual machines being provided as a service.
+			• Platform as a service (PaaS). Platform-level resources that provide a running environment to run a deployed application, such as application servers, which are provided as a service residing on the cloud.
+			• Software as a service (SaaS). Using existing software functionality through services residing on the cloud.
+		Azure also provides tools for developers to be able to remotely debug applications deployed on the cloud. Azure Application Insights provides developers with the ability to perform in-depth monitoring of their application. Starting from request rates and response times to performance counters, such as CPU, memory, and network usage, developers can monitor various metrics. Application Insights provides live streaming of exception traces, a snapshot of data assembled from live operations, and log traces that allow developers to diagnose and resolve issues quickly.
+		What is Microsoft Azure?
+			Microsoft Azure is a cloud service provided by Microsoft. A “cloud” makes computing resources available on-demand and over the internet. The computing resources include servers, storage, networking, and databases. Azure also makes lots of software and platforms available as resources. These resources are available on-demand and billing is as per use.
+			The most basic of these services is Infrastructure as a Service (IaaS). This allows you to use any kind of IT infrastructure, such as servers, persistent disks, networks, and operating systems without the hassle of having to buy any hardware or configure any machines. You can provision these machines over the internet at the click of a button. Once you are done using them, you can “delete” them, again at the click of a button. You will be charged for these machines only for the duration that you used them. Some of the services available under IaaS in Azure are:
+				• Virtual Machines. Provision Windows and Linux virtual machines in seconds.
+				• Container Instances. Easily run containers with a single command.
+				• Traffic Manager. Route incoming traffic for high performance and availability.
+				• Azure DNS. Host your DNS domain in the Cloud.
+			On the other hand, Platform-as-a-service (PaaS) is an advanced service that provides a complete environment to run your applications. In the case of IaaS; deployment, maintenance, monitoring, and scaling of resources to run your application is your responsibility. In the case of PaaS, the only thing you need to do is deploy your application. The platform provides servers with pre-installed software such as any middleware and development tools needed to run your application. Features such as scalability, high-availability, and multi-tenant capability are provided by the platform, reducing the amount of coding that developers must do. The need for additional resources to monitor, update, and manage the applications is also reduced because the platform provides these as built-in services. PaaS services provided by Azure include:
+				• App Service. Quickly build, deploy, and scale enterprise-grade web, mobile, and API apps running on any platform.
+				• Service Fabric. Develop microservices and orchestrate containers.
+				• Azure SQL Database. Managed relational SQL Database as a service.
+				• Azure Functions. Process events with serverless code.
+				• Azure Storage. A massively scalable object store for data objects, a file system service for the cloud, a messaging store for reliable messaging, and a NoSQL store.
+		Benefits of Hosting in Microsoft Azure:
+			Flexibility and Elasticity:
+				Provisioning and using resources is extremely simple with Azure. In Azure, the resources needed, such as virtual machines, can be provisioned in seconds and it offers a range of options to provide a better fit for your needs. Azure offers users the ability to scale from one to thousands of virtual machines. With data centers across the world, you can scale to where your customers are.
+			Security and Compliance:
+				Security is integrated into every aspect of Azure. Data encryption at rest is available for services across the SaaS, PaaS, and IaaS cloud models. Azure supports various encryption models, including server-side encryption that uses service-managed keys, customer-managed keys in Key Vault, or customer-managed keys on customer-controlled hardware. With client-side encryption, you can manage and store keys on-premises or in another secure location.
+				Services such as Azure DDoS protection and Azure Advanced Threat Protection help you keep your applications and systems secure from any malicious or suspicious user or device activity.
+				Azure has compliances for most of the regulations across the world. The following are a few of them:
+					• Federal Financial Institutions Examination Council (FFIEC)
+					• Health Insurance Portability and Accountability Act (HIPAA)/Health Information Trust Alliance (HITRUST)
+					• Payment Card Industry Data Security Standard (PCI DSS)
+					• Federal Risk and Authorization Management Program (FedRAMP)
+			Developer Tools and DevOps:
+				Azure has a wide range of tools that integrate completely with Azure to make building, managing, and continuously delivering cloud application very simple. Azure supports all the commonly used third-party DevOps tools such as Ansible, Chef, Terraform, Puppet for automated infrastructure management.
+				Azure DevOps Services allows developers to create a complete continuous integration/continuous delivery (CI/CD) pipeline by allowing them to automate building, testing, and deploying applications. Azure provides complete integration with all commonly used source repositories such as Git and Bitbucket. Azure application Insights provides developers with the ability to get real-time metrics from production systems, helping them resolve issues quickly. To summarize, all the tools needed for all life cycle stages of an application are fully integrated with Azure. This makes application management easy and fast.
+			Cost Effectiveness:
+				The most obvious cost-benefit of Azure is that there no upfront payment required for any of the infrastructure or services being used. The pay-as-you-use model ensures that you pay for the resources only for the duration that you use them. However, there are additional pricing models, where you can opt for committed usage and get up to 70% discounts. Azure also offers special Dev/Test pricing for running your development and QA workloads.
+		Deploying Web Application on Microsoft Azure:
+			To deploy a web application on Azure, there are various options available:
+				• Azure Virtual Machines. This is the most basic service available. With this, the entire responsibility of installing and configuring all required software, monitoring application, scaling application as needed must be done manually. This option is best for legacy applications.
+				• Azure App Service. Azure App Service is the best choice for most web apps. Deployment and management are integrated into the platform, sites can scale quickly to handle high traffic loads, and the built-in load balancing and traffic manager provide high availability. 
+				• Service Fabric. Service Fabric is a good choice if you’re creating a new app or re-writing an existing app to use a microservice architecture. Apps, which run on a shared pool of machines, can start small and grow to massive scale with hundreds or thousands of machines as needed. 
+			The simplest and easiest way to deploy ASP.NET Core applications to Azure is by using Visual Studio Publishing Wizard.
+			To deploy your application, in Solution Explorer, right-click the project, and then select Publish. In case you are deploying your application for the first time, you will be presented with the Pick a publish target dialog. Use the default value, App Service. Make sure Create New is selected and then click Publish. A new dialog will appear, which displays the details to create a new app service on Azure. This is a one-time activity and in subsequent deploys, you just select the service you have already created.
+			In the Create App Service window, if you have not already done so, sign in to your Azure account by using the Add an account button in the top-right corner. You will be prompted for an App Name. App names are globally unique and an immediate check to verify the uniqueness of your app name is performed. If the name is already used, a notification will appear and you will have to choose a new name.
+			Choose your subscription, this subscription determines the access to resources in Azure. You will also be required to choose a Resource Group. A resource group is used to group related resources so that they can be managed as a group. This is useful to automate monitoring, deployment, etc. If you already have a resource group, choose that. You can also create a new resource group by, choosing the New option. Next, you need to choose the App Service Plan. An App Service plan defines a set of compute resources for a web app to run. The plan specifies the region where you want to host your application. Ideally, this should be where most of your customers are located. The plan also helps you choose the size of the virtual machine instance, number of virtual machines, and pricing tier. The pricing tier governs how scaling is handled. If you do not have a plan, you can create a new one, and then select that.
+			Once all the necessary options are chosen, a summary of what’s going to happen appears at the bottom of the window. Make sure everything is as you planned.
+			Click Create. This will create all the necessary resources in Azure. Right after this step, Visual Studio builds your project and deploys it. Once deployment is completed, a new tab opens in your browser, and will automatically point you to your deployed application. The URL to access your application is in the form: "http://<APP-NAME>.azurewebsites.com" where APP-NAME is the name you entered while publishing your application.
+		Azure Deployment Strategy:
+			The deployment process is the process by which the code for your application is built and deployed to the servers that will host it and eventually be available for all the users.
+			The deployment strategy is the strategy that you choose for the deployment to happen. There are various ways to deploy to Azure and it all depends on your specific scenario:
+				Visual Studio Publishing Wizard:
+					The easiest way to deploy to Azure is by using Visual Studio Publishing Wizard, as demonstrated in the previous lesson. Even if you’ve only started with Azure, with few simple clicks your Web App is up and running.
+				FTP:
+					In order to use the FTP option, you need an existing Web App inside Azure. To use it you need to know your hostname and credentials, which can be found inside Azure, where your Web App resides. After you have the credentials, you can use your favorite FTP client to deploy the site directly to Azure.
+				Azure CLI:
+					The Azure CLI tool lets you make deployments straight from your console. In concept, this is similar to what the publishing wizard does, except this happens through a command.
+					While all the above options are fast and easy, they are obviously not suitable to deploy production-level applications. Some of the drawbacks of this kind of deployment are:
+						• Such deployments generally require a downtime wherein the old application version is stopped and the new version is installed and started.
+						• Such deployments are high risk since if there are any issues, the impact is felt directly on the live system.
+						• In case there are any problems with the deployment, there is no easy way to roll back. The rollback is also a manual process mostly and adds to the downtime.
+			To handle these issues, Azure provides different deployment strategies.
+				Staging Environment, Deployment Slots, and Swapping:
+				In general, a good practice is to deploy your changes or application to an environment that is as close to the production environment as possible. Such environments are called staging environments. Once an application is deployed to a staging environment, tests can be run on this system and after all tests pass, the application can then be deployed to production.
+				Azure provides a feature called deployment slots which makes this possible very easily and efficiently. Once you deploy your application to App Service, you can create a deployment slot. This deployment slot is a replica of your original deployment environment. The original deployment environment is also called the production deployment slot.
+				At the time of creating a deployment slot, you need to specify a name for the slot. This gets appended to the App Name and is used to create the URL to access your particular deployment.
+				For example, if your app name is "MyAzureApp", the URL to access the original deployment will be "http://MyAzureApp.azurewebsites.net". Now if you create a deployment slot with the name "beta", the URL to access the deployment in this slot will be "http://MyAzureApp-beta.azurewebsites.net". So, in short, you now have two different deployment environments that are identical to each other but have their own hosts and configurations.
+				Once you have additional slots, you can use these to run all kinds of testing on the staging environment. After all tests have successfully passed, you can swap your environments. Once you swap, your application that was deployed to the staging deployment slot will now be available in the production deployment slot and vice-versa. Internally this is achieved by swapping the virtual IP addresses of the source and destination slots, thereby swapping the URLs of the slots.
+				All of this is achieved without any downtime. It is also possible to attach certain settings to slots. Database is a good example; your production and staging environments will connect to different databases. So, database connection settings can be attached to their own slots. So, while your application gets swapped, they continue to connect to the correct database.
+				If after swapping development slots, you think that there are any issues with production deployment, you can always roll back your deployment by doing another swap. This reverses the original swap. All of this makes transitioning from staging to production environments very smooth and easy, enabling your deployments to remain robust.
+			Azure Resource Manager Templates:
+				This template is basically a JSON document in which you declare imperatively all the resources you need, and the dependencies between them. Using the template, Azure Resource Manager can deploy, update, or delete all the resources for your solution in a single, coordinated operation. You use a template for deployment and that template can work for different environments such as testing, staging, and production. Resource Manager provides security, auditing, and tagging features to help you manage your resources after deployment.
+				You can also use deployment slots in conjunction with Azure Resource Manager by specifying the type of deployment as slots and giving the name of the slot to which the deployment is done.
+		Debugging a Microsoft Azure Application:
+			For any application running in production mode, the ability to constantly monitor the application, get insights into the performance of the application, and be able to quickly diagnose any problems is a very important requirement. Azure Application Insights provides tools for all these requirements.
+			Application Insights Configuration:
+				To start using this service, you will need to do the following:
+					1. Create an Application Insights Resource in the Azure Portal. In the portal, click All Resources, select Management tools, and in the list that appears on the right, select Application Insights.
+					2. In Visual Studio, go to Solution Explorer, select the project folder, right-click and choose Add. In the options, choose Application Insights Telemetry.
+						a. In the Application Insights Telemetry configuration window for, register your application for Application Insights. Provide your Azure account details and choose the Application Insights resource created in Step 1.
+						b. At the bottom of this window, you will see the Add SDK option. This will add the Application Insights SDK to your solution. This will help you see live streaming data on the portal.
+				Analysis from the Azure Portal:
+					In the Azure Portal, from All Resources, select the Application Insights resource created earlier. The Overview page shows you a few default graphs such as:
+						• Failed Requests. This shows the number of requests made to the application that returned an error response.
+						• Server Response Time. The time it took for the server to respond to a request.
+						• Server Request Count. The number of requests made to the server
+						• Page Load Time. The time it takes for a page to load.
+					In the Investigate section on the left-hand side, you will see several features that will help in application monitoring.
+					Application Map helps you spot performance bottlenecks or failure hotspots across all components of your distributed application. This view displays all the components that are part of the application. In the case of complex applications, this is very helpful in visualizing the system and quickly spotting the problem areas. Clicking on a component gives more details about that component and you can Investigate Further for more analysis of that component.
+					Live Metrics Stream shows you key metrics of your application in a streaming fashion. This is helpful for monitoring your application during specified periods to understand live application usage patterns and behavior.
+					Metrics Explorer allows you to create your own graphs. Application Insights telemetry collects various metrics from your application. Metrics Explorer allows you to create charts for any metric you wish to track. You can create charts with specific granularity, specific metrics, and aggregations. You can also set alerts from the Metrics Explorer. To create an alert, you need to do the following:
+						1. Choose the metric
+						2. Choose the condition
+						3. Choose the threshold
+						4. Choose the period for which the condition violation should occur before raising an alert.
+						5. Choose the action to be taken. The action can be an email or an Http/Https request to a webhook.
+					The metrics explorer has a wide range of performance counters available for you to monitor. These are categorized into:
+						• Usage. This gives you information about the usage of your application in terms of events, page views, sessions, users, etc.
+						• Failure. This gives you information about different failures, how many were server exceptions, browser exceptions etc.
+						• Performance Counter. Such as available memory, CPU counters, request rate, etc.
+					Availability allows you to create availability tests. In these tests, Application Insights sends requests to endpoints configured by you. If the application does not respond or responds slowly, an alert is triggered. There could be multiple tests that can be configured for an application, from a simple index page URL to dependent requests. A Dependent Requests test parses embedded links and images and performs requests for each of these as well. It is also possible to set up a multi-step test, where a series of URLs representing various stages of a workflow can be configured.
+					Failures section shows the details of failed requests. This view can be used to get more details about the failures such as response codes, the exception being thrown, etc.
+					Performance section gives you details of the time taken for various requests to get completed. This gives you information about the most occurring requests, the average time taken by them, etc.
+				Telemetry Analysis from Visual Studio:
+					As mentioned earlier, once you have configured your application to provide Application Insights Telemetry, in addition to the Azure Portal, you can also view the telemetry data in Visual Studio.
+					For this analysis, go to Application Insights Trends. To reach this window, on the View menu, click Other Windows. If you are coming to this window for the first time, you will be asked to Select the Application Insights Resource. Subsequently, Visual Studio remembers the last resource used and displays data for that resource.
+					The Application Insights Trends window lets you analyze telemetry based on:
+						• Type: This is the type of data you want to analyze, such as server requests, exceptions, dependencies, page views, etc.
+						• TimeRange: You can further split your data to a specific time range.
+						• Groups: The data you want to analyze can be grouped on different parameters such as performance, response code, failure types etc. This grouping is dependent on the type of data you are analyzing. For example, if you are analyzing page views, you can group the data by Performance, Page names, Application Version, etc.
+						• View: This lets you decide whether you want to view data points as counts or percentages as well as whether anomalies (data that is out of normal range) should be shown.
+					Once all the selections are done, click Analyze Telemetry. This will result in a time series histogram being shown in the top half of the screen followed by tables with dimension counts in the bottom half. You can use the dimension counts for further filtering of data.
+					If you have chosen to view the data with anomalies, the histogram will show the anomalies in red. The size of the circle shows the size of the anomaly. You select the anomaly to get details such as the deviation. Double-clicking this will take you to Application Insights Search view. This lets you get into details of the instance, the request and other fine-grained information of the anomaly.
+					In this view, you can choose custom time filters and a combination of data types. Since the time range is custom, this gives you the ability to view time series over a longer period and then narrow down to a smaller range, by clicking the histogram bars. The bottom part of the window lets you further filter data with a large number of options. You can also see details for each data point (each request, each page view) to further drill down and get to any problem areas. For example, if you are looking at page views, the bottom view will give you a list of page views. Clicking on any of these views gives you further details of that particular view or request. These details include browser version, the location of the request, the instance details that handled the request and many more.
+					On top of this view, you will see the Track Operation tab. Clicking this will show you the breakup of time taken in various subrequests. This is a very useful view to drill down into to find the time taken by various components and comes in handy for performance tuning.
+				Remote Debugging:
+					You can also debug your application running on Azure App Service. To be able to do this, you need to do two things:
+						1. Deploy the app to Azure App Service with Debug configuration.
+						2. Attach a debugger to the deployed app
+				Cloud Explorer:
+					The Cloud Explorer view provides an overview of your Azure resources and resource group, allowing you to perform resource related diagnostics actions. In Visual Studio, from the View menu, go to Cloud Explorer. In this window, you should see your Azure subscription. In case you do not, click Account Management and login to Azure from Visual Studio. Once you are logged in, you should see all your Azure services in Cloud Explorer. Select the App Services option and choose your application deployment. In the bottom half of the window, you should see the Actions panel. In this panel, click Attach Debugger. Once this is done, you can create breakpoints in your code and debug just like your local application. You can step through functions, examine data, etc.
+				Server Explorer:
+					The Server Explorer view allows you to manage your web app running in Azure App Service from Visual Studio. You can check your applications configuration, settings, etc. from this view. You can navigate to Server Explorer from the View menu. If you are not already connected to Azure, connect through the Server Explorer window. Once connected, this window shows you the relevant Azure services. Under App Service, you will see the relevant resource groups. Expanding a resource group will show the application under this resource group. Select your application, right-click, and choose View Settings. This will show you the configuration of your application for Azure App Service such as whether Remote Debugging is turned on, the connection strings configured for this application, etc.
+					The server explorer also allows you to attach a debugger. From Server Explorer, you can also view all the files uploaded to App Service. Under your Web App, if you expand Files, you can see all the files uploaded to the app service including the config files. You can edit these files to change log levels, debug settings, etc. and the changes will take effect immediately. This is a very powerful option to be able to see the exact configuration that your application is running under.
 	Lesson 3: Microsoft Azure Fundamentals
 		TODO
